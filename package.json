@@ -1,0 +1,15 @@
+{
+  "name": "risparmiocasa-api-bridge",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./src/app.js"
+  },
+  "author": "Fernando Walter Gagni <tech@yepmind.dev>",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.1"
+  }
+}
