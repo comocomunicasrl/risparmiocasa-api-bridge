@@ -103,7 +103,7 @@ async function addDataToCard(details, cardNumber) {
     xml += "<StatoTessera>A</StatoTessera>";
     xml += "<Circuito>1</Circuito>";
     xml += `<CodECRPV>${details.preferredStoreCode}</CodECRPV>`;
-    xml += `<Cognome>${Buffer.from(details.surname, 'latin1').toString('utf-8')}</Cognome>`;
+    xml += `<Cognome>${details.surname}</Cognome>`;
     xml += `<Nome>${details.name}</Nome>`;
     xml += `<DataNascita>${details.dateOfBirth.year}-${details.dateOfBirth.month}-${details.dateOfBirth.day}</DataNascita>`;
     xml += `<Sesso>${details.gender === 1 ? "M" : "F"}</Sesso>`;
@@ -183,7 +183,7 @@ async function addDataToCard(details, cardNumber) {
     const headers = {
         SOAPAction: "http://TLoyaltyWS/InserimentoModificaAnagrafica",
         "Content-Type": "text/xml; charset=UTF-8",
-        "Content-Length": xml.length,
+        "Content-Length": Buffer.from(xml, 'latin1').toString('utf-8').length,
     };
 
     const regExp =
