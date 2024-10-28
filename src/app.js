@@ -189,6 +189,7 @@ async function addDataToCard(details, cardNumber) {
     const regExp =
         /(?<=<InserimentoModificaAnagraficaResult>).*(?=<\/InserimentoModificaAnagraficaResult>)/;
     const result = await axios.post(url, xml, { headers });
+    console.log(result);
     const status = result.data.match(regExp)[0];
     return parseInt(status) >= 0;
 }
