@@ -91,7 +91,7 @@ async function createEmptyCard(registrationCountry) {
 }
 
 async function addDataToCard(details, cardNumber) {
-    let xml = '<?xml version="1.0" encoding="ISO-8859-1"?>';
+    let xml = '<?xml version="1.0" encoding="UTF-8"?>';
     xml +=
         '<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">';
     xml += "<soap:Body>";
@@ -103,7 +103,7 @@ async function addDataToCard(details, cardNumber) {
     xml += "<StatoTessera>A</StatoTessera>";
     xml += "<Circuito>1</Circuito>";
     xml += `<CodECRPV>${details.preferredStoreCode}</CodECRPV>`;
-    xml += `<Cognome>${details.surname}</Cognome>`;
+    xml += `<Cognome>${Buffer.from(details.surname, 'latin1').toString('utf-8')}</Cognome>`;
     xml += `<Nome>${details.name}</Nome>`;
     xml += `<DataNascita>${details.dateOfBirth.year}-${details.dateOfBirth.month}-${details.dateOfBirth.day}</DataNascita>`;
     xml += `<Sesso>${details.gender === 1 ? "M" : "F"}</Sesso>`;
@@ -182,7 +182,7 @@ async function addDataToCard(details, cardNumber) {
     const url = baseUrl + '/Cards.asmx';
     const headers = {
         SOAPAction: "http://TLoyaltyWS/InserimentoModificaAnagrafica",
-        "Content-Type": "text/xml; charset=ISO-8859-1",
+        "Content-Type": "text/xml; charset=UTF-8",
         "Content-Length": xml.length,
     };
 
