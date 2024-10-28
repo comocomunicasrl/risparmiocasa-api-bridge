@@ -32,12 +32,16 @@ app.post("/create-card-temp", async (req, res) => {
     }
   
     return res.status(200).send(cardNumber);
-  });
+});
 
 app.post("/apply-discount", async (req, res) => {
   const { store, cardNumber, points, ean } = req.body;
   const result = await applyDiscount(store, cardNumber, points, ean);
   return result ? res.status(200).end() : res.status(400).end();
+});
+
+app.get('/', (req, res) => {
+    res.send('Hello World!')
 });
 
 function getBaseUrl(countryCode) {
