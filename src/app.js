@@ -78,11 +78,15 @@ async function createEmptyCard(registrationCountry) {
   };
 
   const regExp = /(?<=<NuovaTesseraResult>).*(?=<\/NuovaTesseraResult>)/;
-  const result = await axios.post(url, xml, { headers });
+  try {
+    const result = await axios.post(url, xml, { headers });
 
-  console.log(result);
-  console.log(result.data.match(regExp)[0]);
-  return result.status === 200 ? result.data.match(regExp)[0] : null;
+    console.log(result);
+    console.log(result.data.match(regExp)[0]);
+    return result.status === 200 ? result.data.match(regExp)[0] : null;
+  } catch (err) {
+    console.error(err);
+  }
 }
 
 async function addDataToCard(details, cardNumber) {
