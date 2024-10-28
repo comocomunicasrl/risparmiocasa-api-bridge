@@ -23,17 +23,6 @@ app.post("/create-card", async (req, res) => {
     }
 });
 
-app.post("/create-card-temp", async (req, res) => {
-    const { details } = req.body;
-
-    const cardNumber = await createEmptyCard(details.registrationCountry);
-    if (!cardNumber) {
-        return res.status(400).end();
-    }
-
-    return res.status(200).send(cardNumber);
-});
-
 app.post("/apply-discount", async (req, res) => {
     const { store, cardNumber, points, ean } = req.body;
     const result = await applyDiscount(store, cardNumber, points, ean);
@@ -91,7 +80,7 @@ async function createEmptyCard(registrationCountry) {
 }
 
 async function addDataToCard(details, cardNumber) {
-    let xml = '<?xml version="1.0" encoding="ISO-8859-1"?>';
+    let xml = '<?xml version="1.0" encoding="UTF-8"?>';
     xml +=
         '<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">';
     xml += "<soap:Body>";
@@ -182,7 +171,7 @@ async function addDataToCard(details, cardNumber) {
     const url = baseUrl + '/Cards.asmx';
     const headers = {
         SOAPAction: "http://TLoyaltyWS/InserimentoModificaAnagrafica",
-        "Content-Type": "text/xml; charset=iso-8859-1"
+        "Content-Type": "text/xml; charset=utf-8"
     };
 
     const regExp =
