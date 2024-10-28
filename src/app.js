@@ -30,7 +30,7 @@ app.post("/apply-discount", async (req, res) => {
 });
 
 app.get('/', (req, res) => {
-    res.send('Hello World!')
+    res.send('Hello from api-bridge! 👋');
 });
 
 function getBaseUrl(countryCode) {
@@ -46,7 +46,6 @@ function getBaseUrl(countryCode) {
 }
 
 async function createEmptyCard(registrationCountry) {
-    console.log('Creating an empty card...');
     let xml = '<?xml version="1.0" encoding="utf-8"?>';
     xml +=
         '<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">';
@@ -63,24 +62,19 @@ async function createEmptyCard(registrationCountry) {
     const url = baseUrl + "/Cards.asmx";
     const headers = {
         SOAPAction: "http://TLoyaltyWS/NuovaTessera",
-        "Content-Type": "text/xml; charset=UTF-8",
-        "Content-Length": xml.length,
+        "Content-Type": "text/xml; charset=UTF-8"
     };
 
     const regExp = /(?<=<NuovaTesseraResult>).*(?=<\/NuovaTesseraResult>)/;
-    try {
-        const result = await axios.post(url, xml, { headers });
+    const result = await axios.post(url, xml, { headers });
 
-        console.log(result);
-        console.log(result.data.match(regExp)[0]);
-        return result.status === 200 ? result.data.match(regExp)[0] : null;
-    } catch (err) {
-        console.error(err);
-    }
+    console.log(result);
+    console.log(result.data.match(regExp)[0]);
+    return result.status === 200 ? result.data.match(regExp)[0] : null;
 }
 
 async function addDataToCard(details, cardNumber) {
-    let xml = '<?xml version="1.0" encoding="UTF-8"?>';
+    let xml = '<?xml version="1.0" encoding="utf-8"?>';
     xml +=
         '<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">';
     xml += "<soap:Body>";
@@ -171,13 +165,12 @@ async function addDataToCard(details, cardNumber) {
     const url = baseUrl + '/Cards.asmx';
     const headers = {
         SOAPAction: "http://TLoyaltyWS/InserimentoModificaAnagrafica",
-        "Content-Type": "text/xml; charset=utf-8"
+        "Content-Type": "text/xml; charset=UTF-8"
     };
 
     const regExp =
         /(?<=<InserimentoModificaAnagraficaResult>).*(?=<\/InserimentoModificaAnagraficaResult>)/;
     const result = await axios.post(url, xml, { headers });
-    console.log(result);
     const status = result.data.match(regExp)[0];
     return parseInt(status) >= 0;
 }
@@ -211,8 +204,7 @@ async function applyDiscount(store, cardNumber, points, ean) {
         "http://risparmiocasa.tecnologica.info/Loy4CasseWS/Loy4CasseService.asmx";
     const headers = {
         SOAPAction: "http://webservices.loy4casse.it/SaldoMovimentiPunti",
-        "Content-Type": "text/xml; charset=UTF-8",
-        "Content-Length": xml.length,
+        "Content-Type": "text/xml; charset=UTF-8"
     };
 
     const regExp =
@@ -254,8 +246,7 @@ app.post("/verify", (req, res) => {
 
     const headers = {
         SOAPAction: "http://TLWSSaldi/SaldoTessera2",
-        "Content-Type": "text/xml; charset=UTF-8",
-        "Content-Length": xml.length,
+        "Content-Type": "text/xml; charset=UTF-8"
     };
 
     axios.post(url, xml, { headers }).then((result) => {
