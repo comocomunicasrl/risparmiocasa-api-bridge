@@ -260,7 +260,9 @@ app.post("/verify", (req, res) => {
 
 app.post('/update-card', async (req, res) => {
     const { cardNumber, details } = req.body;
-    details.preferredStoreCode = '000WEB';
+    
+    if (details.preferredStoreCode != '0000EC')
+        details.preferredStoreCode = '000WEB';
 
     const result = await addDataToCard(details, cardNumber);
     console.log(result);
