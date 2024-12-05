@@ -78,9 +78,9 @@ async function addDataToCard(details, cardNumber) {
         '<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">';
     xml += "<soap:Body>";
     xml += '<InserimentoModificaAnagrafica xmlns="http://TLoyaltyWS/">';
-    xml += "<CodCedi>025</CodCedi>";
-    xml += `<Username>${process.env.RISPARMIOCASA_API_USERNAME}</Username>`;
-    xml += `<Password>${process.env.RISPARMIOCASA_API_PASSWORD}</Password>`;
+    xml += `<CodCedi>${(details.preferredStoreCode === '0000EC') ? process.env.RISPARMIOCASA_API_COD_CEDI_STORE : process.env.RISPARMIOCASA_API_COD_CEDI}</CodCedi>`;
+    xml += `<Username>${(details.preferredStoreCode === '0000EC') ? process.env.RISPARMIOCASA_API_USERNAME_STORE : process.env.RISPARMIOCASA_API_USERNAME}</Username>`;
+    xml += `<Password>${(details.preferredStoreCode === '0000EC') ? process.env.RISPARMIOCASA_API_PASSWORD_STORE : process.env.RISPARMIOCASA_API_PASSWORD}</Password>`;
     xml += `<CodTessera>${cardNumber}</CodTessera>`;
     xml += "<StatoTessera>A</StatoTessera>";
     xml += "<Circuito>1</Circuito>";
