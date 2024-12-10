@@ -16,7 +16,7 @@ app.post("/create-card", async (req, res) => {
     }
 
     try {
-        const result = await addDataToCard(details, cardNumber);
+        const result = await addDataToCard(details, cardNumber, false);
         return result ? res.status(200).json({ cardNumber }) : res.status(400).end();
     } catch (err) {
         return res.status(500).send(err);
@@ -72,15 +72,15 @@ async function createEmptyCard(registrationCountry) {
     return result.status === 200 ? result.data.match(regExp)[0] : null;
 }
 
-async function addDataToCard(details, cardNumber) {
+async function addDataToCard(details, cardNumber, updateFromStore) {
     let xml = '<?xml version="1.0" encoding="utf-8"?>';
     xml +=
         '<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">';
     xml += "<soap:Body>";
     xml += '<InserimentoModificaAnagrafica xmlns="http://TLoyaltyWS/">';
-    xml += `<CodCedi>${(details.preferredStoreCode === '0000EC') ? process.env.RISPARMIOCASA_API_COD_CEDI_STORE : process.env.RISPARMIOCASA_API_COD_CEDI}</CodCedi>`;
-    xml += `<Username>${(details.preferredStoreCode === '0000EC') ? process.env.RISPARMIOCASA_API_USERNAME_STORE : process.env.RISPARMIOCASA_API_USERNAME}</Username>`;
-    xml += `<Password>${(details.preferredStoreCode === '0000EC') ? process.env.RISPARMIOCASA_API_PASSWORD_STORE : process.env.RISPARMIOCASA_API_PASSWORD}</Password>`;
+    xml += `<CodCedi>${updateFromStore ? process.env.RISPARMIOCASA_API_COD_CEDI_STORE : process.env.RISPARMIOCASA_API_COD_CEDI}</CodCedi>`;
+    xml += `<Username>${updateFromStore ? process.env.RISPARMIOCASA_API_USERNAME_STORE : process.env.RISPARMIOCASA_API_USERNAME}</Username>`;
+    xml += `<Password>${updateFromStore ? process.env.RISPARMIOCASA_API_PASSWORD_STORE : process.env.RISPARMIOCASA_API_PASSWORD}</Password>`;
     xml += `<CodTessera>${cardNumber}</CodTessera>`;
     xml += "<StatoTessera>A</StatoTessera>";
     xml += "<Circuito>1</Circuito>";
@@ -93,9 +93,9 @@ async function addDataToCard(details, cardNumber) {
     xml += `<NumCivico>${details.streetNumber}</NumCivico>`;
     xml += `<Citta>${details.city}</Citta>`;
     xml += `<CAP>${details.postalCode}</CAP>`;
-    xml += `<PrefissoTelefono>+39</PrefissoTelefono>`;
+    xml += `<PrefissoTelefono></PrefissoTelefono>`;
     xml += `<NumTelefono>${details.phoneNumberSecondary}</NumTelefono>`;
-    xml += `<PrefissoCellulare>+39</PrefissoCellulare>`;
+    xml += `<PrefissoCellulare></PrefissoCellulare>`;
     xml += `<NumCellulare>${details.phoneNumber}</NumCellulare>`;
     xml += `<Email>${details.email}</Email>`;
     xml += `<FrequenzaAcquisto>1</FrequenzaAcquisto>`;
@@ -259,12 +259,12 @@ app.post("/verify", (req, res) => {
 });
 
 app.post('/update-card', async (req, res) => {
-    const { cardNumber, details } = req.body;
+    const { cardNumber, details, updateFromStore } = req.body;
     
-    if (details.preferredStoreCode != '0000EC')
+    if (!updateFromStore)
         details.preferredStoreCode = '000WEB';
 
-    const result = await addDataToCard(details, cardNumber);
+    const result = await addDataToCard(details, cardNumber, updateFromStore);
     console.log(result);
 
     return result ? res.status(200).json({ cardNumber }) : res.status(400).end();
