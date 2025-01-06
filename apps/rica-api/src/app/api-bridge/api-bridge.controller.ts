@@ -1,5 +1,5 @@
 import { HttpService } from '@nestjs/axios';
-import { BadRequestException, Body, Controller, Get, Logger, NotFoundException, Post } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, HttpCode, Logger, NotFoundException, Post } from '@nestjs/common';
 import { map, switchMap, tap } from 'rxjs';
 import { Country } from '../common/country';
 import dayjs from 'dayjs';
@@ -23,6 +23,7 @@ export class ApiBridgeController {
     }
 
     @Post('create-card')
+    @HttpCode(200)
     createCard(@Body() reqBody: { details: { [key: string]: any } & { registrationCountry: Country } }) {
         return this.createEmptyCard(reqBody.details.registrationCountry).pipe(
             switchMap(cardNumber => {
@@ -41,6 +42,7 @@ export class ApiBridgeController {
     }
 
     @Post('apply-discount')
+    @HttpCode(200)
     applyDiscount(@Body() reqBody: { store: string, cardNumber: string, points: string, ean: string }) {
         const { store, cardNumber, points, ean } = reqBody;
         return this.applyDiscountToCard(store, cardNumber, points, ean).pipe(
@@ -53,6 +55,7 @@ export class ApiBridgeController {
     }
 
     @Post('verify')
+    @HttpCode(200)
     verify(@Body() reqBody) {
         const { cardNumber, registrationCountry } = reqBody;
 
@@ -97,6 +100,7 @@ export class ApiBridgeController {
     }
 
     @Post('update-card')
+    @HttpCode(200)
     updateCard(@Body() reqBody) {
         const { cardNumber, details, updateFromStore } = reqBody;
     
