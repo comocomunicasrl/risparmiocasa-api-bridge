@@ -1,6 +1,6 @@
 import { HttpService } from '@nestjs/axios';
-import { BadRequestException, Body, Controller, Get, NotFoundException, Post } from '@nestjs/common';
-import { map, switchMap } from 'rxjs';
+import { BadRequestException, Body, Controller, Get, Logger, NotFoundException, Post } from '@nestjs/common';
+import { map, switchMap, tap } from 'rxjs';
 import { Country } from '../common/country';
 import dayjs from 'dayjs';
 
@@ -11,10 +11,11 @@ export class ApiBridgeController {
         ['mt', 'http://risparmiocasa.tecnologica.info/tloyaltyws_malta'],
         ['it', 'http://risparmiocasa.tecnologica.info/tloyaltyws']
     ]);
+    private readonly logger = new Logger(ApiBridgeController.name);
 
     constructor(
         private readonly httpService: HttpService
-    ){}
+    ){  }
 
     @Get() 
     hello() {
@@ -134,6 +135,7 @@ export class ApiBridgeController {
     
         const regExp = /(?<=<NuovaTesseraResult>).*(?=<\/NuovaTesseraResult>)/;
         return this.httpService.post(url, xml, { headers }).pipe(
+            tap(result => this.logger.log(result.data.match(regExp)[0])),
             map(result => (result.status === 200) ? result.data.match(regExp)[0] : null)
         );
     }
