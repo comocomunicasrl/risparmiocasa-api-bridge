@@ -1,154 +1,197 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
-/******/ 	var __webpack_modules__ = ([
-/* 0 */,
-/* 1 */
-/***/ ((module) => {
+/******/ 	// The require scope
+/******/ 	var __webpack_require__ = {};
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/************************************************************************/
 
-module.exports = require("@nestjs/common");
+// NAMESPACE OBJECT: ./src/app/queue/_models/config-options.ts
+var config_options_namespaceObject = {};
+__webpack_require__.r(config_options_namespaceObject);
 
-/***/ }),
-/* 2 */
-/***/ ((module) => {
-
-module.exports = require("@nestjs/core");
-
-/***/ }),
-/* 3 */
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
-
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.AppModule = void 0;
-const tslib_1 = __webpack_require__(4);
-const common_1 = __webpack_require__(1);
-const app_controller_1 = __webpack_require__(5);
-const app_service_1 = __webpack_require__(6);
-const api_bridge_controller_1 = __webpack_require__(7);
-const axios_1 = __webpack_require__(8);
-let AppModule = class AppModule {
-};
-exports.AppModule = AppModule;
-exports.AppModule = AppModule = tslib_1.__decorate([
-    (0, common_1.Module)({
-        imports: [
-            axios_1.HttpModule
-        ],
-        controllers: [
-            app_controller_1.AppController,
-            api_bridge_controller_1.ApiBridgeController
-        ],
-        providers: [app_service_1.AppService],
-    })
-], AppModule);
-
-
-/***/ }),
-/* 4 */
-/***/ ((module) => {
-
-module.exports = require("tslib");
-
-/***/ }),
-/* 5 */
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
-
-
-var _a;
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.AppController = void 0;
-const tslib_1 = __webpack_require__(4);
-const common_1 = __webpack_require__(1);
-const app_service_1 = __webpack_require__(6);
-let AppController = class AppController {
-    constructor(appService) {
-        this.appService = appService;
-    }
-    getData() {
-        return this.appService.getData();
-    }
-};
-exports.AppController = AppController;
-tslib_1.__decorate([
-    (0, common_1.Get)(),
-    tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", []),
-    tslib_1.__metadata("design:returntype", void 0)
-], AppController.prototype, "getData", null);
-exports.AppController = AppController = tslib_1.__decorate([
-    (0, common_1.Controller)(),
-    tslib_1.__metadata("design:paramtypes", [typeof (_a = typeof app_service_1.AppService !== "undefined" && app_service_1.AppService) === "function" ? _a : Object])
-], AppController);
+;// external "@nestjs/common"
+const common_namespaceObject = require("@nestjs/common");
+;// external "@nestjs/core"
+const core_namespaceObject = require("@nestjs/core");
+;// external "tslib"
+const external_tslib_namespaceObject = require("tslib");
+;// ./src/app/app.service.ts
 
 
-/***/ }),
-/* 6 */
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
-
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.AppService = void 0;
-const tslib_1 = __webpack_require__(4);
-const common_1 = __webpack_require__(1);
 let AppService = class AppService {
     getData() {
         return { message: 'Hello API' };
     }
 };
-exports.AppService = AppService;
-exports.AppService = AppService = tslib_1.__decorate([
-    (0, common_1.Injectable)()
+AppService = (0,external_tslib_namespaceObject.__decorate)([
+    (0,common_namespaceObject.Injectable)()
 ], AppService);
 
 
-/***/ }),
-/* 7 */
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+;// external "@yepmind/nats-rx-client"
+const nats_rx_client_namespaceObject = require("@yepmind/nats-rx-client");
+;// ./src/app/queue/_models/config-options.ts
 
 
+;// ./src/app/queue/queue.service.ts
+var QueueService_1;
 var _a;
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.ApiBridgeController = void 0;
-const tslib_1 = __webpack_require__(4);
-const axios_1 = __webpack_require__(8);
-const common_1 = __webpack_require__(1);
-const rxjs_1 = __webpack_require__(9);
-const dayjs_1 = tslib_1.__importDefault(__webpack_require__(10));
-let ApiBridgeController = class ApiBridgeController {
+
+
+
+
+let QueueService = QueueService_1 = class QueueService {
+    logger = new common_namespaceObject.Logger(QueueService_1.name);
+    nc;
+    constructor(config) {
+        this.nc = new nats_rx_client_namespaceObject.NatsClientService(config);
+    }
+    get client() {
+        return this.nc;
+    }
+};
+QueueService = QueueService_1 = (0,external_tslib_namespaceObject.__decorate)([
+    (0,common_namespaceObject.Injectable)(),
+    (0,external_tslib_namespaceObject.__param)(0, (0,common_namespaceObject.Inject)('CONFIG_OPTIONS')),
+    (0,external_tslib_namespaceObject.__metadata)("design:paramtypes", [typeof (_a = typeof config_options_namespaceObject.ConfigOptions !== "undefined" && config_options_namespaceObject.ConfigOptions) === "function" ? _a : Object])
+], QueueService);
+
+
+;// ./src/app/app.controller.ts
+var app_controller_a, _b;
+
+
+
+
+let AppController = class AppController {
+    appService;
+    queueService;
+    constructor(appService, queueService) {
+        this.appService = appService;
+        this.queueService = queueService;
+    }
+    getData() {
+        return this.appService.getData();
+    }
+    enqueue(data) {
+        Array.from(Array(10).keys()).forEach(x => {
+            this.queueService.client.enqueueData('rica_test', 'getReq', `${x} - ${data}`);
+        });
+        return true;
+    }
+};
+(0,external_tslib_namespaceObject.__decorate)([
+    (0,common_namespaceObject.Get)(),
+    (0,external_tslib_namespaceObject.__metadata)("design:type", Function),
+    (0,external_tslib_namespaceObject.__metadata)("design:paramtypes", []),
+    (0,external_tslib_namespaceObject.__metadata)("design:returntype", void 0)
+], AppController.prototype, "getData", null);
+(0,external_tslib_namespaceObject.__decorate)([
+    (0,common_namespaceObject.Get)('enqueue'),
+    (0,external_tslib_namespaceObject.__param)(0, (0,common_namespaceObject.Query)('data')),
+    (0,external_tslib_namespaceObject.__metadata)("design:type", Function),
+    (0,external_tslib_namespaceObject.__metadata)("design:paramtypes", [String]),
+    (0,external_tslib_namespaceObject.__metadata)("design:returntype", void 0)
+], AppController.prototype, "enqueue", null);
+AppController = (0,external_tslib_namespaceObject.__decorate)([
+    (0,common_namespaceObject.Controller)(),
+    (0,external_tslib_namespaceObject.__metadata)("design:paramtypes", [typeof (app_controller_a = typeof AppService !== "undefined" && AppService) === "function" ? app_controller_a : Object, typeof (_b = typeof QueueService !== "undefined" && QueueService) === "function" ? _b : Object])
+], AppController);
+
+
+;// external "@nestjs/axios"
+const axios_namespaceObject = require("@nestjs/axios");
+;// external "rxjs"
+const external_rxjs_namespaceObject = require("rxjs");
+;// external "dayjs"
+const external_dayjs_namespaceObject = require("dayjs");
+var external_dayjs_default = /*#__PURE__*/__webpack_require__.n(external_dayjs_namespaceObject);
+;// ./src/app/api-bridge/api-bridge.controller.ts
+var ApiBridgeController_1;
+var api_bridge_controller_a;
+
+
+
+
+
+let ApiBridgeController = ApiBridgeController_1 = class ApiBridgeController {
+    httpService;
+    baseUrls = new Map([
+        ['ch', 'http://risparmiocasa.tecnologica.info/tloyaltyws_svizzera'],
+        ['mt', 'http://risparmiocasa.tecnologica.info/tloyaltyws_malta'],
+        ['it', 'http://risparmiocasa.tecnologica.info/tloyaltyws']
+    ]);
+    logger = new common_namespaceObject.Logger(ApiBridgeController_1.name);
     constructor(httpService) {
         this.httpService = httpService;
-        this.baseUrls = new Map([
-            ['ch', 'http://risparmiocasa.tecnologica.info/tloyaltyws_svizzera'],
-            ['mt', 'http://risparmiocasa.tecnologica.info/tloyaltyws_malta'],
-            ['it', 'http://risparmiocasa.tecnologica.info/tloyaltyws']
-        ]);
     }
     hello() {
         return 'Hello from api-bridge! 👋';
     }
     createCard(reqBody) {
-        return this.createEmptyCard(reqBody.details.registrationCountry).pipe((0, rxjs_1.switchMap)(cardNumber => {
+        return this.createEmptyCard(reqBody.details.registrationCountry).pipe((0,external_rxjs_namespaceObject.switchMap)(cardNumber => {
             if (!cardNumber)
-                throw new common_1.BadRequestException();
-            return this.addDataToCard(reqBody.details, cardNumber, false).pipe((0, rxjs_1.map)(res => {
+                throw new common_namespaceObject.BadRequestException();
+            return this.addDataToCard(reqBody.details, cardNumber, false).pipe((0,external_rxjs_namespaceObject.map)(res => {
                 if (!res)
-                    throw new common_1.BadRequestException();
+                    throw new common_namespaceObject.BadRequestException();
                 return { cardNumber };
             }));
         }));
     }
     applyDiscount(reqBody) {
         const { store, cardNumber, points, ean } = reqBody;
-        return this.applyDiscountToCard(store, cardNumber, points, ean).pipe((0, rxjs_1.map)(result => {
+        return this.applyDiscountToCard(store, cardNumber, points, ean).pipe((0,external_rxjs_namespaceObject.map)(result => {
             if (!result)
-                throw new common_1.BadRequestException();
+                throw new common_namespaceObject.BadRequestException();
             return true;
         }));
     }
     verify(reqBody) {
         const { cardNumber, registrationCountry } = reqBody;
         if (!cardNumber)
-            throw new common_1.BadRequestException();
+            throw new common_namespaceObject.BadRequestException();
         let xml = '<?xml version="1.0" encoding="utf-8"?>';
         xml +=
             '<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">';
@@ -169,10 +212,10 @@ let ApiBridgeController = class ApiBridgeController {
             SOAPAction: "http://TLWSSaldi/SaldoTessera2",
             "Content-Type": "text/xml; charset=UTF-8"
         };
-        return this.httpService.post(url, xml, { headers }).pipe((0, rxjs_1.map)(result => {
+        return this.httpService.post(url, xml, { headers }).pipe((0,external_rxjs_namespaceObject.map)(result => {
             const isValid = !JSON.stringify(result.data).includes("20000101;20000101;0;0");
             if (!isValid)
-                throw new common_1.NotFoundException();
+                throw new common_namespaceObject.NotFoundException();
             return true;
         }));
     }
@@ -180,9 +223,9 @@ let ApiBridgeController = class ApiBridgeController {
         const { cardNumber, details, updateFromStore } = reqBody;
         if (!updateFromStore)
             details.preferredStoreCode = '000WEB';
-        return this.addDataToCard(details, cardNumber, updateFromStore).pipe((0, rxjs_1.map)(result => {
+        return this.addDataToCard(details, cardNumber, updateFromStore).pipe((0,external_rxjs_namespaceObject.map)(result => {
             if (!result)
-                throw new common_1.BadRequestException();
+                throw new common_namespaceObject.BadRequestException();
             return { cardNumber };
         }));
     }
@@ -205,7 +248,7 @@ let ApiBridgeController = class ApiBridgeController {
             "Content-Type": "text/xml; charset=UTF-8"
         };
         const regExp = /(?<=<NuovaTesseraResult>).*(?=<\/NuovaTesseraResult>)/;
-        return this.httpService.post(url, xml, { headers }).pipe((0, rxjs_1.map)(result => (result.status === 200) ? result.data.match(regExp)[0] : null));
+        return this.httpService.post(url, xml, { headers }).pipe((0,external_rxjs_namespaceObject.tap)(result => this.logger.log(result.data.match(regExp)[0])), (0,external_rxjs_namespaceObject.map)(result => (result.status === 200) ? result.data.match(regExp)[0] : null));
     }
     addDataToCard(details, cardNumber, updateFromStore) {
         let xml = '<?xml version="1.0" encoding="utf-8"?>';
@@ -258,22 +301,22 @@ let ApiBridgeController = class ApiBridgeController {
         xml += `<Autorizzazione>`;
         xml += `<Numero>11</Numero>`;
         xml += `<Consenso>true</Consenso>`;
-        xml += `<Data>${(0, dayjs_1.default)().format("YYYY-MM-DD")}</Data>`;
+        xml += `<Data>${external_dayjs_default()().format("YYYY-MM-DD")}</Data>`;
         xml += `</Autorizzazione>`;
         xml += `<Autorizzazione>`;
         xml += `<Numero>5</Numero>`;
         xml += `<Consenso>${details.marketing}</Consenso>`;
-        xml += `<Data>${(0, dayjs_1.default)().format("YYYY-MM-DD")}</Data>`;
+        xml += `<Data>${external_dayjs_default()().format("YYYY-MM-DD")}</Data>`;
         xml += `</Autorizzazione>`;
         xml += `<Autorizzazione>`;
         xml += `<Numero>6</Numero>`;
         xml += `<Consenso>${details.marketing}</Consenso>`;
-        xml += `<Data>${(0, dayjs_1.default)().format("YYYY-MM-DD")}</Data>`;
+        xml += `<Data>${external_dayjs_default()().format("YYYY-MM-DD")}</Data>`;
         xml += `</Autorizzazione>`;
         xml += `<Autorizzazione>`;
         xml += `<Numero>8</Numero>`;
         xml += `<Consenso>${details.statistics}</Consenso>`;
-        xml += `<Data>${(0, dayjs_1.default)().format("YYYY-MM-DD")}</Data>`;
+        xml += `<Data>${external_dayjs_default()().format("YYYY-MM-DD")}</Data>`;
         xml += `</Autorizzazione>`;
         xml += `</ListaAutorizzazioni>`;
         xml += `<PVPreferito></PVPreferito>`;
@@ -301,7 +344,7 @@ let ApiBridgeController = class ApiBridgeController {
             "Content-Type": "text/xml; charset=UTF-8"
         };
         const regExp = /(?<=<InserimentoModificaAnagraficaResult>).*(?=<\/InserimentoModificaAnagraficaResult>)/;
-        return this.httpService.post(url, xml, { headers }).pipe((0, rxjs_1.map)(result => {
+        return this.httpService.post(url, xml, { headers }).pipe((0,external_rxjs_namespaceObject.map)(result => {
             const status = result.data.match(regExp)[0];
             return parseInt(status) >= 0;
         }));
@@ -316,7 +359,7 @@ let ApiBridgeController = class ApiBridgeController {
         xml += `<CodiceTessera>${cardNumber}</CodiceTessera>`;
         xml += `<NumeroCassa>99</NumeroCassa>`;
         xml += `<NumeroScontrino>1</NumeroScontrino>`;
-        xml += `<DataOraScontrino>${(0, dayjs_1.default)().format("YYYY-MM-DD")}</DataOraScontrino>`;
+        xml += `<DataOraScontrino>${external_dayjs_default()().format("YYYY-MM-DD")}</DataOraScontrino>`;
         xml += `<TotaleScontrino>0</TotaleScontrino>`;
         xml += `<ListaInfoRaccolta>`;
         xml += `<InfoRaccolta>`;
@@ -336,123 +379,161 @@ let ApiBridgeController = class ApiBridgeController {
             "Content-Type": "text/xml; charset=UTF-8"
         };
         const regExp = /(?<=<SaldoMovimentiPuntiResult>).*(?=<\/SaldoMovimentiPuntiResult>)/;
-        return this.httpService.post(url, xml, { headers }).pipe((0, rxjs_1.map)(result => {
+        return this.httpService.post(url, xml, { headers }).pipe((0,external_rxjs_namespaceObject.map)(result => {
             const status = result.data.match(regExp)[0];
             return parseInt(status) >= 0;
         }));
     }
 };
-exports.ApiBridgeController = ApiBridgeController;
-tslib_1.__decorate([
-    (0, common_1.Get)(),
-    tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", []),
-    tslib_1.__metadata("design:returntype", void 0)
+(0,external_tslib_namespaceObject.__decorate)([
+    (0,common_namespaceObject.Get)(),
+    (0,external_tslib_namespaceObject.__metadata)("design:type", Function),
+    (0,external_tslib_namespaceObject.__metadata)("design:paramtypes", []),
+    (0,external_tslib_namespaceObject.__metadata)("design:returntype", void 0)
 ], ApiBridgeController.prototype, "hello", null);
-tslib_1.__decorate([
-    (0, common_1.Post)('create-card'),
-    tslib_1.__param(0, (0, common_1.Body)()),
-    tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", [Object]),
-    tslib_1.__metadata("design:returntype", void 0)
+(0,external_tslib_namespaceObject.__decorate)([
+    (0,common_namespaceObject.Post)('create-card'),
+    (0,common_namespaceObject.HttpCode)(200),
+    (0,external_tslib_namespaceObject.__param)(0, (0,common_namespaceObject.Body)()),
+    (0,external_tslib_namespaceObject.__metadata)("design:type", Function),
+    (0,external_tslib_namespaceObject.__metadata)("design:paramtypes", [Object]),
+    (0,external_tslib_namespaceObject.__metadata)("design:returntype", void 0)
 ], ApiBridgeController.prototype, "createCard", null);
-tslib_1.__decorate([
-    (0, common_1.Post)('apply-discount'),
-    tslib_1.__param(0, (0, common_1.Body)()),
-    tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", [Object]),
-    tslib_1.__metadata("design:returntype", void 0)
+(0,external_tslib_namespaceObject.__decorate)([
+    (0,common_namespaceObject.Post)('apply-discount'),
+    (0,common_namespaceObject.HttpCode)(200),
+    (0,external_tslib_namespaceObject.__param)(0, (0,common_namespaceObject.Body)()),
+    (0,external_tslib_namespaceObject.__metadata)("design:type", Function),
+    (0,external_tslib_namespaceObject.__metadata)("design:paramtypes", [Object]),
+    (0,external_tslib_namespaceObject.__metadata)("design:returntype", void 0)
 ], ApiBridgeController.prototype, "applyDiscount", null);
-tslib_1.__decorate([
-    (0, common_1.Post)('verify'),
-    tslib_1.__param(0, (0, common_1.Body)()),
-    tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", [Object]),
-    tslib_1.__metadata("design:returntype", void 0)
+(0,external_tslib_namespaceObject.__decorate)([
+    (0,common_namespaceObject.Post)('verify'),
+    (0,common_namespaceObject.HttpCode)(200),
+    (0,external_tslib_namespaceObject.__param)(0, (0,common_namespaceObject.Body)()),
+    (0,external_tslib_namespaceObject.__metadata)("design:type", Function),
+    (0,external_tslib_namespaceObject.__metadata)("design:paramtypes", [Object]),
+    (0,external_tslib_namespaceObject.__metadata)("design:returntype", void 0)
 ], ApiBridgeController.prototype, "verify", null);
-tslib_1.__decorate([
-    (0, common_1.Post)('update-card'),
-    tslib_1.__param(0, (0, common_1.Body)()),
-    tslib_1.__metadata("design:type", Function),
-    tslib_1.__metadata("design:paramtypes", [Object]),
-    tslib_1.__metadata("design:returntype", void 0)
+(0,external_tslib_namespaceObject.__decorate)([
+    (0,common_namespaceObject.Post)('update-card'),
+    (0,common_namespaceObject.HttpCode)(200),
+    (0,external_tslib_namespaceObject.__param)(0, (0,common_namespaceObject.Body)()),
+    (0,external_tslib_namespaceObject.__metadata)("design:type", Function),
+    (0,external_tslib_namespaceObject.__metadata)("design:paramtypes", [Object]),
+    (0,external_tslib_namespaceObject.__metadata)("design:returntype", void 0)
 ], ApiBridgeController.prototype, "updateCard", null);
-exports.ApiBridgeController = ApiBridgeController = tslib_1.__decorate([
-    (0, common_1.Controller)('api-bridge'),
-    tslib_1.__metadata("design:paramtypes", [typeof (_a = typeof axios_1.HttpService !== "undefined" && axios_1.HttpService) === "function" ? _a : Object])
+ApiBridgeController = ApiBridgeController_1 = (0,external_tslib_namespaceObject.__decorate)([
+    (0,common_namespaceObject.Controller)('api-bridge'),
+    (0,external_tslib_namespaceObject.__metadata)("design:paramtypes", [typeof (api_bridge_controller_a = typeof axios_namespaceObject.HttpService !== "undefined" && axios_namespaceObject.HttpService) === "function" ? api_bridge_controller_a : Object])
 ], ApiBridgeController);
 
 
-/***/ }),
-/* 8 */
-/***/ ((module) => {
+;// ./src/app/queue/queue-consumer.service.ts
+var QueueConsumerService_1;
+var queue_consumer_service_a;
 
-module.exports = require("@nestjs/axios");
 
-/***/ }),
-/* 9 */
-/***/ ((module) => {
 
-module.exports = require("rxjs");
+let QueueConsumerService = QueueConsumerService_1 = class QueueConsumerService {
+    queueService;
+    logger = new common_namespaceObject.Logger(QueueConsumerService_1.name);
+    constructor(queueService) {
+        this.queueService = queueService;
+        this.queueService.client.dequeueData('rica_test', 'getReq').subscribe({
+            next: value => this.logger.log(`[${new Date()}]deQueue: ${value}`)
+        });
+    }
+};
+QueueConsumerService = QueueConsumerService_1 = (0,external_tslib_namespaceObject.__decorate)([
+    (0,common_namespaceObject.Injectable)(),
+    (0,external_tslib_namespaceObject.__metadata)("design:paramtypes", [typeof (queue_consumer_service_a = typeof QueueService !== "undefined" && QueueService) === "function" ? queue_consumer_service_a : Object])
+], QueueConsumerService);
 
-/***/ }),
-/* 10 */
-/***/ ((module) => {
 
-module.exports = require("dayjs");
+;// ./src/app/queue/queue.module.ts
+var QueueModule_1;
 
-/***/ })
-/******/ 	]);
-/************************************************************************/
-/******/ 	// The module cache
-/******/ 	var __webpack_module_cache__ = {};
-/******/ 	
-/******/ 	// The require function
-/******/ 	function __webpack_require__(moduleId) {
-/******/ 		// Check if module is in cache
-/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
-/******/ 		if (cachedModule !== undefined) {
-/******/ 			return cachedModule.exports;
-/******/ 		}
-/******/ 		// Create a new module (and put it into the cache)
-/******/ 		var module = __webpack_module_cache__[moduleId] = {
-/******/ 			// no module.id needed
-/******/ 			// no module.loaded needed
-/******/ 			exports: {}
-/******/ 		};
-/******/ 	
-/******/ 		// Execute the module function
-/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
-/******/ 	
-/******/ 		// Return the exports of the module
-/******/ 		return module.exports;
-/******/ 	}
-/******/ 	
-/************************************************************************/
-var __webpack_exports__ = {};
-// This entry needs to be wrapped in an IIFE because it needs to be isolated against other modules in the chunk.
-(() => {
-var exports = __webpack_exports__;
 
+
+
+let QueueModule = QueueModule_1 = class QueueModule {
+    static register(options) {
+        return {
+            module: QueueModule_1,
+            providers: [
+                {
+                    provide: 'CONFIG_OPTIONS',
+                    useValue: options
+                },
+                QueueService,
+                QueueConsumerService
+            ],
+            exports: [
+                QueueService
+            ],
+        };
+    }
+};
+QueueModule = QueueModule_1 = (0,external_tslib_namespaceObject.__decorate)([
+    (0,common_namespaceObject.Module)({
+        controllers: [],
+        providers: [],
+    })
+], QueueModule);
+
+;
+
+;// ./src/app/queue/queue-streams-config.json
+const queue_streams_config_namespaceObject = /*#__PURE__*/JSON.parse('[{"name":"rica_test","consumerDelayMs":5000}]');
+;// ./src/app/app.module.ts
+
+
+
+
+
+
+
+
+let AppModule = class AppModule {
+};
+AppModule = (0,external_tslib_namespaceObject.__decorate)([
+    (0,common_namespaceObject.Module)({
+        imports: [
+            axios_namespaceObject.HttpModule,
+            QueueModule.register({
+                streams: queue_streams_config_namespaceObject,
+                servers: process.env.NATS_SERVERS
+            })
+        ],
+        controllers: [
+            AppController,
+            ApiBridgeController
+        ],
+        providers: [
+            AppService
+        ],
+    })
+], AppModule);
+
+
+;// ./src/main.ts
 /**
  * This is not a production server yet!
  * This is only a minimal backend to get started.
  */
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-const common_1 = __webpack_require__(1);
-const core_1 = __webpack_require__(2);
-const app_module_1 = __webpack_require__(3);
+
+
+
 async function bootstrap() {
-    const app = await core_1.NestFactory.create(app_module_1.AppModule);
+    const app = await core_namespaceObject.NestFactory.create(AppModule);
     const globalPrefix = 'api';
     app.setGlobalPrefix(globalPrefix);
     const port = process.env.PORT || 3000;
     await app.listen(port);
-    common_1.Logger.log(`🚀 Application is running on: http://localhost:${port}/${globalPrefix}`);
+    common_namespaceObject.Logger.log(`🚀 Application is running on: http://localhost:${port}/${globalPrefix}`);
 }
 bootstrap();
-
-})();
 
 /******/ })()
 ;
