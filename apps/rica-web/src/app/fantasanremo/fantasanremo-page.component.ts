@@ -4,6 +4,8 @@ import { AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModu
 import { LetDirective } from '@ngrx/component';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { FantasanremoPageState, FantasanremoPageStore } from './fantasanremo-page.store';
+import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.component';
+import { UserInfo } from './_models/user-info';
 
 type BirthDateGroup = {
     date: FormControl<number | null>,
@@ -33,13 +35,14 @@ type DataGroup = {
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
-        LetDirective
+        LetDirective,
+        LoadingSpinnerComponent
     ]
 })
 export class FantasanremoPageComponent implements OnInit, OnDestroy {
     readonly CARD_NUMBER_MAX_LENGTH = 13;
     readonly NAME_MAX_LENGTH = 50;
-    readonly TAX_ID_MAX_LENGTH = 11;
+    readonly TAX_ID_MAX_LENGTH = 16;
     readonly EMAIL_MAX_LENGTH = 100;
     readonly ERROR_MESSAGES = new Map<string, { error: string, message: string }[]>([
         ['default', [
@@ -138,5 +141,19 @@ export class FantasanremoPageComponent implements OnInit, OnDestroy {
 
     sendInfo() {
         this.store.patchState({ formSubmitted: true });
+        const userInfo = new UserInfo({
+            ...this.dataGroup?.getRawValue(),
+            birthdate: new Date(Date.UTC(this.dataGroup?.value.birthdate?.year as number, (this.dataGroup?.value.birthdate?.month as number) - 1, this.dataGroup?.value.birthdate?.date as number, 0, 0, 0, 0))
+        });
+        if (this.dataGroup?.valid) {
+            const userInfo = new UserInfo({
+                ...this.dataGroup.getRawValue(),
+                birthdate: new Date(Date.UTC(this.dataGroup.value.birthdate?.year as number, (this.dataGroup.value.birthdate?.month as number) - 1, this.dataGroup.value.birthdate?.date as number, 0, 0, 0, 0))
+            });
+            this.store.sendUserInfo({ userInfo: new UserInfo({
+                ...this.dataGroup.getRawValue(),
+                birthdate: new Date(Date.UTC(this.dataGroup.value.birthdate?.year as number, (this.dataGroup.value.birthdate?.month as number) - 1, this.dataGroup.value.birthdate?.date as number, 0, 0, 0, 0))
+            })});
+        }
     }
 }

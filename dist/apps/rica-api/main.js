@@ -50,6 +50,10 @@
 var config_options_namespaceObject = {};
 __webpack_require__.r(config_options_namespaceObject);
 
+// NAMESPACE OBJECT: ../../libs/common/src/lib/_models/api-user-info.ts
+var api_user_info_namespaceObject = {};
+__webpack_require__.r(api_user_info_namespaceObject);
+
 ;// external "@nestjs/common"
 const common_namespaceObject = require("@nestjs/common");
 ;// external "@nestjs/core"
@@ -85,7 +89,8 @@ let QueueService = QueueService_1 = class QueueService {
     logger = new common_namespaceObject.Logger(QueueService_1.name);
     nc;
     constructor(config) {
-        this.nc = new nats_rx_client_namespaceObject.NatsClientService(config);
+        if (config.servers)
+            this.nc = new nats_rx_client_namespaceObject.NatsClientService(config);
     }
     get client() {
         return this.nc;
@@ -486,7 +491,38 @@ QueueModule = QueueModule_1 = (0,external_tslib_namespaceObject.__decorate)([
 
 ;// ./src/app/queue/queue-streams-config.json
 const queue_streams_config_namespaceObject = /*#__PURE__*/JSON.parse('[{"name":"rica_test","consumerDelayMs":5000}]');
+;// ../../libs/common/src/lib/_models/api-user-info.ts
+
+
+;// ./src/app/fantasanremo/fantasanremo.controller.ts
+var FantasanremoController_1;
+var fantasanremo_controller_a;
+
+
+
+let FantasanremoController = FantasanremoController_1 = class FantasanremoController {
+    logger = new common_namespaceObject.Logger(FantasanremoController_1.name);
+    constructor() { }
+    userInfo(userInfo) {
+        this.logger.log(userInfo);
+        return true;
+    }
+};
+(0,external_tslib_namespaceObject.__decorate)([
+    (0,common_namespaceObject.Post)('userInfo'),
+    (0,external_tslib_namespaceObject.__param)(0, (0,common_namespaceObject.Body)()),
+    (0,external_tslib_namespaceObject.__metadata)("design:type", Function),
+    (0,external_tslib_namespaceObject.__metadata)("design:paramtypes", [typeof (fantasanremo_controller_a = typeof api_user_info_namespaceObject.ApiUserInfo !== "undefined" && api_user_info_namespaceObject.ApiUserInfo) === "function" ? fantasanremo_controller_a : Object]),
+    (0,external_tslib_namespaceObject.__metadata)("design:returntype", void 0)
+], FantasanremoController.prototype, "userInfo", null);
+FantasanremoController = FantasanremoController_1 = (0,external_tslib_namespaceObject.__decorate)([
+    (0,common_namespaceObject.Controller)('fantasanremo'),
+    (0,external_tslib_namespaceObject.__metadata)("design:paramtypes", [])
+], FantasanremoController);
+
+
 ;// ./src/app/app.module.ts
+
 
 
 
@@ -508,7 +544,8 @@ AppModule = (0,external_tslib_namespaceObject.__decorate)([
         ],
         controllers: [
             AppController,
-            ApiBridgeController
+            ApiBridgeController,
+            FantasanremoController
         ],
         providers: [
             AppService

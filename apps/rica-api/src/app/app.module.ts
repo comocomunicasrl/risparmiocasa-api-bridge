@@ -6,6 +6,7 @@ import { HttpModule } from '@nestjs/axios';
 import { QueueModule } from './queue/queue.module';
 import { NatsStreamConfig } from '@yepmind/nats-rx-client';
 import streams from "./queue/queue-streams-config.json";
+import { FantasanremoController } from './fantasanremo/fantasanremo.controller';
 
 @Module({
     imports: [
@@ -17,7 +18,8 @@ import streams from "./queue/queue-streams-config.json";
     ],
     controllers: [
         AppController,
-        ApiBridgeController
+        ApiBridgeController,
+        FantasanremoController
     ],
     providers: [
         AppService

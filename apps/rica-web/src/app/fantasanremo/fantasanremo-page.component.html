@@ -1,4 +1,5 @@
 <div class="flex flex-col bg-white" *ngrxLet="state$ as state">
+    <ricaweb-loading-spinner *ngIf="state?.loading"></ricaweb-loading-spinner>
     <div class="flex flex-col justify-center items-center">
         <div class="w-fit bg-accent text-white font-extrabold text-xl uppercase rounded-t-3xl px-10 py-2">Compila tutti i campi:</div>
         <div class="flex flex-col rounded-3xl w-fit overflow-hidden" *ngIf="dataGroup" [formGroup]="dataGroup">
