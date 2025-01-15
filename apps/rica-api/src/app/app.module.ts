@@ -7,14 +7,30 @@ import { QueueModule } from './queue/queue.module';
 import { NatsStreamConfig } from '@yepmind/nats-rx-client';
 import streams from "./queue/queue-streams-config.json";
 import { FantasanremoController } from './fantasanremo/fantasanremo.controller';
+import { DynamooseModule } from 'nestjs-dynamoose';
+import { FantasanremoCustomerSchema } from './fantasanremo/fantasanremo-cutomer.schema';
+import { FantasanremoService } from './fantasanremo/fantasanremo.service';
 
+console.log( process.env.AWS_RISPARMIOCASA_ACCOUNT_KEY);
 @Module({
     imports: [
         HttpModule,
         QueueModule.register({
             streams: streams as NatsStreamConfig[],
             servers: process.env.NATS_SERVERS
-        })
+        }),
+        DynamooseModule.forRoot({
+            aws: {
+                region: process.env.AWS_RISPARMIOCASA_REGION
+            }
+        }),
+        DynamooseModule.forFeature([{
+            name: 'FantasanremoCustomer',
+            schema: FantasanremoCustomerSchema,
+            options: {
+              tableName: 'fantasanremoCustomer',
+            }
+        }])
     ],
     controllers: [
         AppController,
@@ -22,7 +38,8 @@ import { FantasanremoController } from './fantasanremo/fantasanremo.controller';
         FantasanremoController
     ],
     providers: [
-        AppService
+        AppService,
+        FantasanremoService
     ],
 })
 export class AppModule { }

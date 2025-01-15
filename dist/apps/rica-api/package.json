@@ -9,6 +9,8 @@
     "@yepmind/nats-rx-client": "1.0.1",
     "axios": "1.7.9",
     "dayjs": "1.11.13",
+    "dynamoose": "4.0.3",
+    "nestjs-dynamoose": "0.5.8",
     "reflect-metadata": "0.1.14",
     "rxjs": "7.8.1"
   },

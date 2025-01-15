@@ -1,4 +1,4 @@
-export interface ApiUserInfo {
+interface ApiUserInfo {
     cardNumber: string;
     firstname: string;
     lastname: string;
@@ -8,3 +8,5 @@ export interface ApiUserInfo {
     rulesAcceptance: boolean;
     privacyPolicyAcceptance: boolean;
 }
+
+export type { ApiUserInfo };

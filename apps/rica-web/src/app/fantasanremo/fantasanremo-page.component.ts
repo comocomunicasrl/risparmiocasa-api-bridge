@@ -143,6 +143,7 @@ export class FantasanremoPageComponent implements OnInit, OnDestroy {
         this.store.patchState({ formSubmitted: true });
         const userInfo = new UserInfo({
             ...this.dataGroup?.getRawValue(),
+            taxId: this.dataGroup?.value.taxId.toUpperCase(),
             birthdate: new Date(Date.UTC(this.dataGroup?.value.birthdate?.year as number, (this.dataGroup?.value.birthdate?.month as number) - 1, this.dataGroup?.value.birthdate?.date as number, 0, 0, 0, 0))
         });
         if (this.dataGroup?.valid) {

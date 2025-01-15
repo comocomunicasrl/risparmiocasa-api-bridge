@@ -50,10 +50,6 @@
 var config_options_namespaceObject = {};
 __webpack_require__.r(config_options_namespaceObject);
 
-// NAMESPACE OBJECT: ../../libs/common/src/lib/_models/api-user-info.ts
-var api_user_info_namespaceObject = {};
-__webpack_require__.r(api_user_info_namespaceObject);
-
 ;// external "@nestjs/common"
 const common_namespaceObject = require("@nestjs/common");
 ;// external "@nestjs/core"
@@ -86,9 +82,8 @@ var _a;
 
 
 let QueueService = QueueService_1 = class QueueService {
-    logger = new common_namespaceObject.Logger(QueueService_1.name);
-    nc;
     constructor(config) {
+        this.logger = new common_namespaceObject.Logger(QueueService_1.name);
         if (config.servers)
             this.nc = new nats_rx_client_namespaceObject.NatsClientService(config);
     }
@@ -110,8 +105,6 @@ var app_controller_a, _b;
 
 
 let AppController = class AppController {
-    appService;
-    queueService;
     constructor(appService, queueService) {
         this.appService = appService;
         this.queueService = queueService;
@@ -161,15 +154,14 @@ var api_bridge_controller_a;
 
 
 let ApiBridgeController = ApiBridgeController_1 = class ApiBridgeController {
-    httpService;
-    baseUrls = new Map([
-        ['ch', 'http://risparmiocasa.tecnologica.info/tloyaltyws_svizzera'],
-        ['mt', 'http://risparmiocasa.tecnologica.info/tloyaltyws_malta'],
-        ['it', 'http://risparmiocasa.tecnologica.info/tloyaltyws']
-    ]);
-    logger = new common_namespaceObject.Logger(ApiBridgeController_1.name);
     constructor(httpService) {
         this.httpService = httpService;
+        this.baseUrls = new Map([
+            ['ch', 'http://risparmiocasa.tecnologica.info/tloyaltyws_svizzera'],
+            ['mt', 'http://risparmiocasa.tecnologica.info/tloyaltyws_malta'],
+            ['it', 'http://risparmiocasa.tecnologica.info/tloyaltyws']
+        ]);
+        this.logger = new common_namespaceObject.Logger(ApiBridgeController_1.name);
     }
     hello() {
         return 'Hello from api-bridge! 👋';
@@ -441,10 +433,9 @@ var queue_consumer_service_a;
 
 
 let QueueConsumerService = QueueConsumerService_1 = class QueueConsumerService {
-    queueService;
-    logger = new common_namespaceObject.Logger(QueueConsumerService_1.name);
     constructor(queueService) {
         this.queueService = queueService;
+        this.logger = new common_namespaceObject.Logger(QueueConsumerService_1.name);
         this.queueService.client.dequeueData('rica_test', 'getReq').subscribe({
             next: value => this.logger.log(`[${new Date()}]deQueue: ${value}`)
         });
@@ -491,35 +482,89 @@ QueueModule = QueueModule_1 = (0,external_tslib_namespaceObject.__decorate)([
 
 ;// ./src/app/queue/queue-streams-config.json
 const queue_streams_config_namespaceObject = /*#__PURE__*/JSON.parse('[{"name":"rica_test","consumerDelayMs":5000}]');
-;// ../../libs/common/src/lib/_models/api-user-info.ts
+;// external "nestjs-dynamoose"
+const external_nestjs_dynamoose_namespaceObject = require("nestjs-dynamoose");
+;// ./src/app/fantasanremo/fantasanremo.service.ts
+var fantasanremo_service_a;
+
+
+
+let FantasanremoService = class FantasanremoService {
+    constructor(fantasanremoCustomerModel) {
+        this.fantasanremoCustomerModel = fantasanremoCustomerModel;
+    }
+    insertCustomer(customer) {
+        return this.fantasanremoCustomerModel.create(customer);
+    }
+};
+FantasanremoService = (0,external_tslib_namespaceObject.__decorate)([
+    (0,common_namespaceObject.Injectable)(),
+    (0,external_tslib_namespaceObject.__param)(0, (0,external_nestjs_dynamoose_namespaceObject.InjectModel)('FantasanremoCustomer')),
+    (0,external_tslib_namespaceObject.__metadata)("design:paramtypes", [typeof (fantasanremo_service_a = typeof external_nestjs_dynamoose_namespaceObject.Model !== "undefined" && external_nestjs_dynamoose_namespaceObject.Model) === "function" ? fantasanremo_service_a : Object])
+], FantasanremoService);
 
 
 ;// ./src/app/fantasanremo/fantasanremo.controller.ts
 var FantasanremoController_1;
-var fantasanremo_controller_a;
+var fantasanremo_controller_a, fantasanremo_controller_b;
 
 
 
 let FantasanremoController = FantasanremoController_1 = class FantasanremoController {
-    logger = new common_namespaceObject.Logger(FantasanremoController_1.name);
-    constructor() { }
+    constructor(fantasanremoService) {
+        this.fantasanremoService = fantasanremoService;
+        this.logger = new common_namespaceObject.Logger(FantasanremoController_1.name);
+    }
     userInfo(userInfo) {
         this.logger.log(userInfo);
-        return true;
+        return this.fantasanremoService.insertCustomer({
+            id: userInfo.taxId,
+            firstname: userInfo.firstname,
+            lastname: userInfo.lastname,
+            birthDate: userInfo.birthdate,
+            cardNumber: userInfo.cardNumber,
+            email: userInfo.email
+        }).then(() => true);
     }
 };
 (0,external_tslib_namespaceObject.__decorate)([
     (0,common_namespaceObject.Post)('userInfo'),
     (0,external_tslib_namespaceObject.__param)(0, (0,common_namespaceObject.Body)()),
     (0,external_tslib_namespaceObject.__metadata)("design:type", Function),
-    (0,external_tslib_namespaceObject.__metadata)("design:paramtypes", [typeof (fantasanremo_controller_a = typeof api_user_info_namespaceObject.ApiUserInfo !== "undefined" && api_user_info_namespaceObject.ApiUserInfo) === "function" ? fantasanremo_controller_a : Object]),
+    (0,external_tslib_namespaceObject.__metadata)("design:paramtypes", [typeof (fantasanremo_controller_b = typeof common_namespaceObject.RawBodyRequest !== "undefined" && common_namespaceObject.RawBodyRequest) === "function" ? fantasanremo_controller_b : Object]),
     (0,external_tslib_namespaceObject.__metadata)("design:returntype", void 0)
 ], FantasanremoController.prototype, "userInfo", null);
 FantasanremoController = FantasanremoController_1 = (0,external_tslib_namespaceObject.__decorate)([
     (0,common_namespaceObject.Controller)('fantasanremo'),
-    (0,external_tslib_namespaceObject.__metadata)("design:paramtypes", [])
+    (0,external_tslib_namespaceObject.__metadata)("design:paramtypes", [typeof (fantasanremo_controller_a = typeof FantasanremoService !== "undefined" && FantasanremoService) === "function" ? fantasanremo_controller_a : Object])
 ], FantasanremoController);
 
+
+;// external "dynamoose"
+const external_dynamoose_namespaceObject = require("dynamoose");
+;// ./src/app/fantasanremo/fantasanremo-cutomer.schema.ts
+
+const FantasanremoCustomerSchema = new external_dynamoose_namespaceObject.Schema({
+    id: {
+        type: String,
+        hashKey: true
+    },
+    firstname: {
+        type: String
+    },
+    lastname: {
+        type: String
+    },
+    birthDate: {
+        type: String
+    },
+    cardNumber: {
+        type: String
+    },
+    email: {
+        type: String
+    }
+});
 
 ;// ./src/app/app.module.ts
 
@@ -531,6 +576,10 @@ FantasanremoController = FantasanremoController_1 = (0,external_tslib_namespaceO
 
 
 
+
+
+
+console.log(process.env.AWS_RISPARMIOCASA_ACCOUNT_KEY);
 let AppModule = class AppModule {
 };
 AppModule = (0,external_tslib_namespaceObject.__decorate)([
@@ -540,7 +589,19 @@ AppModule = (0,external_tslib_namespaceObject.__decorate)([
             QueueModule.register({
                 streams: queue_streams_config_namespaceObject,
                 servers: process.env.NATS_SERVERS
-            })
+            }),
+            external_nestjs_dynamoose_namespaceObject.DynamooseModule.forRoot({
+                aws: {
+                    region: process.env.AWS_RISPARMIOCASA_REGION
+                }
+            }),
+            external_nestjs_dynamoose_namespaceObject.DynamooseModule.forFeature([{
+                    name: 'FantasanremoCustomer',
+                    schema: FantasanremoCustomerSchema,
+                    options: {
+                        tableName: 'fantasanremoCustomer',
+                    }
+                }])
         ],
         controllers: [
             AppController,
@@ -548,7 +609,8 @@ AppModule = (0,external_tslib_namespaceObject.__decorate)([
             FantasanremoController
         ],
         providers: [
-            AppService
+            AppService,
+            FantasanremoService
         ],
     })
 ], AppModule);
