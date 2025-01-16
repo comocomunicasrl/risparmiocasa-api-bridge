@@ -10,6 +10,7 @@ import { FantasanremoController } from './fantasanremo/fantasanremo.controller';
 import { DynamooseModule } from 'nestjs-dynamoose';
 import { FantasanremoCustomerSchema } from './fantasanremo/fantasanremo-cutomer.schema';
 import { FantasanremoService } from './fantasanremo/fantasanremo.service';
+import { RisparmioCasaService } from './_services/risparmio-casa.service';
 
 console.log( process.env.AWS_RISPARMIOCASA_ACCOUNT_KEY);
 @Module({
@@ -39,7 +40,8 @@ console.log( process.env.AWS_RISPARMIOCASA_ACCOUNT_KEY);
     ],
     providers: [
         AppService,
-        FantasanremoService
+        FantasanremoService,
+        RisparmioCasaService
     ],
 })
 export class AppModule { }
