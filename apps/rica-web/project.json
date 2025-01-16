@@ -52,7 +52,13 @@
                             "maximumError": "8kb"
                         }
                     ],
-                    "outputHashing": "all"
+                    "outputHashing": "all",
+                    "fileReplacements": [
+                        {
+                            "replace": "apps/rica-web/src/app/environments/environment.ts",
+                            "with": "apps/rica-web/src/app/environments/environment.prod.ts"
+                        }
+                    ]
                 },
                 "production-fantasanremo": {
                     "budgets": [
@@ -72,6 +78,10 @@
                         {
                             "replace": "apps/rica-web/src/app/app.routes.ts",
                             "with": "apps/rica-web/src/app/fantasanremo-app.routes.ts"
+                        },
+                        {
+                            "replace": "apps/rica-web/src/app/environments/environment.ts",
+                            "with": "apps/rica-web/src/app/environments/environment.fantasanremo.prod.ts"
                         }
                     ],
                     "prerender": true
