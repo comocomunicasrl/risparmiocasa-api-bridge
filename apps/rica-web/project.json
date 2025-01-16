@@ -54,6 +54,27 @@
                     ],
                     "outputHashing": "all"
                 },
+                "production-fantasanremo": {
+                    "budgets": [
+                        {
+                            "type": "initial",
+                            "maximumWarning": "500kb",
+                            "maximumError": "1mb"
+                        },
+                        {
+                            "type": "anyComponentStyle",
+                            "maximumWarning": "4kb",
+                            "maximumError": "8kb"
+                        }
+                    ],
+                    "outputHashing": "all",
+                    "fileReplacements": [
+                        {
+                            "replace": "apps/rica-web/src/app/app.routes.ts",
+                            "with": "apps/rica-web/src/app/fantasanremo/replacement-app.routes.ts"
+                        }
+                    ]
+                },
                 "development": {
                     "optimization": false,
                     "extractLicenses": false,
