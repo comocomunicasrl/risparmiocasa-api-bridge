@@ -1,2 +1,0 @@
-import './polyfills.server.mjs';
-import{Da as o,Ea as a,Ga as r,ta as n}from"./chunk-F4TCKMNT.mjs";import"./chunk-S6KH3LOX.mjs";var p=(()=>{class e{constructor(){}ngOnInit(){}static \u0275fac=function(t){return new(t||e)};static \u0275cmp=n({type:e,selectors:[["ricaweb-fantasanremo-page"]],decls:2,vars:0,template:function(t,m){t&1&&(o(0,"p"),r(1,"FANTASANREMO, Hello world!"),a())},encapsulation:2})}return e})();export{p as FantasanremoPageComponent};

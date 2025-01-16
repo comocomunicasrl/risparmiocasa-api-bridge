@@ -25,6 +25,8 @@ logs
 # Environment variables
 .env*
 
+dist/
+.DS_Store
 
 .nx/cache
 .nx/workspace-data
