@@ -71,9 +71,10 @@
                     "fileReplacements": [
                         {
                             "replace": "apps/rica-web/src/app/app.routes.ts",
-                            "with": "apps/rica-web/src/app/fantasanremo/replacement-app.routes.ts"
+                            "with": "apps/rica-web/src/app/fantasanremo-app.routes.ts"
                         }
-                    ]
+                    ],
+                    "prerender": true
                 },
                 "development": {
                     "optimization": false,
