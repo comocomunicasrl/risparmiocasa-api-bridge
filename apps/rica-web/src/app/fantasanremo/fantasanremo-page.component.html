@@ -1,6 +1,15 @@
 <div class="flex flex-col justify-center items-center bg-white" *ngrxLet="state$ as state">
     <ricaweb-loading-spinner *ngIf="state?.loading"></ricaweb-loading-spinner>
-    <div class="w-full h-[79px] bg-secondary text-primary"></div>
+    <div class="w-full flex justify-center items-center bg-secondary">
+        <div class="w-[1920px] h-[79px] flex flex-row justify-between items-center bg-secondary text-primary text-[24px] font-extrabold">
+            <img class="w-[330px] z-10 relative top-8" src="/logo-rc-vector.svg" alt="Risparmio Casa">
+            <div class="text-center">HOME</div>
+            <div class="text-center">PREMI</div>
+            <div class="text-center">COME PARTECIPARE</div>
+            <img class="w-[200px]" src="/partecipa.svg" alt="Partecipa">
+            <img class="w-[336px]" src="/logo-fantasanremo.svg" alt="FANTASANREMO">
+        </div>
+    </div>
     <div class="w-full flex flex-row justify-center bg-primary">
         <img
             sizes="(max-width: 1920px) 100vw, 1920px"
@@ -203,5 +212,9 @@
         <p class="w-[1069px] font-medium text-[16px] leading-[18px] text-center">Per informazioni sul concorso: fantasanremo&#64;risparmiocasa.com</p>
         <p class="w-[1069px] font-medium text-[16px] leading-[18px] text-center px-[40px]">I loghi di Ticketone e Vivaticket presenti sono di proprietà esclusiva dei rispettivi titolari. Ticketone e Vivaticket non sono in alcun modo coinvolti nell’organizzazione del presente concorso e non partecipano all’iniziativa.</p>
     </div>
-    <div class="w-full h-[69px] bg-primary text-white"></div>
+    <div class="w-full h-[69px] flex flex-row gap-20 justify-center items-center bg-primary text-[24px] font-extrabold text-white">
+        <span>PRIVACY POLICY</span>
+        <span>COOKIE POLICY</span>
+        <span>REGOLAMENTO</span>
+    </div>
 </div>
