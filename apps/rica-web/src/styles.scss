@@ -4,14 +4,13 @@
 
 /* You can add global styles to this file, and also import other style files */
 
-@font-face {
-    font-family: 'Montserrat';
-    font-display: swap;
-    src: url('/fonts/Montserrat/Montserrat-VariableFont_wght') format('ttf');
-}
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
 @layer base {
     html {
-      font-family: 'Montserrat', system-ui, sans-serif;
+        font-family: "Montserrat", serif;
+        font-optical-sizing: auto;
+        font-weight: 800;
+        font-style: normal;
     }
 }

@@ -32,7 +32,7 @@ const controlLabelCustomRules = {
 const controlLabelTextCustomRules = {
     "text-transform": "uppercase",
     "font-weight": "800",
-    "font-size": "18px",
+    "font-size": "22px",
     "line-height": "1",
     "padding-bottom": "8px"
 };
@@ -76,6 +76,7 @@ module.exports = {
                         ...controlErrorCustomRules
                     },
                     "select": {
+                        ...controlCustomRules,
                         ...selectArrowCustomRules
                     },
                     "label:has(input)>.label, label:has(select)>.label, label:has(button)>.label": {
