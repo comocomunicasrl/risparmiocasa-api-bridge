@@ -159,7 +159,8 @@ export class FantasanremoPageComponent implements OnInit, OnDestroy {
         }
     }
 
-    onDrawerClick() {
-
+    scrollToElement(element: HTMLElement, offset?: number) {
+        this.drawerVisible = false;
+        element.scrollIntoView({ behavior: "smooth", block: "start", inline: "start" });
     }
 }

@@ -1,15 +1,17 @@
 <div class="w-full flex flex-col justify-center items-center bg-white" *ngrxLet="state$ as state">
     <ricaweb-loading-spinner *ngIf="state?.loading"></ricaweb-loading-spinner>
-    <div class="w-full flex justify-center items-center bg-secondary">
-        <div class="hidden lg:flex w-full h-[79px] flex-row justify-center items-center gap-6 lg:gap-12 bg-secondary text-primary text-[24px] font-extrabold">
+    <div #navbar class="w-full flex justify-center items-center bg-secondary">
+        <div class="fixed hidden lg:flex w-full h-[79px] top-0 z-20 flex-row justify-center items-center gap-6 lg:gap-12 bg-secondary text-primary text-[24px] font-extrabold">
             <img class="hidden 2xl:block w-[330px] z-10 relative top-8" src="/XA44OBLG/logo-rc-vector.svg" alt="Risparmio Casa">
-            <div class="text-center">HOME</div>
-            <div class="text-center">PREMI</div>
-            <div class="text-center">COME PARTECIPARE</div>
-            <img class="grow max-w-[200px]" src="/XA44OBLG/partecipa.svg" alt="Partecipa">
-            <img class="hidden 2xl:block w-[336px]" src="/XA44OBLG/logo-fantasanremo.svg" alt="FANTASANREMO">
+            <a class="text-center cursor-pointer" (click)="scrollToElement(navbar, -79)">HOME</a>
+            <a class="text-center cursor-pointer" (click)="scrollToElement(prizes, -79)">PREMI</a>
+            <a class="text-center cursor-pointer" (click)="scrollToElement(howTo, -79)">COME PARTECIPARE</a>
+            <img class="grow max-w-[200px] cursor-pointer" src="/XA44OBLG/partecipa.svg" alt="Partecipa" (click)="scrollToElement(dataForm, -79)">
+            <a href="https://fantasanremo.com/" target="_blank">
+                <img class="hidden 2xl:block w-[336px] cursor-pointer" src="/XA44OBLG/logo-fantasanremo.svg" alt="FANTASANREMO">
+            </a>
         </div>
-        <div class="flex flex-row justify-center items-center lg:hidden w-full h-[128px] bg-secondary text-primary text-[24px] font-extrabold">
+        <div class="fixed top-0 z-10 flex flex-row justify-center items-center lg:hidden w-full h-[128px] bg-secondary text-primary text-[24px] font-extrabold">
             <div class="w-full flex justify-center">
                 <img class="w-[330px] py-4 px-12 relative" src="/XA44OBLG/logo-rc-vector.svg" alt="Risparmio Casa">
             </div>
@@ -29,17 +31,18 @@
                     <img class="lg:hidden w-[336px]" src="/XA44OBLG/logo-fantasanremo-negative.svg" alt="FANTASANREMO">
                     <ul class="flex flex-col gap-6 justify-center items-center">
                         <!-- Sidebar content here -->
-                        <li><a class="block text-center text-[24px] font-extrabold">HOME</a></li>
-                        <li><a class="block text-center text-[24px] font-extrabold">PREMI</a></li>
-                        <li><a class="block text-center text-[24px] font-extrabold">COME PARTECIPARE</a></li>
-                        <img class="max-w-[200px]" src="/XA44OBLG/partecipa.svg" alt="Partecipa">
+                        <li><a class="block text-center text-[24px] font-extrabold" (click)="scrollToElement(banner, -128)">HOME</a></li>
+                        <li><a class="block text-center text-[24px] font-extrabold" (click)="scrollToElement(prizesMobile, -128)">PREMI</a></li>
+                        <li><a class="block text-center text-[24px] font-extrabold" (click)="scrollToElement(howTo, -128)">COME PARTECIPARE</a></li>
+                        <img class="max-w-[200px]" src="/XA44OBLG/partecipa.svg" alt="Partecipa" (click)="scrollToElement(dataForm, -128)">
                     </ul>
                 </div>
                 
             </div>
         </div>
     </div>
-    <div class="relative w-full py-4 flex flex-col justify-center items-center bg-primary">
+    <div class="relative w-full py-4 mt-[128px] lg:mt-[79px] flex flex-col justify-center items-center bg-primary">
+        <div #banner class="relative -top-[128px] lg:-top-[79px]"></div>
         <img class="lg:hidden w-[336px]" src="/XA44OBLG/logo-fantasanremo-negative.svg" alt="FANTASANREMO">
         <span class="text-white text-[18px] lg:text-[24px] lg:absolute lg:top-14 lg:z-10 text-center font-extrabold">DAL 23 GENNAIO ALL’11 FEBBRAIO 2025</span>
         <img
@@ -54,11 +57,13 @@
         >
     </div>
     <div class="hidden lg:flex flex-row flex-wrap justify-center items-baseline gap-2 text-[28px] lg:text-[40px] font-extrabold leading-[49px] text-primary mt-8 lg:mt-16">
+        <div #prizes class="relative -top-[188px] lg:-top-[139px]"></div>
         <span>+</span>
         <span class="text-[40px] lg:text-[60px]" style="font: normal normal 800 60px/49px;">200 PREMI</span>
         <span>IN PALIO:</span>
     </div>
     <div class="flex flex-row text-accent justify-center items-start mt-8 lg:mt-16">
+        <div #prizesMobile class="self-start relative -top-[128px] lg:-top-[79px]"></div>
         <img class="block w-[80px] lg:w-[125px] relative -top-3 lg:-top-6 left-4 lg:left-12" src="/XA44OBLG/stelle-sx.svg" alt="" >
         <div class="flex flex-col text-center">
             <span class="text-[32px] lg:text-[65px] flex flex-col justify-center items-center lg:leading-[60px]" style="font: normal normal 800 65px/45px;">1 WEEKEND</span>
@@ -87,6 +92,7 @@
         </div>
     </div>
     <div class="w-full px-4 mt-8 lg:mt-16 bg-secondary flex flex-col justify-center items-center leading-[30px] text-center">
+        <div #howTo class="relative -top-[128px] lg:-top-[79px]"></div>
         <span class="py-8 text-[32px] xl:text-[40px] font-extrabold text-primary">COME PARTECIPARE</span>
         <div class="w-full max-w-[900px] xl:max-w-[1280px] flex flex-col lg:flex-row justify-center lg:justify-between items-center lg:items-start gap-12">
             <div class="flex flex-col justify-center items-center text-center">
@@ -115,6 +121,7 @@
         <span class="font-medium text-[16px] leading-[20px]">Non spendibile sullo shop online shop.risparmiocasa.com</span>
     </div>
     <div class="w-full max-w-[1069px] xl:px-4 flex flex-col justify-center items-center mt-8 lg:mt-16">
+        <div #dataForm class="relative -top-[128px] lg:-top-[79px]"></div>
         <div class="w-fit bg-accent text-white font-extrabold text-xl uppercase rounded-t-3xl px-10 py-2">Compila tutti i campi:</div>
         <div class="w-full flex flex-col rounded-3xl overflow-hidden text-[20px] font-medium" *ngIf="dataGroup" [formGroup]="dataGroup">
             <div class="bg-primary w-full flex flex-col lg:flex-row px-8 lg:px-28 py-6 lg:gap-6">
