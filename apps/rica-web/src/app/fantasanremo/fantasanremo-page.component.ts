@@ -70,6 +70,7 @@ export class FantasanremoPageComponent implements OnInit, OnDestroy {
     dateList = Array.from(Array(31).keys()).map(i => i + 1);
     monthList = Array.from(Array(12).keys()).map(i => i + 1);
     yearList = Array.from(Array(94).keys()).map((i, idx) => this.CURRENT_YEAR - this.MIN_AGE_CUSTOMER - idx);
+    drawerVisible = false;
 
     dataGroup?: FormGroup<DataGroup>;
     state$?: Observable<FantasanremoPageState>;
@@ -156,5 +157,9 @@ export class FantasanremoPageComponent implements OnInit, OnDestroy {
                 birthdate: new Date(Date.UTC(this.dataGroup.value.birthdate?.year as number, (this.dataGroup.value.birthdate?.month as number) - 1, this.dataGroup.value.birthdate?.date as number, 0, 0, 0, 0))
             })});
         }
+    }
+
+    onDrawerClick() {
+
     }
 }

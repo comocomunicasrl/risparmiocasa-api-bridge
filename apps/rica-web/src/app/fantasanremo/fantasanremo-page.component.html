@@ -13,7 +13,30 @@
             <div class="w-full flex justify-center">
                 <img class="w-[330px] py-4 px-12 relative" src="/XA44OBLG/logo-rc-vector.svg" alt="Risparmio Casa">
             </div>
-            <img class="relative w-12 -ml-8 right-4 top-2" src="/XA44OBLG/menu-trigger.png" alt="">
+            <input id="my-drawer" type="checkbox" class="drawer-toggle" [(ngModel)]="drawerVisible" />
+            <div class="drawer-content relative w-12 -ml-8 right-4">
+                <!-- Page content here -->
+                <label for="my-drawer" class="drawer-button text-primary">
+                    <img class="relative top-2" *ngIf="!drawerVisible" src="/XA44OBLG/menu-trigger.png" alt="">
+                    <svg *ngIf="drawerVisible" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" data-slot="icon">
+                        <path fill-rule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd"/>
+                    </svg>
+                </label>
+            </div>
+            <div class="drawer-side z-10 top-[128px]">
+                <label for="my-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
+                <div class="menu bg-primary text-white min-h-full w-full p-4 flex flex-col items-center gap-6">
+                    <img class="lg:hidden w-[336px]" src="/XA44OBLG/logo-fantasanremo-negative.svg" alt="FANTASANREMO">
+                    <ul class="flex flex-col gap-6 justify-center items-center">
+                        <!-- Sidebar content here -->
+                        <li><a class="block text-center text-[24px] font-extrabold">HOME</a></li>
+                        <li><a class="block text-center text-[24px] font-extrabold">PREMI</a></li>
+                        <li><a class="block text-center text-[24px] font-extrabold">COME PARTECIPARE</a></li>
+                        <img class="max-w-[200px]" src="/XA44OBLG/partecipa.svg" alt="Partecipa">
+                    </ul>
+                </div>
+                
+            </div>
         </div>
     </div>
     <div class="relative w-full py-4 flex flex-col justify-center items-center bg-primary">
@@ -30,12 +53,12 @@
             alt="Unisciti alla lega Risparmio Casa" 
         >
     </div>
-    <div class="flex flex-row flex-wrap justify-center items-baseline gap-2 text-[28px] lg:text-[40px] font-extrabold leading-[49px] text-primary py-8 lg:py-16">
+    <div class="hidden lg:flex flex-row flex-wrap justify-center items-baseline gap-2 text-[28px] lg:text-[40px] font-extrabold leading-[49px] text-primary mt-8 lg:mt-16">
         <span>+</span>
         <span class="text-[40px] lg:text-[60px]" style="font: normal normal 800 60px/49px;">200 PREMI</span>
         <span>IN PALIO:</span>
     </div>
-    <div class="flex flex-row text-accent justify-center items-start pb-8 lg:pb-16">
+    <div class="flex flex-row text-accent justify-center items-start mt-8 lg:mt-16">
         <img class="block w-[80px] lg:w-[125px] relative -top-3 lg:-top-6 left-4 lg:left-12" src="/XA44OBLG/stelle-sx.svg" alt="" >
         <div class="flex flex-col text-center">
             <span class="text-[32px] lg:text-[65px] flex flex-col justify-center items-center lg:leading-[60px]" style="font: normal normal 800 65px/45px;">1 WEEKEND</span>
@@ -44,7 +67,7 @@
         </div>
         <img class="block w-[80px] lg:w-[125px] relative -top-3 lg:-top-6 -left-4 lg:-left-14" src="/XA44OBLG/stelle-dx.svg" alt="" >
     </div>
-    <div class="w-full max-w-screen-2xl flex flex-col lg:flex-row justify-center items-center gap-6 xl:gap-10 font-extrabold text-[20px] xl:text-[28px] 2xl:text-[40px] text-accent pb-8 lg:pb-16">
+    <div class="w-full max-w-screen-2xl flex flex-col lg:flex-row justify-center items-center gap-6 xl:gap-10 font-extrabold text-[20px] xl:text-[28px] 2xl:text-[40px] text-accent pt-8 lg:pt-16">
         <div class="lg:w-1/3 flex flex-col justify-center items-center gap-4">
             <span class="text-nowrap"><span class="text-[40px] xl:text-[50px] 2xl:text-[60px]">100</span> BUONI SPESA</span>
             <img class="w-[240px] h-[82px]" src="/XA44OBLG/logo-rc-vector.svg" alt="Risparmio Casa">
@@ -63,7 +86,7 @@
             <span>DA 50€</span>
         </div>
     </div>
-    <div class="w-full px-4 bg-secondary flex flex-col justify-center items-center leading-[30px] text-center">
+    <div class="w-full px-4 mt-8 lg:mt-16 bg-secondary flex flex-col justify-center items-center leading-[30px] text-center">
         <span class="py-8 text-[32px] xl:text-[40px] font-extrabold text-primary">COME PARTECIPARE</span>
         <div class="w-full max-w-[900px] xl:max-w-[1280px] flex flex-col lg:flex-row justify-center lg:justify-between items-center lg:items-start gap-12">
             <div class="flex flex-col justify-center items-center text-center">
@@ -84,14 +107,14 @@
         </div>
         <span class="py-8 text-[22px] font-extrabold text-primary">ESTRAZIONE FINALE DEI PREMI ENTRO IL 27/02/2025!</span>
     </div>
-    <div class="flex flex-col justify-center items-center text-center py-[62px]">
+    <div class="flex flex-col justify-center items-center text-center mt-8 lg:mt-16">
         <span class="text-accent font-extrabold text-[40px] leading-[49px]">PARTECIPA AL CONCORSO</span>
         <span class="text-primary font-extrabold text-[27px] leading-[30px]">SUBITO PER TE, SULLA TUA E-MAIL, UN BUONO SCONTO DA 5€!</span>
         <img class="w-[280px] my-6" src="/XA44OBLG/buono-sconto.svg" alt="buono sconto 50€">
         <span class="font-medium text-[16px] leading-[20px]">Valido nei punti vendita in Italia, acquisto minimo 30€, fino al 28/02/2025.</span>
         <span class="font-medium text-[16px] leading-[20px]">Non spendibile sullo shop online shop.risparmiocasa.com</span>
     </div>
-    <div class="w-full max-w-[1069px] xl:px-4 flex flex-col justify-center items-center">
+    <div class="w-full max-w-[1069px] xl:px-4 flex flex-col justify-center items-center mt-8 lg:mt-16">
         <div class="w-fit bg-accent text-white font-extrabold text-xl uppercase rounded-t-3xl px-10 py-2">Compila tutti i campi:</div>
         <div class="w-full flex flex-col rounded-3xl overflow-hidden text-[20px] font-medium" *ngIf="dataGroup" [formGroup]="dataGroup">
             <div class="bg-primary w-full flex flex-col lg:flex-row px-8 lg:px-28 py-6 lg:gap-6">
@@ -214,13 +237,13 @@
             </div>
         </div>
     </div>
-    <div class="flex flex-col py-16 justify-center items-center">
+    <div class="flex flex-col justify-center items-center mt-8 lg:mt-16">
         <p class="w-full max-w-[1069px] font-medium text-[16px] leading-[18px] text-center px-[72px]">Concorso a premi valido dal 23/01/2025 all’11/02/2025 riservato agli iscritti FantaSanremo 2025 lega Risparmio Casa e ai titolari di carta fedeltà Risparmio Casa. Estrazione finale entro il 27/02/2025.</p>
         <p class="w-full max-w-[1069px] font-medium text-[16px] leading-[18px] text-center">Montepremi €13.000 Iva esclusa.</p>
         <p class="w-full max-w-[1069px] font-medium text-[16px] leading-[18px] text-center">Per informazioni sul concorso: fantasanremo&#64;risparmiocasa.com</p>
         <p class="w-full max-w-[1069px] font-medium text-[16px] leading-[18px] text-center px-[40px]">I loghi di Ticketone e Vivaticket presenti sono di proprietà esclusiva dei rispettivi titolari. Ticketone e Vivaticket non sono in alcun modo coinvolti nell’organizzazione del presente concorso e non partecipano all’iniziativa.</p>
     </div>
-    <div class="w-full min-h-[69px] py-8 flex flex-col lg:flex-row gap-8 lg:gap-20 justify-center items-center bg-primary text-[24px] font-extrabold text-white">
+    <div class="w-full min-h-[69px] py-8 flex flex-row flex-wrap gap-8 justify-center items-center bg-primary text-[24px] font-extrabold text-white mt-8 lg:mt-16">
         <span>PRIVACY POLICY</span>
         <span>COOKIE POLICY</span>
         <span>REGOLAMENTO</span>
