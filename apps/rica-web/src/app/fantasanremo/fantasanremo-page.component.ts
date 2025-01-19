@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LetDirective } from '@ngrx/component';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { filter, Observable, Subject, takeUntil } from 'rxjs';
 import { FantasanremoPageState, FantasanremoPageStore } from './fantasanremo-page.store';
 import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.component';
 import { UserInfo } from './_models/user-info';
@@ -40,6 +40,7 @@ type DataGroup = {
     ]
 })
 export class FantasanremoPageComponent implements OnInit, OnDestroy {
+    @ViewChild('dataForm') dataFormEl: ElementRef;
     readonly CARD_NUMBER_MAX_LENGTH = 13;
     readonly NAME_MAX_LENGTH = 50;
     readonly TAX_ID_MAX_LENGTH = 16;
@@ -84,6 +85,13 @@ export class FantasanremoPageComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.initForm();
+
+        this.store.state$.pipe(
+            filter(state => state.customerRegistered),
+            takeUntil(this._destroyed$)
+        ).subscribe({
+            next: () => setTimeout(() => this.scrollToElement(this.dataFormEl.nativeElement), 250)
+        });
     }
 
     ngOnDestroy(): void {
@@ -142,24 +150,17 @@ export class FantasanremoPageComponent implements OnInit, OnDestroy {
 
     sendInfo() {
         this.store.patchState({ formSubmitted: true });
-        const userInfo = new UserInfo({
-            ...this.dataGroup?.getRawValue(),
-            taxId: this.dataGroup?.value.taxId.toUpperCase(),
-            birthdate: new Date(Date.UTC(this.dataGroup?.value.birthdate?.year as number, (this.dataGroup?.value.birthdate?.month as number) - 1, this.dataGroup?.value.birthdate?.date as number, 0, 0, 0, 0))
-        });
+        
         if (this.dataGroup?.valid) {
-            const userInfo = new UserInfo({
-                ...this.dataGroup.getRawValue(),
-                birthdate: new Date(Date.UTC(this.dataGroup.value.birthdate?.year as number, (this.dataGroup.value.birthdate?.month as number) - 1, this.dataGroup.value.birthdate?.date as number, 0, 0, 0, 0))
-            });
             this.store.sendUserInfo({ userInfo: new UserInfo({
                 ...this.dataGroup.getRawValue(),
+                taxId: this.dataGroup?.value.taxId.toUpperCase(),
                 birthdate: new Date(Date.UTC(this.dataGroup.value.birthdate?.year as number, (this.dataGroup.value.birthdate?.month as number) - 1, this.dataGroup.value.birthdate?.date as number, 0, 0, 0, 0))
             })});
         }
     }
 
-    scrollToElement(element: HTMLElement, offset?: number) {
+    scrollToElement(element: HTMLElement) {
         this.drawerVisible = false;
         element.scrollIntoView({ behavior: "smooth", block: "start", inline: "start" });
     }

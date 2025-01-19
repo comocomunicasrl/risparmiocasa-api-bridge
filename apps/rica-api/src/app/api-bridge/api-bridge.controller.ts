@@ -1,8 +1,7 @@
 import { HttpService } from '@nestjs/axios';
-import { BadRequestException, Body, Controller, Get, HttpCode, Logger, NotFoundException, Post } from '@nestjs/common';
-import { map, switchMap, tap } from 'rxjs';
+import { BadRequestException, Body, Controller, Get, HttpCode, Logger, Post } from '@nestjs/common';
+import { map, switchMap } from 'rxjs';
 import { Country } from '../common/country';
-import dayjs from 'dayjs';
 import { RisparmioCasaService } from '../_services/risparmio-casa.service';
 
 @Controller('api-bridge')

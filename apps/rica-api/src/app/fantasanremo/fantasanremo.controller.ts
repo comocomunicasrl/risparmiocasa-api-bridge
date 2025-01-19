@@ -1,6 +1,9 @@
-import { Body, Controller, Logger, Post, RawBodyRequest } from '@nestjs/common';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { BadRequestException, Body, Controller, InternalServerErrorException, Logger, Post, RawBodyRequest } from '@nestjs/common';
 import { ApiUserInfo } from 'common/_models/api-user-info';
 import { FantasanremoService } from './fantasanremo.service';
+import { ApiErrorMessage } from 'common/api-error-message';
+import { catchError } from 'rxjs/operators';
 
 @Controller('fantasanremo')
 export class FantasanremoController {
@@ -13,6 +16,7 @@ export class FantasanremoController {
     @Post('userInfo')
     userInfo(@Body() userInfo: RawBodyRequest<ApiUserInfo>) {
         this.logger.log(userInfo);
+        
         return this.fantasanremoService.insertCustomer({
             id: userInfo.taxId,
             firstname: userInfo.firstname,
@@ -20,6 +24,17 @@ export class FantasanremoController {
             birthDate: userInfo.birthdate as any,
             cardNumber: userInfo.cardNumber,
             email: userInfo.email
-        }).then(() => true);
+        }).pipe(
+            catchError((err: Error) => {
+                switch(err.message) {
+                    case ApiErrorMessage.CARD_VERIFICATION_FAILED:
+                        throw new BadRequestException({ code: ApiErrorMessage.CARD_VERIFICATION_FAILED });
+                    case ApiErrorMessage.FANTASANREMO_ALREADY_REGISTERED_CUSTOMER:
+                        throw new BadRequestException({ code: ApiErrorMessage.FANTASANREMO_ALREADY_REGISTERED_CUSTOMER });
+                    default:
+                        throw new InternalServerErrorException({ code: ApiErrorMessage.GENERIC });
+                }
+            })
+        );
     }
 }

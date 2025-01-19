@@ -1,6 +1,5 @@
-import { Field } from "../../immutable-entity/field";
-import { ImmutableEntity } from "../../immutable-entity/immutable-entity";
-import { ApiUserInfo } from "common/_models/api-user-info";
+import { Field } from "common/immutable-entity/field";
+import { ImmutableEntity } from "common/immutable-entity/immutable-entity";
 
 export class UserInfo extends ImmutableEntity<UserInfo> {
     @Field() cardNumber: string;

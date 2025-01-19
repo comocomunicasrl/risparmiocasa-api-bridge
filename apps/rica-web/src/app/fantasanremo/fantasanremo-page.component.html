@@ -3,10 +3,10 @@
     <div #navbar class="w-full flex justify-center items-center bg-secondary">
         <div class="fixed hidden lg:flex w-full h-[79px] top-0 z-20 flex-row justify-center items-center gap-6 lg:gap-12 bg-secondary text-primary text-[24px] font-extrabold">
             <img class="hidden 2xl:block w-[330px] z-10 relative top-8" src="/XA44OBLG/logo-rc-vector.svg" alt="Risparmio Casa">
-            <a class="text-center cursor-pointer" (click)="scrollToElement(navbar, -79)">HOME</a>
-            <a class="text-center cursor-pointer" (click)="scrollToElement(prizes, -79)">PREMI</a>
-            <a class="text-center cursor-pointer" (click)="scrollToElement(howTo, -79)">COME PARTECIPARE</a>
-            <img class="grow max-w-[200px] cursor-pointer" src="/XA44OBLG/partecipa.svg" alt="Partecipa" (click)="scrollToElement(dataForm, -79)">
+            <a class="text-center cursor-pointer" (click)="scrollToElement(navbar)">HOME</a>
+            <a class="text-center cursor-pointer" (click)="scrollToElement(prizes)">PREMI</a>
+            <a class="text-center cursor-pointer" (click)="scrollToElement(howTo)">COME PARTECIPARE</a>
+            <img class="grow max-w-[200px] cursor-pointer" src="/XA44OBLG/partecipa.svg" alt="Partecipa" (click)="scrollToElement(dataForm)">
             <a href="https://fantasanremo.com/" target="_blank">
                 <img class="hidden 2xl:block w-[336px] cursor-pointer" src="/XA44OBLG/logo-fantasanremo.svg" alt="FANTASANREMO">
             </a>
@@ -31,10 +31,10 @@
                     <img class="lg:hidden w-[336px]" src="/XA44OBLG/logo-fantasanremo-negative.svg" alt="FANTASANREMO">
                     <ul class="flex flex-col gap-6 justify-center items-center">
                         <!-- Sidebar content here -->
-                        <li><a class="block text-center text-[24px] font-extrabold" (click)="scrollToElement(banner, -128)">HOME</a></li>
-                        <li><a class="block text-center text-[24px] font-extrabold" (click)="scrollToElement(prizesMobile, -128)">PREMI</a></li>
-                        <li><a class="block text-center text-[24px] font-extrabold" (click)="scrollToElement(howTo, -128)">COME PARTECIPARE</a></li>
-                        <img class="max-w-[200px]" src="/XA44OBLG/partecipa.svg" alt="Partecipa" (click)="scrollToElement(dataForm, -128)">
+                        <li><a class="block text-center text-[24px] font-extrabold" (click)="scrollToElement(banner)">HOME</a></li>
+                        <li><a class="block text-center text-[24px] font-extrabold" (click)="scrollToElement(prizesMobile)">PREMI</a></li>
+                        <li><a class="block text-center text-[24px] font-extrabold" (click)="scrollToElement(howTo)">COME PARTECIPARE</a></li>
+                        <img class="max-w-[200px]" src="/XA44OBLG/partecipa.svg" alt="Partecipa" (click)="scrollToElement(dataForm)">
                     </ul>
                 </div>
                 
@@ -122,127 +122,132 @@
     </div>
     <div class="w-full max-w-[1069px] xl:px-4 flex flex-col justify-center items-center mt-8 lg:mt-16">
         <div #dataForm class="relative -top-[128px] lg:-top-[79px]"></div>
-        <div class="w-fit bg-accent text-white font-extrabold text-xl uppercase rounded-t-3xl px-10 py-2">Compila tutti i campi:</div>
-        <div class="w-full flex flex-col rounded-3xl overflow-hidden text-[20px] font-medium" *ngIf="dataGroup" [formGroup]="dataGroup">
-            <div class="bg-primary w-full flex flex-col lg:flex-row px-8 lg:px-28 py-6 lg:gap-6">
-                <label class="w-full [:not(.error)&>input:focus]:!border-secondary" *ngrxLet="dataGroup.controls.cardNumber as actualControl" [ngClass]="{ error: state?.formSubmitted && actualControl.invalid }">
-                    <div class="label">
-                        <span class="text-[22px] label-text text-white">
-                            Numero carta fedeltà
-                            <span class="block font-light text-sm">Inserisci il numero completo</span>
-                            <span class="block font-light text-sm">(incluso lo 0 iniziale)</span>
-                        </span>
+        <ng-container *ngIf="dataGroup && !state.customerRegistered">
+            <div class="w-fit bg-accent text-white font-extrabold text-xl uppercase rounded-t-3xl px-10 py-2">Compila tutti i campi:</div>
+            <div class="w-full flex flex-col rounded-3xl overflow-hidden text-[20px] font-medium" [formGroup]="dataGroup">
+                <div class="bg-primary w-full flex flex-col lg:flex-row px-8 lg:px-28 py-6 lg:gap-6">
+                    <label class="w-full [:not(.error)&>input:focus]:!border-secondary" *ngrxLet="dataGroup.controls.cardNumber as actualControl" [ngClass]="{ error: state?.formSubmitted && actualControl.invalid }">
+                        <div class="label">
+                            <span class="text-[22px] label-text text-white">
+                                Numero carta fedeltà
+                                <span class="block font-light text-sm">Inserisci il numero completo</span>
+                                <span class="block font-light text-sm">(incluso lo 0 iniziale)</span>
+                            </span>
+                        </div>
+                        <input inputmode="numeric" pattern="[0-9]*" type="text" class="input input-bordered w-full" formControlName="cardNumber" [maxLength]="CARD_NUMBER_MAX_LENGTH" />
+                        <div class="label">
+                            <span class="label-text-alt text-white">{{state?.formSubmitted ? getErrorMsg(actualControl) : null}}&nbsp;</span>
+                        </div>
+                    </label>
+                    <div class="w-full flex flex-row items-center">
+                        <img class="w-48 lg:w-56 -mx-8 h-full object-contain" src="/XA44OBLG/carta-fedelta.png" alt="carta fedeltà" />
+                        <p class="ml-4 text-[20px] font-medium text-base text-white text-wrap">Non ce l'hai ancora? <span class="font-extrabold">Richiedila gratuitamente su <a class="underline" href="#">cartafedelta.online</a></span> oppure nel negozio più vicino a te!</p>
                     </div>
-                    <input inputmode="numeric" pattern="[0-9]*" type="text" class="input input-bordered w-full" formControlName="cardNumber" [maxLength]="CARD_NUMBER_MAX_LENGTH" />
-                    <div class="label">
-                        <span class="label-text-alt text-white">{{state?.formSubmitted ? getErrorMsg(actualControl) : null}}&nbsp;</span>
+                </div>
+                <div class="bg-secondary flex flex-col px-8 lg:px-28 py-6 gap-2">
+                    <div class="w-full flex flex-col lg:flex-row lg:gap-6">
+                        <label class="w-full" *ngrxLet="dataGroup.controls.firstname as actualControl" [ngClass]="{ error: state?.formSubmitted && actualControl.invalid }">
+                            <div class="label">
+                                <span class="label-text">Nome</span>
+                            </div>
+                            <input type="text" class="input input-bordered w-full" formControlName="firstname" [maxLength]="NAME_MAX_LENGTH" />
+                            <div class="label">
+                                <span class="label-text-alt">{{state?.formSubmitted ? getErrorMsg(actualControl) : null}}&nbsp;</span>
+                            </div>
+                        </label>
+                        <label class="w-full" *ngrxLet="dataGroup.controls.lastname as actualControl" [ngClass]="{ error: state?.formSubmitted && actualControl.invalid }">
+                            <div class="label">
+                                <span class="label-text">Cognome</span>
+                            </div>
+                            <input type="text" class="input input-bordered w-full" formControlName="lastname" [maxLength]="NAME_MAX_LENGTH" />
+                            <div class="label">
+                                <span class="label-text-alt">{{state?.formSubmitted ? getErrorMsg(actualControl) : null}}&nbsp;</span>
+                            </div>
+                        </label>
                     </div>
-                </label>
-                <div class="w-full flex flex-row items-center">
-                    <img class="w-48 lg:w-56 -mx-8 h-full object-contain" src="/XA44OBLG/carta-fedelta.png" alt="carta fedeltà" />
-                    <p class="ml-4 text-[20px] font-medium text-base text-white text-wrap">Non ce l'hai ancora? <span class="font-extrabold">Richiedila gratuitamente su <a class="underline" href="#">cartafedelta.online</a></span> oppure nel negozio più vicino a te!</p>
+                    <div class="flex flex-col lg:flex-row lg:gap-6">
+                        <label class="w-full" *ngrxLet="dataGroup.controls.birthdate as actualControl" [ngClass]="{ error: state?.formSubmitted && actualControl.invalid }">
+                            <div class="label">
+                                <span class="label-text">Data di nascita</span>
+                            </div>
+                            <div class="flex flex-row gap-4 w-full" [formGroup]="actualControl">
+                                <select class="select select-bordered w-[90px] text-[14px] lg:text-[20px] font-medium" formControlName="date">
+                                    <option [ngValue]="null" disabled>gg</option>
+                                    <option *ngFor="let date of dateList" [ngValue]="date" [disabled]="dateInvalid(date, actualControl.value.month, actualControl.value.year)">{{date}}</option>
+                                </select>
+                                <select class="select select-bordered w-[90px] text-[14px] lg:text-[20px] font-medium" formControlName="month">
+                                    <option [ngValue]="null" disabled>mm</option>
+                                    <option *ngFor="let month of monthList" [ngValue]="month">{{month}}</option>
+                                </select>
+                                <select class="select select-bordered min-w-[100px] grow text-[14px] lg:text-[20px] font-medium" formControlName="year">
+                                    <option [ngValue]="null" disabled>aaaa</option>
+                                    <option *ngFor="let year of yearList" [ngValue]="year">{{year}}</option>
+                                </select>
+                            </div>
+                            <div class="label">
+                                <span class="label-text-alt">{{state?.formSubmitted ? getErrorMsg(actualControl, 'required') : null}}&nbsp;</span>
+                            </div>
+                        </label>
+                        <label class="w-full" *ngrxLet="dataGroup.controls.taxId as actualControl" [ngClass]="{ error: state?.formSubmitted && actualControl.invalid }">
+                            <div class="label">
+                                <span class="label-text">Codice fiscale</span>
+                            </div>
+                            <input type="text" class="input input-bordered w-full uppercase" formControlName="taxId" [maxLength]="TAX_ID_MAX_LENGTH" />
+                            <div class="label">
+                                <span class="label-text-alt">{{state?.formSubmitted ? getErrorMsg(actualControl) : null}}&nbsp;</span>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="flex flex-col lg:flex-row lg:gap-6">
+                        <label class="w-full" *ngrxLet="dataGroup.controls.email as actualControl" [ngClass]="{ error: state?.formSubmitted && actualControl.invalid }">
+                            <div class="label">
+                                <span class="label-text">E-mail</span>
+                            </div>
+                            <input type="email" class="input input-bordered w-full" formControlName="email" [maxLength]="EMAIL_MAX_LENGTH" />
+                            <div class="label">
+                                <span class="label-text-alt">{{state?.formSubmitted ? getErrorMsg(actualControl) : null}}&nbsp;</span>
+                            </div>
+                        </label>
+                        <p class="w-full text-[16px] leading-[18px] text-center lg:text-left my-4 font-medium underline">
+                            <span class="font-extrabold">Attenzione</span>: l'e-mail utilizzata deve essere la stessa usata per iscriversi alla Lega Risparmio Casa di FantaSanremo
+                        </p>
+                    </div>
+                    <div class="flex flex-row justify-between items-center">
+                        <label *ngrxLet="dataGroup.controls.rulesAcceptance as actualControl" [ngClass]="{ error: state?.formSubmitted && actualControl.invalid }">
+                            <div class="flex flex-row items-center gap-4">
+                                <input type="checkbox" class="checkbox bg-white checked:bg-primary" formControlName="rulesAcceptance" />
+                                <div class="label-text font-extrabold text-[19px]">Ho letto e accetto il <a href="#" class="underline">regolamento</a></div>
+                            </div>
+                            <div class="label">
+                                <span class="label-text-alt">{{state?.formSubmitted ? getErrorMsg(actualControl) : null}}&nbsp;</span>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="flex flex-row justify-between items-center">
+                        <label *ngrxLet="dataGroup.controls.privacyPolicyAcceptance as actualControl" [ngClass]="{ error: state?.formSubmitted && actualControl.invalid }">
+                            <div class="flex flex-row items-center gap-4">
+                                <input type="checkbox" class="checkbox bg-white checked:bg-primary" formControlName="privacyPolicyAcceptance" />
+                                <div class="label-text font-extrabold text-[19px]">Ho letto l'informativa sulla <a href="#" class="underline">privacy policy</a> e accetto quanto in essa indicato</div>
+                            </div>
+                            <div class="label">
+                                <span class="label-text-alt">{{state?.formSubmitted ? getErrorMsg(actualControl) : null}}&nbsp;</span>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="self-center bg-primary rounded-3xl p-4 text-[16px] text-white text-center leading-[18px]">
+                        <span class="uppercase font-extrabold">Verifica i dati prima di procedere</span>
+                        <p class="font-medium">
+                            La validità della partecipazione verrà respinta se <span class="font-extrabold">l'indirizzo e-mail</span> usato per iscriverti a questo concorso non è lo stesso impiegato per la registrazione al FantaSanremo
+                        </p>
+                    </div>
+                    <button class="btn btn-success uppercase w-fit h-[56px] self-center mt-6 pt-[5px] py-2 px-6 text-white text-[40px] font-extrabold leading-none flex justify-center items-center" (click)="sendInfo()">Partecipa</button>
+                    <span class="self-center text-error text-base font-extrabold text-center max-w-[40rem] text-wrap">{{state?.errorText}}&nbsp;</span>
                 </div>
             </div>
-            <div class="bg-secondary flex flex-col px-8 lg:px-28 py-6 gap-2">
-                <div class="w-full flex flex-col lg:flex-row lg:gap-6">
-                    <label class="w-full" *ngrxLet="dataGroup.controls.firstname as actualControl" [ngClass]="{ error: state?.formSubmitted && actualControl.invalid }">
-                        <div class="label">
-                            <span class="label-text">Nome</span>
-                        </div>
-                        <input type="text" class="input input-bordered w-full" formControlName="firstname" [maxLength]="NAME_MAX_LENGTH" />
-                        <div class="label">
-                            <span class="label-text-alt">{{state?.formSubmitted ? getErrorMsg(actualControl) : null}}&nbsp;</span>
-                        </div>
-                    </label>
-                    <label class="w-full" *ngrxLet="dataGroup.controls.lastname as actualControl" [ngClass]="{ error: state?.formSubmitted && actualControl.invalid }">
-                        <div class="label">
-                            <span class="label-text">Cognome</span>
-                        </div>
-                        <input type="text" class="input input-bordered w-full" formControlName="lastname" [maxLength]="NAME_MAX_LENGTH" />
-                        <div class="label">
-                            <span class="label-text-alt">{{state?.formSubmitted ? getErrorMsg(actualControl) : null}}&nbsp;</span>
-                        </div>
-                    </label>
-                </div>
-                <div class="flex flex-col lg:flex-row lg:gap-6">
-                    <label class="w-full" *ngrxLet="dataGroup.controls.birthdate as actualControl" [ngClass]="{ error: state?.formSubmitted && actualControl.invalid }">
-                        <div class="label">
-                            <span class="label-text">Data di nascita</span>
-                        </div>
-                        <div class="flex flex-row gap-4 w-full" [formGroup]="actualControl">
-                            <select class="select select-bordered w-[90px] text-[14px] lg:text-[20px] font-medium" formControlName="date">
-                                <option [ngValue]="null" disabled>gg</option>
-                                <option *ngFor="let date of dateList" [ngValue]="date" [disabled]="dateInvalid(date, actualControl.value.month, actualControl.value.year)">{{date}}</option>
-                            </select>
-                            <select class="select select-bordered w-[90px] text-[14px] lg:text-[20px] font-medium" formControlName="month">
-                                <option [ngValue]="null" disabled>mm</option>
-                                <option *ngFor="let month of monthList" [ngValue]="month">{{month}}</option>
-                            </select>
-                            <select class="select select-bordered min-w-[100px] grow text-[14px] lg:text-[20px] font-medium" formControlName="year">
-                                <option [ngValue]="null" disabled>aaaa</option>
-                                <option *ngFor="let year of yearList" [ngValue]="year">{{year}}</option>
-                            </select>
-                        </div>
-                        <div class="label">
-                            <span class="label-text-alt">{{state?.formSubmitted ? getErrorMsg(actualControl, 'required') : null}}&nbsp;</span>
-                        </div>
-                    </label>
-                    <label class="w-full" *ngrxLet="dataGroup.controls.taxId as actualControl" [ngClass]="{ error: state?.formSubmitted && actualControl.invalid }">
-                        <div class="label">
-                            <span class="label-text">Codice fiscale</span>
-                        </div>
-                        <input type="text" class="input input-bordered w-full uppercase" formControlName="taxId" [maxLength]="TAX_ID_MAX_LENGTH" />
-                        <div class="label">
-                            <span class="label-text-alt">{{state?.formSubmitted ? getErrorMsg(actualControl) : null}}&nbsp;</span>
-                        </div>
-                    </label>
-                </div>
-                <div class="flex flex-col lg:flex-row lg:gap-6">
-                    <label class="w-full" *ngrxLet="dataGroup.controls.email as actualControl" [ngClass]="{ error: state?.formSubmitted && actualControl.invalid }">
-                        <div class="label">
-                            <span class="label-text">E-mail</span>
-                        </div>
-                        <input type="email" class="input input-bordered w-full" formControlName="email" [maxLength]="EMAIL_MAX_LENGTH" />
-                        <div class="label">
-                            <span class="label-text-alt">{{state?.formSubmitted ? getErrorMsg(actualControl) : null}}&nbsp;</span>
-                        </div>
-                    </label>
-                    <p class="w-full text-[16px] leading-[18px] text-center lg:text-left my-4 font-medium underline">
-                        <span class="font-extrabold">Attenzione</span>: l'e-mail utilizzata deve essere la stessa usata per iscriversi alla Lega Risparmio Casa di FantaSanremo
-                    </p>
-                </div>
-                <div class="flex flex-row justify-between items-center">
-                    <label *ngrxLet="dataGroup.controls.rulesAcceptance as actualControl" [ngClass]="{ error: state?.formSubmitted && actualControl.invalid }">
-                        <div class="flex flex-row items-center gap-4">
-                            <input type="checkbox" class="checkbox bg-white checked:bg-primary" formControlName="rulesAcceptance" />
-                            <div class="label-text font-extrabold text-[19px]">Ho letto e accetto il <a href="#" class="underline">regolamento</a></div>
-                        </div>
-                        <div class="label">
-                            <span class="label-text-alt">{{state?.formSubmitted ? getErrorMsg(actualControl) : null}}&nbsp;</span>
-                        </div>
-                    </label>
-                </div>
-                <div class="flex flex-row justify-between items-center">
-                    <label *ngrxLet="dataGroup.controls.privacyPolicyAcceptance as actualControl" [ngClass]="{ error: state?.formSubmitted && actualControl.invalid }">
-                        <div class="flex flex-row items-center gap-4">
-                            <input type="checkbox" class="checkbox bg-white checked:bg-primary" formControlName="privacyPolicyAcceptance" />
-                            <div class="label-text font-extrabold text-[19px]">Ho letto l'informativa sulla <a href="#" class="underline">privacy policy</a> e accetto quanto in essa indicato</div>
-                        </div>
-                        <div class="label">
-                            <span class="label-text-alt">{{state?.formSubmitted ? getErrorMsg(actualControl) : null}}&nbsp;</span>
-                        </div>
-                    </label>
-                </div>
-                <div class="self-center bg-primary rounded-3xl p-4 text-[16px] text-white text-center leading-[18px]">
-                    <span class="uppercase font-extrabold">Verifica i dati prima di procedere</span>
-                    <p class="font-medium">
-                        La validità della partecipazione verrà respinta se <span class="font-extrabold">l'indirizzo e-mail</span> usato per iscriverti a questo concorso non è lo stesso impiegato per la registrazione al FantaSanremo
-                    </p>
-                </div>
-                <button class="btn btn-success uppercase w-fit h-[56px] self-center mt-6 pt-[5px] py-2 px-6 text-white text-[40px] font-extrabold leading-none flex justify-center items-center" (click)="sendInfo()">Partecipa</button>
-                <span class="self-center text-error text-base font-extrabold text-center max-w-[40rem] text-wrap">{{state?.errorText}}&nbsp;</span>
-            </div>
-        </div>
+        </ng-container>
+    </div>
+    <div *ngIf="state.customerRegistered" class="flex justify-center items-center max-w-[1069px] text-white text-[28px] text-center my-4 p-4 rounded-3xl bg-primary">
+        DATI INSERITI, GRAZIE PER ESSERTI ISCRITTO!
     </div>
     <div class="flex flex-col justify-center items-center mt-8 lg:mt-16">
         <p class="w-full max-w-[1069px] font-medium text-[16px] leading-[18px] text-center px-[72px]">Concorso a premi valido dal 23/01/2025 all’11/02/2025 riservato agli iscritti FantaSanremo 2025 lega Risparmio Casa e ai titolari di carta fedeltà Risparmio Casa. Estrazione finale entro il 27/02/2025.</p>

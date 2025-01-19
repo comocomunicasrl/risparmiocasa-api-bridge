@@ -2,11 +2,11 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "../../dist/out-tsc",
-    "module": "ES2022",
+    "module": "commonjs",
     "types": ["node"],
     "emitDecoratorMetadata": true,
     "target": "ES2022",
     "resolveJsonModule": true
   },
-  "include": ["src/**/*.ts"]
+  "include": ["src/**/*.ts", "../../libs/common/src/lib/api-error-message.ts"]
 }
