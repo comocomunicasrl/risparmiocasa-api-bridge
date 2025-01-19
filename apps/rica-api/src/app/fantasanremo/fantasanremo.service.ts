@@ -1,8 +1,8 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectModel, Model } from 'nestjs-dynamoose';
 import { FantasanremoCustomer, FantasanremoCustomerKey } from './fantasanremo-customer';
 import { RisparmioCasaService } from '../_services/risparmio-casa.service';
-import { from, map, of, switchMap, throwError, timeout } from 'rxjs';
+import { catchError, from, map, of, switchMap, throwError, timeout } from 'rxjs';
 import { ApiErrorMessage } from '../../../../../libs/common/src/lib/api-error-message';
 
 @Injectable()
@@ -31,6 +31,12 @@ export class FantasanremoService {
                         this.logger.error(`Timeout (${this.RISPARMIO_CASA_TIMEOUT_MS}ms) exceeded requesting to Risparmio Casa API server!`);
                         return throwError(() => new Error(ApiErrorMessage.GENERIC));
                     }
+                }),
+                catchError(error => {
+                    if (error instanceof NotFoundException)
+                        throw new Error(ApiErrorMessage.CARD_VERIFICATION_FAILED);
+
+                    throw error;
                 })
             )),
             switchMap(customer => from(this.fantasanremoCustomerModel.get({ id: customer.id })).pipe(
