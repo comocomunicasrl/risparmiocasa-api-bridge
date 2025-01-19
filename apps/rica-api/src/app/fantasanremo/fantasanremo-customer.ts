@@ -7,5 +7,6 @@ export interface FantasanremoCustomer extends FantasanremoCustomerKey {
     lastname: string;
     birthDate: string;
     cardNumber: string;
+    taxId: string;
     email: string;
 }

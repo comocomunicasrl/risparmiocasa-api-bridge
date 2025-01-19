@@ -18,11 +18,12 @@ export class FantasanremoController {
         this.logger.log(userInfo);
         
         return this.fantasanremoService.insertCustomer({
-            id: userInfo.taxId,
+            id: userInfo.cardNumber,
             firstname: userInfo.firstname,
             lastname: userInfo.lastname,
             birthDate: userInfo.birthdate as any,
             cardNumber: userInfo.cardNumber,
+            taxId: userInfo.taxId,
             email: userInfo.email
         }).pipe(
             catchError((err: Error) => {
