@@ -134,7 +134,7 @@
                                 <span class="block font-light text-sm">(incluso lo 0 iniziale)</span>
                             </span>
                         </div>
-                        <input inputmode="numeric" pattern="[0-9]*" type="text" class="input input-bordered w-full" formControlName="cardNumber" [maxLength]="CARD_NUMBER_MAX_LENGTH" />
+                        <input inputmode="numeric" tabindex="1" pattern="[0-9]*" type="text" class="input input-bordered w-full" formControlName="cardNumber" [maxLength]="CARD_NUMBER_MAX_LENGTH" />
                         <div class="label">
                             <span class="label-text-alt text-white">{{state?.formSubmitted ? getErrorMsg(actualControl) : null}}&nbsp;</span>
                         </div>
@@ -150,7 +150,7 @@
                             <div class="label">
                                 <span class="label-text">Nome</span>
                             </div>
-                            <input type="text" class="input input-bordered w-full" formControlName="firstname" [maxLength]="NAME_MAX_LENGTH" />
+                            <input type="text" tabindex="2" class="input input-bordered w-full" formControlName="firstname" [maxLength]="NAME_MAX_LENGTH" />
                             <div class="label">
                                 <span class="label-text-alt">{{state?.formSubmitted ? getErrorMsg(actualControl) : null}}&nbsp;</span>
                             </div>
@@ -159,7 +159,7 @@
                             <div class="label">
                                 <span class="label-text">Cognome</span>
                             </div>
-                            <input type="text" class="input input-bordered w-full" formControlName="lastname" [maxLength]="NAME_MAX_LENGTH" />
+                            <input type="text" tabindex="3" class="input input-bordered w-full" formControlName="lastname" [maxLength]="NAME_MAX_LENGTH" />
                             <div class="label">
                                 <span class="label-text-alt">{{state?.formSubmitted ? getErrorMsg(actualControl) : null}}&nbsp;</span>
                             </div>
@@ -171,15 +171,15 @@
                                 <span class="label-text">Data di nascita</span>
                             </div>
                             <div class="flex flex-row gap-4 w-full" [formGroup]="actualControl">
-                                <select class="select select-bordered w-[95px] text-[14px] lg:text-[16px] font-medium" formControlName="date">
+                                <select tabindex="4" class="select select-bordered w-[95px] text-[14px] lg:text-[16px] font-medium" formControlName="date">
                                     <option [ngValue]="null" disabled>gg</option>
                                     <option *ngFor="let date of dateList" [ngValue]="date" [disabled]="dateInvalid(date, actualControl.value.month, actualControl.value.year)">{{date}}</option>
                                 </select>
-                                <select class="select select-bordered w-[95px] text-[14px] lg:text-[16px] font-medium" formControlName="month">
+                                <select tabindex="5" class="select select-bordered w-[95px] text-[14px] lg:text-[16px] font-medium" formControlName="month">
                                     <option [ngValue]="null" disabled>mm</option>
                                     <option *ngFor="let month of monthList" [ngValue]="month">{{month}}</option>
                                 </select>
-                                <select class="select select-bordered min-w-[100px] grow text-[14px] lg:text-[16px] font-medium" formControlName="year">
+                                <select tabindex="6" class="select select-bordered min-w-[100px] grow text-[14px] lg:text-[16px] font-medium" formControlName="year">
                                     <option [ngValue]="null" disabled>aaaa</option>
                                     <option *ngFor="let year of yearList" [ngValue]="year">{{year}}</option>
                                 </select>
@@ -192,7 +192,7 @@
                             <div class="label">
                                 <span class="label-text">Codice fiscale</span>
                             </div>
-                            <input type="text" class="input input-bordered w-full uppercase" formControlName="taxId" [maxLength]="TAX_ID_MAX_LENGTH" />
+                            <input tabindex="7" type="text" class="input input-bordered w-full uppercase" formControlName="taxId" [maxLength]="TAX_ID_MAX_LENGTH" />
                             <div class="label">
                                 <span class="label-text-alt">{{state?.formSubmitted ? getErrorMsg(actualControl) : null}}&nbsp;</span>
                             </div>
@@ -203,7 +203,7 @@
                             <div class="label">
                                 <span class="label-text">E-mail</span>
                             </div>
-                            <input type="email" class="input input-bordered w-full" formControlName="email" [maxLength]="EMAIL_MAX_LENGTH" />
+                            <input tabindex="8" type="email" class="input input-bordered w-full" formControlName="email" [maxLength]="EMAIL_MAX_LENGTH" />
                             <div class="label">
                                 <span class="label-text-alt">{{state?.formSubmitted ? getErrorMsg(actualControl) : null}}&nbsp;</span>
                             </div>
@@ -215,7 +215,7 @@
                     <div class="flex flex-row justify-between items-center">
                         <label *ngrxLet="dataGroup.controls.rulesAcceptance as actualControl" [ngClass]="{ error: state?.formSubmitted && actualControl.invalid }">
                             <div class="flex flex-row items-center gap-4">
-                                <input type="checkbox" class="checkbox bg-white checked:bg-primary" formControlName="rulesAcceptance" />
+                                <input tabindex="9" type="checkbox" class="checkbox bg-white checked:bg-primary" formControlName="rulesAcceptance" />
                                 <div class="label-text font-extrabold text-[19px]">Ho letto e accetto il <a href="#" class="underline">regolamento</a></div>
                             </div>
                             <div class="label">
@@ -226,7 +226,7 @@
                     <div class="flex flex-row justify-between items-center">
                         <label *ngrxLet="dataGroup.controls.privacyPolicyAcceptance as actualControl" [ngClass]="{ error: state?.formSubmitted && actualControl.invalid }">
                             <div class="flex flex-row items-center gap-4">
-                                <input type="checkbox" class="checkbox bg-white checked:bg-primary" formControlName="privacyPolicyAcceptance" />
+                                <input tabindex="10" type="checkbox" class="checkbox bg-white checked:bg-primary" formControlName="privacyPolicyAcceptance" />
                                 <div class="label-text font-extrabold text-[19px]">Ho letto l'informativa sulla <a href="#" class="underline">privacy policy</a> e accetto quanto in essa indicato</div>
                             </div>
                             <div class="label">
@@ -240,7 +240,7 @@
                             La validità della partecipazione verrà respinta se <span class="font-extrabold">l'indirizzo e-mail</span> usato per iscriverti a questo concorso non è lo stesso impiegato per la registrazione al FantaSanremo
                         </p>
                     </div>
-                    <button class="btn btn-success uppercase w-fit h-[56px] self-center mt-6 pt-[5px] py-2 px-6 text-white text-[40px] font-extrabold leading-none flex justify-center items-center" (click)="sendInfo()">Partecipa</button>
+                    <button tabindex="11" class="btn btn-success uppercase w-fit h-[56px] self-center mt-6 pt-[5px] py-2 px-6 text-white text-[40px] font-extrabold leading-none flex justify-center items-center" (click)="sendInfo()">Partecipa</button>
                     <span class="self-center text-error text-base font-extrabold text-center max-w-[40rem] text-wrap">{{state?.errorText}}&nbsp;</span>
                 </div>
             </div>
