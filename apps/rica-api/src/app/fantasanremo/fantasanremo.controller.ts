@@ -32,6 +32,7 @@ export class FantasanremoController {
                     case ApiErrorMessage.FANTASANREMO_ALREADY_REGISTERED_CUSTOMER:
                         throw new BadRequestException({ code: ApiErrorMessage.FANTASANREMO_ALREADY_REGISTERED_CUSTOMER });
                     default:
+                        this.logger.error(err);
                         throw new InternalServerErrorException({ code: ApiErrorMessage.GENERIC });
                 }
             })
