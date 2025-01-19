@@ -49,7 +49,8 @@ export class FantasanremoPageComponent implements OnInit, OnDestroy {
         ['default', [
             { error: 'required', message: 'Dato obbligatorio' },
             { error: 'minlength', message: 'Formato errato' },
-            { error: 'pattern', message: 'Formato errato' }
+            { error: 'pattern', message: 'Formato errato' },
+            { error: 'email', message: 'Formato email errato' }
         ]]
     ]);
     readonly MIN_AGE_CUSTOMER = 16;
