@@ -171,15 +171,15 @@
                                 <span class="label-text">Data di nascita</span>
                             </div>
                             <div class="flex flex-row gap-4 w-full" [formGroup]="actualControl">
-                                <select class="select select-bordered w-[90px] text-[14px] lg:text-[20px] font-medium" formControlName="date">
+                                <select class="select select-bordered w-[95px] text-[14px] lg:text-[16px] font-medium" formControlName="date">
                                     <option [ngValue]="null" disabled>gg</option>
                                     <option *ngFor="let date of dateList" [ngValue]="date" [disabled]="dateInvalid(date, actualControl.value.month, actualControl.value.year)">{{date}}</option>
                                 </select>
-                                <select class="select select-bordered w-[90px] text-[14px] lg:text-[20px] font-medium" formControlName="month">
+                                <select class="select select-bordered w-[95px] text-[14px] lg:text-[16px] font-medium" formControlName="month">
                                     <option [ngValue]="null" disabled>mm</option>
                                     <option *ngFor="let month of monthList" [ngValue]="month">{{month}}</option>
                                 </select>
-                                <select class="select select-bordered min-w-[100px] grow text-[14px] lg:text-[20px] font-medium" formControlName="year">
+                                <select class="select select-bordered min-w-[100px] grow text-[14px] lg:text-[16px] font-medium" formControlName="year">
                                     <option [ngValue]="null" disabled>aaaa</option>
                                     <option *ngFor="let year of yearList" [ngValue]="year">{{year}}</option>
                                 </select>
