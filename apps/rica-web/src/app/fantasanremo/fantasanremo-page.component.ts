@@ -1,5 +1,5 @@
-import { CommonModule, DOCUMENT } from '@angular/common';
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { CommonModule, DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Inject, OnDestroy, OnInit, PLATFORM_ID, ViewChild } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LetDirective } from '@ngrx/component';
 import { filter, Observable, Subject, takeUntil } from 'rxjs';
@@ -7,7 +7,6 @@ import { FantasanremoPageState, FantasanremoPageStore } from './fantasanremo-pag
 import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.component';
 import { UserInfo } from './_models/user-info';
 import { Title } from '@angular/platform-browser';
-import Cleave from 'cleave.js';
 
 type BirthDateGroup = {
     date: FormControl<number | null>,
@@ -84,6 +83,7 @@ export class FantasanremoPageComponent implements OnInit, AfterViewInit, OnDestr
     constructor(
         private store: FantasanremoPageStore,
         private titleService: Title,
+        @Inject(PLATFORM_ID) private platformId,
         @Inject(DOCUMENT) private document: Document
     ) {
         this.state$ = this.store.state$;
@@ -103,10 +103,15 @@ export class FantasanremoPageComponent implements OnInit, AfterViewInit, OnDestr
     }
 
     ngAfterViewInit(): void {
-        new Cleave(this.cardNumberEl.nativeElement, {
-            blocks: [this.CARD_NUMBER_MAX_LENGTH],
-            numericOnly: true
-        });
+        if(isPlatformBrowser(this.platformId)) {
+            import('cleave.js').then(m => {
+                const Cleave = m.default;
+                new Cleave(this.cardNumberEl.nativeElement, {
+                    blocks: [this.CARD_NUMBER_MAX_LENGTH],
+                    numericOnly: true
+                })
+            });
+        }
     }
 
     ngOnDestroy(): void {
