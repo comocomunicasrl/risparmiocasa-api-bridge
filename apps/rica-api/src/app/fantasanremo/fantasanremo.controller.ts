@@ -15,8 +15,7 @@ export class FantasanremoController {
 
     @Post('userInfo')
     userInfo(@Body() userInfo: RawBodyRequest<ApiUserInfo>) {
-        this.logger.log(userInfo);
-        const submissionDate = new Date(); // .toLocaleString('it-IT', {timeZone: 'Europe/Rome'})
+        const submissionDate = new Date();
         return this.fantasanremoService.insertCustomer({
             id: userInfo.cardNumber,
             firstname: userInfo.firstname,

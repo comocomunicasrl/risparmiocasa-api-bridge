@@ -1,1 +1,4 @@
-[{ "name": "rica_test", "consumerDelayMs": 5000 }]
+[
+    { "name": "rica_test", "consumerDelayMs": 5000 },
+    { "name": "rica", "consumerDelayMs": 500 }
+]

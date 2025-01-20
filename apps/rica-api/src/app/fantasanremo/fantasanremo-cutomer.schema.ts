@@ -19,5 +19,14 @@ export const FantasanremoCustomerSchema = new Schema({
     },
     email: {
         type: String
+    },
+    taxId: {
+        type: String
+    },
+    submissionDate: {
+        type: String
+    },
+    timestamp: {
+        type: String
     }
 });

@@ -11,6 +11,7 @@ import { DynamooseModule } from 'nestjs-dynamoose';
 import { FantasanremoCustomerSchema } from './fantasanremo/fantasanremo-cutomer.schema';
 import { FantasanremoService } from './fantasanremo/fantasanremo.service';
 import { RisparmioCasaService } from './_services/risparmio-casa.service';
+import { FantasanremoFailedEmailSchema } from './fantasanremo/fantasanremo-failed-email.schema';
 
 console.log( process.env.AWS_RISPARMIOCASA_ACCOUNT_KEY);
 @Module({
@@ -25,13 +26,22 @@ console.log( process.env.AWS_RISPARMIOCASA_ACCOUNT_KEY);
                 region: process.env.AWS_RISPARMIOCASA_REGION
             }
         }),
-        DynamooseModule.forFeature([{
-            name: 'FantasanremoCustomer',
-            schema: FantasanremoCustomerSchema,
-            options: {
-              tableName: 'fantasanremoCustomer',
+        DynamooseModule.forFeature([
+            {
+                name: 'FantasanremoCustomer',
+                schema: FantasanremoCustomerSchema,
+                options: {
+                tableName: 'fantasanremoCustomer',
+                }
+            },
+            {
+                name: 'FantasanremoFailedEmail',
+                schema: FantasanremoFailedEmailSchema,
+                options: {
+                tableName: 'fantasanremoFailedEmail',
+                }
             }
-        }])
+        ])
     ],
     controllers: [
         AppController,
