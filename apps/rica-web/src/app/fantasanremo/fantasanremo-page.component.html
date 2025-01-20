@@ -1,17 +1,17 @@
 <div class="w-full flex flex-col justify-center items-center bg-white" *ngrxLet="state$ as state">
     <ricaweb-loading-spinner *ngIf="state?.loading"></ricaweb-loading-spinner>
     <div #navbar class="w-full flex justify-center items-center bg-secondary">
-        <div class="fixed hidden lg:flex w-full h-[79px] top-0 z-20 flex-row justify-center items-center gap-6 lg:gap-12 bg-secondary text-primary text-[24px] font-extrabold">
-            <img class="hidden 2xl:block w-[330px] z-10 relative top-8" src="/XA44OBLG/logo-rc-vector.svg" alt="Risparmio Casa">
+        <div class="fixed hidden lg:flex w-full h-[79px] top-0 z-20 flex-row justify-center items-center gap-4 2xl:gap-12 bg-secondary text-primary text-[18px] 2xl:text-[24px] font-extrabold">
+            <img class="hidden lg:block w-[220px] 2xl:w-[330px] z-10 relative top-8" src="/XA44OBLG/logo-rc-vector.svg" alt="Risparmio Casa">
             <a class="text-center cursor-pointer" (click)="scrollToElement(navbar)">HOME</a>
             <a class="text-center cursor-pointer" (click)="scrollToElement(prizes)">PREMI</a>
             <a class="text-center cursor-pointer" (click)="scrollToElement(howTo)">COME PARTECIPARE</a>
-            <img class="grow max-w-[200px] cursor-pointer" src="/XA44OBLG/partecipa.svg" alt="Partecipa" (click)="scrollToElement(dataForm)">
+            <img class="w-[145px] 2xl:w-[240px] max-w-[200px] cursor-pointer" src="/XA44OBLG/partecipa.svg" alt="Partecipa" (click)="scrollToElement(dataForm)">
             <a href="https://fantasanremo.com/" target="_blank">
-                <img class="hidden 2xl:block w-[336px] cursor-pointer" src="/XA44OBLG/logo-fantasanremo.svg" alt="FANTASANREMO">
+                <img class="hidden lg:block w-[223px] 2xl:w-[336px] cursor-pointer" src="/XA44OBLG/logo-fantasanremo.svg" alt="FANTASANREMO">
             </a>
         </div>
-        <div class="fixed top-0 z-10 flex flex-row justify-center items-center lg:hidden w-full h-[128px] bg-secondary text-primary text-[24px] font-extrabold">
+        <div class="fixed top-0 z-20 flex flex-row justify-center items-center lg:hidden w-full h-[128px] bg-secondary text-primary text-[24px] font-extrabold">
             <div class="w-full flex justify-center">
                 <img class="w-[330px] py-4 px-12 relative" src="/XA44OBLG/logo-rc-vector.svg" alt="Risparmio Casa">
             </div>
@@ -25,7 +25,7 @@
                     </svg>
                 </label>
             </div>
-            <div class="drawer-side z-10 top-[128px]">
+            <div class="drawer-side top-[128px]">
                 <label for="my-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
                 <div class="menu bg-primary text-white min-h-full w-full p-4 flex flex-col items-center gap-6">
                     <a href="https://fantasanremo.com/" target="_blank">
@@ -46,17 +46,9 @@
     <div class="relative w-full py-4 mt-[128px] lg:mt-[79px] flex flex-col justify-center items-center bg-primary">
         <div #banner class="relative -top-[128px] lg:-top-[79px]"></div>
         <img class="lg:hidden w-[336px]" src="/XA44OBLG/logo-fantasanremo-negative.svg" alt="FANTASANREMO">
-        <span class="text-white text-[18px] lg:text-[24px] lg:absolute lg:top-14 lg:z-10 text-center font-extrabold">DAL 23 GENNAIO ALL’11 FEBBRAIO 2025</span>
-        <img
-            sizes="(max-width: 1920px) 100vw, 1920px"
-            srcset="
-            /XA44OBLG/banner_banner-desk_vd3wt5_c_scale,w_190.webp 190w,
-            /XA44OBLG/banner_banner-desk_vd3wt5_c_scale,w_687.webp 687w,
-            /XA44OBLG/banner_banner-desk_vd3wt5_c_scale,w_1020.webp 1020w,
-            /XA44OBLG/banner_banner-desk_vd3wt5_c_scale,w_1920.webp 1920w"
-            src="/XA44OBLG/banner_banner-desk_vd3wt5_c_scale,w_1920.webp"
-            alt="Unisciti alla lega Risparmio Casa" 
-        >
+        <span class="text-white text-[16px] lg:text-[24px] absolute top-20 lg:top-14 z-10 text-center font-extrabold px-0">DAL 23 GENNAIO ALL’11 FEBBRAIO 2025</span>
+        <img class="lg:hidden" src="/XA44OBLG/banner-mobile-fantasanremo.svg" alt="Unisciti alla lega Risparmio Casa" >
+        <img class="hidden lg:block" src="/XA44OBLG/banner-desk-fantasanremo.svg" alt="Unisciti alla lega Risparmio Casa" >
     </div>
     <div class="hidden lg:flex flex-row flex-wrap justify-center items-baseline gap-2 text-[28px] lg:text-[40px] font-extrabold leading-[49px] text-primary mt-8 lg:mt-16">
         <div #prizes class="relative -top-[188px] lg:-top-[139px]"></div>
@@ -75,20 +67,14 @@
         <img class="block w-[80px] lg:w-[125px] relative -top-3 lg:-top-6 -left-4 lg:-left-14" src="/XA44OBLG/stelle-dx.svg" alt="" >
     </div>
     <div class="w-full max-w-screen-2xl flex flex-col lg:flex-row justify-center items-center gap-6 xl:gap-10 font-extrabold text-[20px] xl:text-[28px] 2xl:text-[40px] text-accent pt-8 lg:pt-16">
-        <div class="lg:w-1/3 flex flex-col justify-center items-center gap-0 lg:gap-4">
+        <div class="lg:w-1/2 flex flex-col justify-center items-center gap-0 lg:gap-4">
             <span class="text-nowrap"><span class="text-[40px] xl:text-[50px] 2xl:text-[60px]">100</span> BUONI SPESA</span>
             <img class="w-[200px] lg:w-[240px] h-[82px] mb-4 lg:mb-0" src="/XA44OBLG/logo-rc-vector.svg" alt="Risparmio Casa">
             <span>DA 50€</span>
         </div>
         <div class="w-[220px] lg:w-[2px] h-[2px] lg:h-[200px] bg-primary"></div>
-        <div class="lg:w-1/3 flex flex-col justify-center items-center gap-0 lg:gap-4">
-            <span><span class="text-[40px] xl:text-[50px] 2xl:text-[60px]">50</span> GIFT CARD</span>
-            <img class="w-[257px] xl:w-[326px] h-[82px] mb-2 lg:mb-0" src="/XA44OBLG/ticketone.svg" alt="ticketone">
-            <span>DA 50€</span>
-        </div>
-        <div class="w-[220px] lg:w-[2px] h-[2px] lg:h-[200px] bg-primary"></div>
-        <div class="lg:w-1/3 flex flex-col justify-center items-center gap-0 lg:gap-4">
-            <span><span class="text-[40px] xl:text-[50px] 2xl:text-[60px]">50</span> GIFT CARD</span>
+        <div class="lg:w-1/2 flex flex-col justify-center items-center gap-0 lg:gap-4">
+            <span><span class="text-[40px] xl:text-[50px] 2xl:text-[60px]">100</span> GIFT CARD</span>
             <img class="w-[257px] xl:w-[320px] h-[82px]" src="/XA44OBLG/vivaticket.svg" alt="VIVATICKET">
             <span>DA 50€</span>
         </div>
@@ -115,7 +101,7 @@
         </div>
         <span class="py-8 text-[22px] font-extrabold text-primary">ESTRAZIONE FINALE DEI PREMI ENTRO IL 27/02/2025!</span>
     </div>
-    <div class="flex flex-col justify-center items-center text-center mt-8 lg:mt-16">
+    <div class="flex flex-col justify-center items-center text-center mt-8 lg:mt-16 px-3">
         <span class="text-accent font-extrabold text-[40px] leading-[49px]">PARTECIPA AL CONCORSO</span>
         <span class="text-primary font-extrabold text-[27px] leading-[30px]">SUBITO PER TE, SULLA TUA E-MAIL, UN BUONO SCONTO DA 5€!</span>
         <img class="w-[280px] my-6" src="/XA44OBLG/buono-sconto.svg" alt="buono sconto 50€">
@@ -132,11 +118,11 @@
                         <div class="label">
                             <span class="text-[22px] label-text text-white">
                                 Numero carta fedeltà
-                                <span class="block font-light text-sm">Inserisci il numero completo</span>
-                                <span class="block font-light text-sm">(incluso lo 0 iniziale)</span>
+                                <span class="block font-light text-xs sm:text-sm">Inserisci il numero completo, senza spazi</span>
+                                <span class="block font-light text-xs sm:text-sm">(incluso lo 0 iniziale)</span>
                             </span>
                         </div>
-                        <input inputmode="numeric" tabindex="1" pattern="[0-9]*" type="text" class="input input-bordered w-full" formControlName="cardNumber" [maxLength]="CARD_NUMBER_MAX_LENGTH" />
+                        <input #cardNumberInput inputmode="numeric" tabindex="1" pattern="[0-9]*" type="text" class="input input-bordered w-full" formControlName="cardNumber" [maxLength]="CARD_NUMBER_MAX_LENGTH" />
                         <div class="label">
                             <span class="label-text-alt text-white">{{state?.formSubmitted ? getErrorMsg(actualControl) : null}}&nbsp;</span>
                         </div>
@@ -218,7 +204,7 @@
                         <label *ngrxLet="dataGroup.controls.rulesAcceptance as actualControl" [ngClass]="{ error: state?.formSubmitted && actualControl.invalid }">
                             <div class="flex flex-row items-center gap-4">
                                 <input tabindex="9" type="checkbox" class="checkbox bg-white checked:bg-primary" formControlName="rulesAcceptance" />
-                                <div class="label-text font-extrabold text-[19px]">Ho letto e accetto il <a href="#" class="underline">regolamento</a></div>
+                                <div class="label-text font-extrabold text-[19px]">Ho letto e accetto il <a class="underline" href="/XA44OBLG/Regolamento Risparmio Casa x Fantasanremo 2025 - definitivo.pdf" target="_blank">regolamento</a></div>
                             </div>
                             <div class="label">
                                 <span class="label-text-alt">{{state?.formSubmitted ? getErrorMsg(actualControl) : null}}&nbsp;</span>
@@ -229,7 +215,7 @@
                         <label *ngrxLet="dataGroup.controls.privacyPolicyAcceptance as actualControl" [ngClass]="{ error: state?.formSubmitted && actualControl.invalid }">
                             <div class="flex flex-row items-center gap-4">
                                 <input tabindex="10" type="checkbox" class="checkbox bg-white checked:bg-primary" formControlName="privacyPolicyAcceptance" />
-                                <div class="label-text font-extrabold text-[19px]">Ho letto l'informativa sulla <a href="#" class="underline">privacy policy</a> e accetto quanto in essa indicato</div>
+                                <div class="label-text font-extrabold text-[19px]">Ho letto l'informativa sulla <a class="underline" href="/XA44OBLG/privacy.pdf" target="_blank">privacy policy</a> e accetto quanto in essa indicato</div>
                             </div>
                             <div class="label">
                                 <span class="label-text-alt">{{state?.formSubmitted ? getErrorMsg(actualControl) : null}}&nbsp;</span>
@@ -255,11 +241,11 @@
         <p class="w-full max-w-[1069px] font-medium text-[16px] leading-[18px] text-center px-[72px]">Concorso a premi valido dal 23/01/2025 all’11/02/2025 riservato agli iscritti FantaSanremo 2025 lega Risparmio Casa e ai titolari di carta fedeltà Risparmio Casa. Estrazione finale entro il 27/02/2025.</p>
         <p class="w-full max-w-[1069px] font-medium text-[16px] leading-[18px] text-center">Montepremi €13.000 Iva esclusa.</p>
         <p class="w-full max-w-[1069px] font-medium text-[16px] leading-[18px] text-center">Per informazioni sul concorso: fantasanremo&#64;risparmiocasa.com</p>
-        <p class="w-full max-w-[1069px] font-medium text-[16px] leading-[18px] text-center px-[40px]">I loghi di Ticketone e Vivaticket presenti sono di proprietà esclusiva dei rispettivi titolari. Ticketone e Vivaticket non sono in alcun modo coinvolti nell’organizzazione del presente concorso e non partecipano all’iniziativa.</p>
+        <p class="w-full max-w-[1069px] font-medium text-[16px] leading-[18px] text-center px-[40px]">Il logo di Vivaticket è di proprietà esclusiva dei rispettivi titolari. Vivaticket non è in alcun modo coinvolto nell’organizzazione del presente concorso e non partecipa all’iniziativa.</p>
     </div>
     <div class="w-full min-h-[69px] py-8 flex flex-row flex-wrap gap-8 justify-center items-center bg-primary text-[24px] font-extrabold text-white mt-8 lg:mt-16">
-        <span>PRIVACY POLICY</span>
+        <a href="/XA44OBLG/privacy.pdf" target="_blank"><span>PRIVACY POLICY</span></a>
         <span>COOKIE POLICY</span>
-        <span>REGOLAMENTO</span>
+        <a href="/XA44OBLG/Regolamento Risparmio Casa x Fantasanremo 2025 - definitivo.pdf" target="_blank"><span>REGOLAMENTO</span></a>
     </div>
 </div>

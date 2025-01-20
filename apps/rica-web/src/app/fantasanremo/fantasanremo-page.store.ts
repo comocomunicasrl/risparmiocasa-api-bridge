@@ -16,15 +16,13 @@ export interface FantasanremoPageState {
 }
 
 const ERROR_MESSAGE_MAP = new Map<string, string>([
-    [ ApiErrorMessage.CARD_VERIFICATION_FAILED, 'Numero carta fedeltà non valido!' ],
-    [ ApiErrorMessage.FANTASANREMO_ALREADY_REGISTERED_CUSTOMER, 'Cliente già registrato!' ],
+    [ ApiErrorMessage.CARD_VERIFICATION_FAILED, 'Il numero carta fedeltà non è valido o hai già partecipato al concorso.' ],
+    [ ApiErrorMessage.FANTASANREMO_ALREADY_REGISTERED_CUSTOMER, 'Il numero carta fedeltà non è valido o hai già partecipato al concorso.' ],
     [ ApiErrorMessage.GENERIC, 'Errore del server!' ]
 ]);
 
 @Injectable()
 export class FantasanremoPageStore extends ComponentStore<FantasanremoPageState> {
-    
-
     constructor(
         private fantasanremoService: FantasanremoService
     ) {

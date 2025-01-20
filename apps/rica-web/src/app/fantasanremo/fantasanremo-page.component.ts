@@ -1,11 +1,13 @@
-import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { CommonModule, DOCUMENT } from '@angular/common';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LetDirective } from '@ngrx/component';
 import { filter, Observable, Subject, takeUntil } from 'rxjs';
 import { FantasanremoPageState, FantasanremoPageStore } from './fantasanremo-page.store';
 import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.component';
 import { UserInfo } from './_models/user-info';
+import { Title } from '@angular/platform-browser';
+import Cleave from 'cleave.js';
 
 type BirthDateGroup = {
     date: FormControl<number | null>,
@@ -39,8 +41,9 @@ type DataGroup = {
         LoadingSpinnerComponent
     ]
 })
-export class FantasanremoPageComponent implements OnInit, OnDestroy {
+export class FantasanremoPageComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild('dataForm') dataFormEl: ElementRef;
+    @ViewChild('cardNumberInput') cardNumberEl: ElementRef;
     readonly CARD_NUMBER_MAX_LENGTH = 13;
     readonly NAME_MAX_LENGTH = 50;
     readonly TAX_ID_MAX_LENGTH = 16;
@@ -53,7 +56,7 @@ export class FantasanremoPageComponent implements OnInit, OnDestroy {
             { error: 'email', message: 'Formato email errato' }
         ]]
     ]);
-    readonly MIN_AGE_CUSTOMER = 16;
+    readonly MIN_AGE_CUSTOMER = 18;
     readonly CURRENT_YEAR = new Date().getFullYear();
     readonly MONTH_DAYS = new Map<number, ((year: number) => number)|(() => number)>([
         [1, () => 31],
@@ -71,7 +74,7 @@ export class FantasanremoPageComponent implements OnInit, OnDestroy {
     ]);
     dateList = Array.from(Array(31).keys()).map(i => i + 1);
     monthList = Array.from(Array(12).keys()).map(i => i + 1);
-    yearList = Array.from(Array(94).keys()).map((i, idx) => this.CURRENT_YEAR - this.MIN_AGE_CUSTOMER - idx);
+    yearList = Array.from(Array(100).keys()).map((i, idx) => this.CURRENT_YEAR - this.MIN_AGE_CUSTOMER - idx);
     drawerVisible = false;
 
     dataGroup?: FormGroup<DataGroup>;
@@ -79,12 +82,16 @@ export class FantasanremoPageComponent implements OnInit, OnDestroy {
     _destroyed$ = new Subject<boolean>();
 
     constructor(
-        private store: FantasanremoPageStore
+        private store: FantasanremoPageStore,
+        private titleService: Title,
+        @Inject(DOCUMENT) private document: Document
     ) {
         this.state$ = this.store.state$;
     }
 
     ngOnInit() {
+        this.titleService.setTitle('Risparmio Casa x Fantasanremo | Partecipa al concorso!');
+        this.addCookieScriptTag();
         this.initForm();
 
         this.store.state$.pipe(
@@ -92,6 +99,13 @@ export class FantasanremoPageComponent implements OnInit, OnDestroy {
             takeUntil(this._destroyed$)
         ).subscribe({
             next: () => setTimeout(() => this.scrollToElement(this.dataFormEl.nativeElement), 250)
+        });
+    }
+
+    ngAfterViewInit(): void {
+        new Cleave(this.cardNumberEl.nativeElement, {
+            blocks: [this.CARD_NUMBER_MAX_LENGTH],
+            numericOnly: true
         });
     }
 
@@ -164,5 +178,18 @@ export class FantasanremoPageComponent implements OnInit, OnDestroy {
     scrollToElement(element: HTMLElement) {
         this.drawerVisible = false;
         element.scrollIntoView({ behavior: "smooth", block: "start", inline: "start" });
+    }
+
+    private addCookieScriptTag() {
+        if (!this.document.head.querySelector('#Cookiebot')) {
+            const script = this.document.createElement('script');
+            script.id = 'Cookiebot';
+            script.src = 'https://consent.cookiebot.com/uc.js';
+            script.setAttribute('data-cbid', '9c123420-fbfe-4f65-9892-96b11e7efe81');
+            script.setAttribute('data-blockingmode', 'auto');
+            script.type = 'text/javascript';
+
+            this.document.head.appendChild(script);
+        }
     }
 }

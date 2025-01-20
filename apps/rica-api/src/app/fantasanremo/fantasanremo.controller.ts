@@ -16,7 +16,7 @@ export class FantasanremoController {
     @Post('userInfo')
     userInfo(@Body() userInfo: RawBodyRequest<ApiUserInfo>) {
         this.logger.log(userInfo);
-        
+        const submissionDate = new Date(); // .toLocaleString('it-IT', {timeZone: 'Europe/Rome'})
         return this.fantasanremoService.insertCustomer({
             id: userInfo.cardNumber,
             firstname: userInfo.firstname,
@@ -24,7 +24,9 @@ export class FantasanremoController {
             birthDate: userInfo.birthdate as any,
             cardNumber: userInfo.cardNumber,
             taxId: userInfo.taxId,
-            email: userInfo.email
+            email: userInfo.email,
+            submissionDate: submissionDate.toLocaleString('it-IT', {timeZone: 'Europe/Rome'}),
+            timestamp: submissionDate.toISOString()
         }).pipe(
             catchError((err: Error) => {
                 switch(err.message) {
