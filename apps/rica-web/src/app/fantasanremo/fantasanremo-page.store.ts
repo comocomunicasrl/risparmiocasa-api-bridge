@@ -8,6 +8,7 @@ import { ApiErrorMessage } from 'common/api-error-message';
 import { ApiErrorResponse } from "common/_models/api-error-response";
 
 export interface FantasanremoPageState {
+    contestClosed?: boolean;
     customerRegistered?: boolean;
     drawerVisible?: boolean;
     cookiePolicy?: boolean;

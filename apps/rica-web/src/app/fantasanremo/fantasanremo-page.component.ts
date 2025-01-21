@@ -95,6 +95,16 @@ export class FantasanremoPageComponent implements OnInit, AfterViewInit, OnDestr
         this.addCookieScriptTag();
         this.initForm();
 
+        const ACTUAL_DATE = new Date(new Date().toLocaleString('en-us', {
+            timeZone: 'Europe/Rome'
+        }));
+
+        const CLOSING_DATE = new Date("2025-02-11T12:00:00.000+01:00");
+
+        if(ACTUAL_DATE.getTime() > CLOSING_DATE.getTime()) {
+            this.store.patchState({ contestClosed: true });
+        }
+
         this.store.state$.pipe(
             filter(state => state.customerRegistered),
             takeUntil(this._destroyed$)
