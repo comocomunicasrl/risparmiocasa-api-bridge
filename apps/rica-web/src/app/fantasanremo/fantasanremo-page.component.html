@@ -360,18 +360,17 @@
     </div>
     <div class="w-full min-h-[69px] py-8 flex flex-row flex-wrap gap-8 justify-center items-center bg-primary text-[24px] font-extrabold text-white mt-8 lg:mt-16">
         <a href="/XA44OBLG/privacy.pdf" target="_blank"><span>PRIVACY POLICY</span></a>
-        <span class="cursor-pointer" (click)="cookiePolicyModal.showModal()">COOKIE POLICY</span>
+        <span class="cursor-pointer" (click)="setCookiePolicy(true)">COOKIE POLICY</span>
         <a href="/XA44OBLG/Regolamento_RisparmioCasaxFantasanremo_2025.pdf" target="_blank"><span>REGOLAMENTO</span></a>
     </div>
 
-    <dialog #cookiePolicyModal class="modal">
+    <dialog #cookiePolicyModal class="modal" [attr.open]="state.cookiePolicy ? true : null">
         <div class="modal-box w-11/12 max-w-5xl p-0">
             <div class="sticky flex flex-row justify-between bg-white top-0 h-[60px] pt-5 px-7 drop-shadow">
                 <h3 class="text-lg font-bold">Cookie Policy</h3>
-                <button class="btn btn-sm btn-circle btn-ghost" (click)="dialogForm.submit()">✕</button>
+                <button class="btn btn-sm btn-circle btn-ghost" (click)="setCookiePolicy(false)">✕</button>
             </div>
-            <form #dialogForm class="sticky" method="dialog"></form>
-            <ricaweb-fantasanremo-cookie-policy class="block pb-7 px-7"></ricaweb-fantasanremo-cookie-policy>
+            <ricaweb-fantasanremo-cookie-policy *ngIf="state.cookiePolicy" class="block pb-7 px-7"></ricaweb-fantasanremo-cookie-policy>
         </div>
     </dialog>
 </div>

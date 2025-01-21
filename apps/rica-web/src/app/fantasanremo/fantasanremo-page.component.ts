@@ -186,8 +186,8 @@ export class FantasanremoPageComponent implements OnInit, AfterViewInit, OnDestr
         element.scrollIntoView({ behavior: "smooth", block: "start", inline: "start" });
     }
 
-    showCookiePolicy() {
-        this.store.patchState({ cookiePolicy: true });
+    setCookiePolicy(value: boolean) {
+        this.store.patchState({ cookiePolicy: value });
     }
 
     onDrawerChange(value: boolean) {
