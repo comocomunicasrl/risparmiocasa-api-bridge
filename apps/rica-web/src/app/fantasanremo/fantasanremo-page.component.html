@@ -1,27 +1,36 @@
 <div class="w-full flex flex-col justify-center items-center bg-white" *ngrxLet="state$ as state">
     <ricaweb-loading-spinner *ngIf="state?.loading"></ricaweb-loading-spinner>
+
     <div #navbar class="w-full flex justify-center items-center bg-secondary">
-        <div class="fixed hidden lg:flex w-full h-[79px] top-0 z-20 flex-row justify-center items-center gap-4 2xl:gap-12 bg-secondary text-primary text-[18px] 2xl:text-[24px] font-extrabold">
-            <img class="hidden lg:block w-[220px] 2xl:w-[330px] z-10 relative top-8" src="/XA44OBLG/logo-rc-vector.svg" alt="Risparmio Casa">
+        <div
+            class="fixed hidden lg:flex w-full h-[79px] top-0 z-20 flex-row justify-center items-center gap-4 2xl:gap-12 bg-secondary text-primary text-[18px] 2xl:text-[24px] font-extrabold">
+            <img class="hidden lg:block w-[220px] 2xl:w-[330px] z-10 relative top-8" src="/XA44OBLG/logo-rc-vector.svg"
+                alt="Risparmio Casa">
             <a class="text-center cursor-pointer" (click)="scrollToElement(navbar)">HOME</a>
             <a class="text-center cursor-pointer" (click)="scrollToElement(prizes)">PREMI</a>
             <a class="text-center cursor-pointer" (click)="scrollToElement(howTo)">COME PARTECIPARE</a>
-            <img class="w-[145px] 2xl:w-[240px] max-w-[200px] cursor-pointer" src="/XA44OBLG/partecipa.svg" alt="Partecipa" (click)="scrollToElement(dataForm)">
+            <img class="w-[145px] 2xl:w-[240px] max-w-[200px] cursor-pointer" src="/XA44OBLG/partecipa.svg"
+                alt="Partecipa" (click)="scrollToElement(dataForm)">
             <a href="https://fantasanremo.com/" target="_blank">
-                <img class="hidden lg:block w-[223px] 2xl:w-[336px] cursor-pointer" src="/XA44OBLG/logo-fantasanremo.svg" alt="FANTASANREMO">
+                <img class="hidden lg:block w-[223px] 2xl:w-[336px] cursor-pointer"
+                    src="/XA44OBLG/logo-fantasanremo.svg" alt="FANTASANREMO">
             </a>
         </div>
-        <div class="fixed top-0 z-20 flex flex-row justify-center items-center lg:hidden w-full h-[128px] bg-secondary text-primary text-[24px] font-extrabold">
+        <div
+            class="fixed top-0 z-20 flex flex-row justify-center items-center lg:hidden w-full h-[128px] bg-secondary text-primary text-[24px] font-extrabold">
             <div class="w-full flex justify-center">
                 <img class="w-[330px] py-4 px-12 relative" src="/XA44OBLG/logo-rc-vector.svg" alt="Risparmio Casa">
             </div>
-            <input id="my-drawer" type="checkbox" class="drawer-toggle" [(ngModel)]="drawerVisible" />
+            <input id="my-drawer" type="checkbox" class="drawer-toggle" [ngModel]="state.drawerVisible" (ngModelChange)="onDrawerChange($event)" />
             <div class="drawer-content relative w-12 -ml-8 right-4">
                 <!-- Page content here -->
                 <label for="my-drawer" class="drawer-button text-primary">
-                    <img class="relative top-2" *ngIf="!drawerVisible" src="/XA44OBLG/menu-trigger.png" alt="">
-                    <svg *ngIf="drawerVisible" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" data-slot="icon">
-                        <path fill-rule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd"/>
+                    <img class="relative top-2" *ngIf="!state.drawerVisible" src="/XA44OBLG/menu-trigger.png" alt="">
+                    <svg *ngIf="state.drawerVisible" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                        fill="currentColor" aria-hidden="true" data-slot="icon">
+                        <path fill-rule="evenodd"
+                            d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z"
+                            clip-rule="evenodd" />
                     </svg>
                 </label>
             </div>
@@ -29,28 +38,38 @@
                 <label for="my-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
                 <div class="menu bg-primary text-white min-h-full w-full p-4 flex flex-col items-center gap-6">
                     <a href="https://fantasanremo.com/" target="_blank">
-                        <img class="lg:hidden w-[336px]" src="/XA44OBLG/logo-fantasanremo-negative.svg" alt="FANTASANREMO">
+                        <img class="lg:hidden w-[336px]" src="/XA44OBLG/logo-fantasanremo-negative.svg"
+                            alt="FANTASANREMO">
                     </a>
                     <ul class="flex flex-col gap-6 justify-center items-center">
                         <!-- Sidebar content here -->
-                        <li><a class="block text-center text-[24px] font-extrabold" (click)="scrollToElement(banner)">HOME</a></li>
-                        <li><a class="block text-center text-[24px] font-extrabold" (click)="scrollToElement(prizesMobile)">PREMI</a></li>
-                        <li><a class="block text-center text-[24px] font-extrabold" (click)="scrollToElement(howTo)">COME PARTECIPARE</a></li>
-                        <img class="max-w-[200px]" src="/XA44OBLG/partecipa.svg" alt="Partecipa" (click)="scrollToElement(dataForm)">
+                        <li><a class="block text-center text-[24px] font-extrabold"
+                                (click)="scrollToElement(banner)">HOME</a></li>
+                        <li><a class="block text-center text-[24px] font-extrabold"
+                                (click)="scrollToElement(prizesMobile)">PREMI</a></li>
+                        <li><a class="block text-center text-[24px] font-extrabold"
+                                (click)="scrollToElement(howTo)">COME PARTECIPARE</a></li>
+                        <img class="max-w-[200px]" src="/XA44OBLG/partecipa.svg" alt="Partecipa"
+                            (click)="scrollToElement(dataForm)">
                     </ul>
                 </div>
-                
+
             </div>
         </div>
     </div>
     <div class="relative w-full py-4 mt-[128px] lg:mt-[79px] flex flex-col justify-center items-center bg-primary">
         <div #banner class="relative -top-[128px] lg:-top-[79px]"></div>
         <img class="lg:hidden w-[336px]" src="/XA44OBLG/logo-fantasanremo-negative.svg" alt="FANTASANREMO">
-        <span class="text-white text-[16px] lg:text-[24px] absolute top-20 lg:top-14 z-10 text-center font-extrabold px-0">DAL 23 GENNAIO ALL’11 FEBBRAIO 2025</span>
-        <img class="lg:hidden" src="/XA44OBLG/banner-mobile-fantasanremo.svg" alt="Unisciti alla lega Risparmio Casa" >
-        <img class="hidden lg:block" src="/XA44OBLG/banner-desk-fantasanremo.svg" alt="Unisciti alla lega Risparmio Casa" >
+        <span
+            class="text-white text-[16px] lg:text-[24px] absolute top-20 lg:top-14 z-10 text-center font-extrabold px-0">DAL
+            23 GENNAIO ALL’11 FEBBRAIO 2025</span>
+        <img class="lg:hidden" src="/XA44OBLG/banner-mobile-fantasanremo.svg"
+            alt="Unisciti alla lega Risparmio Casa">
+        <img class="hidden lg:block" src="/XA44OBLG/banner-desk-fantasanremo.svg"
+            alt="Unisciti alla lega Risparmio Casa">
     </div>
-    <div class="hidden lg:flex flex-row flex-wrap justify-center items-baseline gap-2 text-[28px] lg:text-[40px] font-extrabold leading-[49px] text-primary mt-8 lg:mt-16">
+    <div
+        class="hidden lg:flex flex-row flex-wrap justify-center items-baseline gap-2 text-[28px] lg:text-[40px] font-extrabold leading-[49px] text-primary mt-8 lg:mt-16">
         <div #prizes class="relative -top-[188px] lg:-top-[139px]"></div>
         <span>+</span>
         <span class="text-[40px] lg:text-[60px]" style="font: normal normal 800 60px/49px;">200 PREMI</span>
@@ -58,18 +77,28 @@
     </div>
     <div class="flex flex-row text-accent justify-center items-start mt-8 lg:mt-16">
         <div #prizesMobile class="self-start relative -top-[128px] lg:-top-[79px]"></div>
-        <img class="block w-[80px] lg:w-[125px] relative -top-3 lg:-top-6 left-4 lg:left-12" src="/XA44OBLG/stelle-sx.svg" alt="" >
+        <img class="block w-[80px] lg:w-[125px] relative -top-3 lg:-top-6 left-4 lg:left-12"
+            src="/XA44OBLG/stelle-sx.svg" alt="">
         <div class="flex flex-col text-center">
-            <span class="text-[32px] lg:text-[65px] flex flex-col justify-center items-center lg:leading-[60px]" style="font: normal normal 800 65px/45px;">1 WEEKEND</span>
-            <span class="lg:w-[574px] text-[24px] lg:text-[46px] flex flex-col justify-center items-center leading-[45px]" style="font: normal normal 800 46px/45px;">PER LA FINALE</span>
-            <span class="lg:w-[574px] text-[24px] lg:text-[46px] flex flex-col justify-center items-center leading-[45px]" style="font: normal normal 800 46px/45px;">DELL’EUROVISION 2025</span>
+            <span class="text-[32px] lg:text-[65px] flex flex-col justify-center items-center lg:leading-[60px]"
+                style="font: normal normal 800 65px/45px;">1 WEEKEND</span>
+            <span
+                class="lg:w-[574px] text-[24px] lg:text-[46px] flex flex-col justify-center items-center leading-[45px]"
+                style="font: normal normal 800 46px/45px;">PER LA FINALE</span>
+            <span
+                class="lg:w-[574px] text-[24px] lg:text-[46px] flex flex-col justify-center items-center leading-[45px]"
+                style="font: normal normal 800 46px/45px;">DELL’EUROVISION 2025</span>
         </div>
-        <img class="block w-[80px] lg:w-[125px] relative -top-3 lg:-top-6 -left-4 lg:-left-14" src="/XA44OBLG/stelle-dx.svg" alt="" >
+        <img class="block w-[80px] lg:w-[125px] relative -top-3 lg:-top-6 -left-4 lg:-left-14"
+            src="/XA44OBLG/stelle-dx.svg" alt="">
     </div>
-    <div class="w-full max-w-screen-2xl flex flex-col lg:flex-row justify-center items-center gap-6 xl:gap-10 font-extrabold text-[20px] xl:text-[28px] 2xl:text-[40px] text-accent pt-8 lg:pt-16">
+    <div
+        class="w-full max-w-screen-2xl flex flex-col lg:flex-row justify-center items-center gap-6 xl:gap-10 font-extrabold text-[20px] xl:text-[28px] 2xl:text-[40px] text-accent pt-8 lg:pt-16">
         <div class="lg:w-1/2 flex flex-col justify-center items-center gap-0 lg:gap-4">
-            <span class="text-nowrap"><span class="text-[40px] xl:text-[50px] 2xl:text-[60px]">100</span> BUONI SPESA</span>
-            <img class="w-[200px] lg:w-[240px] h-[82px] mb-4 lg:mb-0" src="/XA44OBLG/logo-rc-vector.svg" alt="Risparmio Casa">
+            <span class="text-nowrap"><span class="text-[40px] xl:text-[50px] 2xl:text-[60px]">100</span> BUONI
+                SPESA</span>
+            <img class="w-[200px] lg:w-[240px] h-[82px] mb-4 lg:mb-0" src="/XA44OBLG/logo-rc-vector.svg"
+                alt="Risparmio Casa">
             <span>DA 50€</span>
         </div>
         <div class="w-[220px] lg:w-[2px] h-[2px] lg:h-[200px] bg-primary"></div>
@@ -79,173 +108,270 @@
             <span>DA 50€</span>
         </div>
     </div>
-    <div class="w-full px-4 mt-8 lg:mt-16 bg-secondary flex flex-col justify-center items-center leading-[30px] text-center">
+    <div
+        class="w-full px-4 mt-8 lg:mt-16 bg-secondary flex flex-col justify-center items-center leading-[30px] text-center">
         <div #howTo class="relative -top-[128px] lg:-top-[79px]"></div>
         <span class="py-8 text-[32px] xl:text-[40px] font-extrabold text-primary">COME PARTECIPARE</span>
-        <div class="w-full max-w-[900px] xl:max-w-[1280px] flex flex-col lg:flex-row justify-center lg:justify-between items-center lg:items-start gap-12">
+        <div
+            class="w-full max-w-[900px] xl:max-w-[1280px] flex flex-col lg:flex-row justify-center lg:justify-between items-center lg:items-start gap-12">
             <div class="flex flex-col justify-center items-center text-center">
                 <img class="w-[257px] h-fit" src="/XA44OBLG/img_how1.png" alt="Vai sul sito FANTASANREMO">
-                <span class="w-[73px] h-[73px] -my-8 relative bg-primary rounded-full text-white text-[35px] font-extrabold flex justify-center items-center">1</span>
-                <span class="w-[200px] xl:w-[360px] mt-10 text-primary font-medium text-[20px] xl:text-[30px]">VAI SUL SITO <a class="cursor-pointer underline" href="https://fantasanremo.com/" target="_blank">FANTASANREMO</a>, <span class="font-extrabold">REGISTRATI E CREA LA TUA SQUADRA</span></span>
+                <span
+                    class="w-[73px] h-[73px] -my-8 relative bg-primary rounded-full text-white text-[35px] font-extrabold flex justify-center items-center">1</span>
+                <span class="w-[200px] xl:w-[360px] mt-10 text-primary font-medium text-[20px] xl:text-[30px]">VAI
+                    SUL SITO <a class="cursor-pointer underline" href="https://fantasanremo.com/"
+                        target="_blank">FANTASANREMO</a>, <span class="font-extrabold">REGISTRATI E CREA LA TUA
+                        SQUADRA</span></span>
             </div>
             <div class="flex flex-col justify-center items-center text-center">
-                <img class="w-[257px] h-fit" src="/XA44OBLG/img_how2.png" alt="Unisci la tua squadra nella lega RISPARMIO CASA">
-                <span class="w-[73px] h-[73px] -my-8 relative bg-primary rounded-full text-white text-[35px] font-extrabold flex justify-center items-center">2</span>
-                <span class="w-[200px] xl:w-[360px] mt-10 text-primary font-medium text-[20px] xl:text-[30px]">UNISCI LA TUA SQUADRA ALL’INTERNO DELLA <span class="font-extrabold">LEGA<br>RISPARMIO CASA</span></span>
+                <img class="w-[257px] h-fit" src="/XA44OBLG/img_how2.png"
+                    alt="Unisci la tua squadra nella lega RISPARMIO CASA">
+                <span
+                    class="w-[73px] h-[73px] -my-8 relative bg-primary rounded-full text-white text-[35px] font-extrabold flex justify-center items-center">2</span>
+                <span
+                    class="w-[200px] xl:w-[360px] mt-10 text-primary font-medium text-[20px] xl:text-[30px]">UNISCI
+                    LA TUA SQUADRA ALL’INTERNO DELLA <span class="font-extrabold">LEGA<br>RISPARMIO
+                        CASA</span></span>
             </div>
             <div class="flex flex-col justify-center items-center text-center">
                 <img class="w-[257px] h-fit" src="/XA44OBLG/img_how3.png" alt="Compila il form">
-                <span class="w-[73px] h-[73px] -my-8 relative bg-primary rounded-full text-white text-[35px] font-extrabold flex justify-center items-center">3</span>
-                <span class="w-[200px] xl:w-[360px] mt-10 mb-10 text-primary font-medium text-[20px] xl:text-[30px]"><span class="font-extrabold">COMPILA IL FORM QUI SOTTO</span> CON I TUOI DATI E PARTECIPA<br> AL CONCORSO</span>
+                <span
+                    class="w-[73px] h-[73px] -my-8 relative bg-primary rounded-full text-white text-[35px] font-extrabold flex justify-center items-center">3</span>
+                <span
+                    class="w-[200px] xl:w-[360px] mt-10 mb-10 text-primary font-medium text-[20px] xl:text-[30px]"><span
+                        class="font-extrabold">COMPILA IL FORM QUI SOTTO</span> CON I TUOI DATI E PARTECIPA<br> AL
+                    CONCORSO</span>
             </div>
         </div>
-        <span class="py-8 text-[22px] font-extrabold text-primary">ESTRAZIONE FINALE DEI PREMI ENTRO IL 27/02/2025!</span>
+        <span class="py-8 text-[22px] font-extrabold text-primary">ESTRAZIONE FINALE DEI PREMI ENTRO IL
+            27/02/2025!</span>
     </div>
     <div class="flex flex-col justify-center items-center text-center mt-8 lg:mt-16 px-3">
         <span class="text-accent font-extrabold text-[40px] leading-[49px]">PARTECIPA AL CONCORSO</span>
-        <span class="text-primary font-extrabold text-[27px] leading-[30px]">SUBITO PER TE, SULLA TUA E-MAIL, UN BUONO SCONTO DA 5€!</span>
+        <span class="text-primary font-extrabold text-[27px] leading-[30px]">SUBITO PER TE, SULLA TUA E-MAIL, UN
+            BUONO SCONTO DA 5€!</span>
         <img class="w-[280px] my-6" src="/XA44OBLG/buono-sconto.svg" alt="buono sconto 50€">
-        <span class="font-medium text-[16px] leading-[20px]">Valido nei punti vendita in Italia, acquisto minimo 30€, fino al 28/02/2025.</span>
-        <span class="font-medium text-[16px] leading-[20px]">Non spendibile sullo shop online shop.risparmiocasa.com</span>
+        <span class="font-medium text-[16px] leading-[20px]">Valido nei punti vendita in Italia, acquisto minimo
+            30€, fino al 28/02/2025.</span>
+        <span class="font-medium text-[16px] leading-[20px]">Non spendibile sullo shop online
+            shop.risparmiocasa.com</span>
     </div>
     <div class="w-full max-w-[1069px] xl:px-4 flex flex-col justify-center items-center mt-8 lg:mt-16">
         <div #dataForm class="relative -top-[128px] lg:-top-[79px]"></div>
-        <ng-container *ngIf="dataGroup && !state.customerRegistered">
-            <div class="w-fit bg-accent text-white font-extrabold text-xl uppercase rounded-t-3xl px-10 py-2">Compila tutti i campi:</div>
-            <div class="w-full flex flex-col rounded-3xl overflow-hidden text-[20px] font-medium" [formGroup]="dataGroup">
+        <ng-container *ngIf="dataGroup && state.customerRegistered">
+            <div class="w-fit bg-accent text-white font-extrabold text-xl uppercase rounded-t-3xl px-10 py-2">
+                Compila tutti i campi:</div>
+            <div class="w-full flex flex-col rounded-3xl overflow-hidden text-[20px] font-medium"
+                [formGroup]="dataGroup">
                 <div class="bg-primary w-full flex flex-col lg:flex-row px-8 lg:px-28 py-6 lg:gap-6">
-                    <label class="w-full [:not(.error)&>input:focus]:!border-secondary" *ngrxLet="dataGroup.controls.cardNumber as actualControl" [ngClass]="{ error: state?.formSubmitted && actualControl.invalid }">
+                    <label class="w-full [:not(.error)&>input:focus]:!border-secondary"
+                        *ngrxLet="dataGroup.controls.cardNumber as actualControl"
+                        [ngClass]="{ error: state?.formSubmitted && actualControl.invalid }">
                         <div class="label">
                             <span class="text-[22px] label-text text-white">
                                 Numero carta fedeltà
-                                <span class="block font-light text-xs sm:text-sm">Inserisci il numero completo, senza spazi</span>
+                                <span class="block font-light text-xs sm:text-sm">Inserisci il numero completo,
+                                    senza spazi</span>
                                 <span class="block font-light text-xs sm:text-sm">(incluso lo 0 iniziale)</span>
                             </span>
                         </div>
-                        <input #cardNumberInput inputmode="numeric" tabindex="1" pattern="[0-9]*" type="text" class="input input-bordered w-full" formControlName="cardNumber" [maxLength]="CARD_NUMBER_MAX_LENGTH" />
+                        <input #cardNumberInput inputmode="numeric" tabindex="1" pattern="[0-9]*" type="text"
+                            class="input input-bordered w-full" formControlName="cardNumber"
+                            [maxLength]="CARD_NUMBER_MAX_LENGTH" />
                         <div class="label">
-                            <span class="label-text-alt text-white">{{state?.formSubmitted ? getErrorMsg(actualControl) : null}}&nbsp;</span>
+                            <span class="label-text-alt text-white">{{state?.formSubmitted ?
+                                getErrorMsg(actualControl) : null}}&nbsp;</span>
                         </div>
                     </label>
                     <div class="w-full flex flex-row items-center">
-                        <img class="w-48 lg:w-56 -mx-8 h-full object-contain" src="/XA44OBLG/carta-fedelta.png" alt="carta fedeltà" />
-                        <p class="ml-4 text-[20px] font-medium text-base text-white text-wrap">Non ce l'hai ancora? <span class="font-extrabold">Richiedila gratuitamente su <a class="underline" href="https://www.cartafedelta.online/" target="_blank">cartafedelta.online</a></span> oppure nel negozio più vicino a te!</p>
+                        <img class="w-48 lg:w-56 -mx-8 h-full object-contain" src="/XA44OBLG/carta-fedelta.png"
+                            alt="carta fedeltà" />
+                        <p class="ml-4 text-[20px] font-medium text-base text-white text-wrap">Non ce l'hai ancora?
+                            <span class="font-extrabold">Richiedila gratuitamente su <a class="underline"
+                                    href="https://www.cartafedelta.online/"
+                                    target="_blank">cartafedelta.online</a></span> oppure nel negozio più vicino a
+                            te!
+                        </p>
                     </div>
                 </div>
                 <div class="bg-secondary flex flex-col px-8 lg:px-28 py-6 gap-2">
                     <div class="w-full flex flex-col lg:flex-row lg:gap-6">
-                        <label class="w-full" *ngrxLet="dataGroup.controls.firstname as actualControl" [ngClass]="{ error: state?.formSubmitted && actualControl.invalid }">
+                        <label class="w-full" *ngrxLet="dataGroup.controls.firstname as actualControl"
+                            [ngClass]="{ error: state?.formSubmitted && actualControl.invalid }">
                             <div class="label">
                                 <span class="label-text">Nome</span>
                             </div>
-                            <input type="text" tabindex="2" class="input input-bordered w-full" formControlName="firstname" [maxLength]="NAME_MAX_LENGTH" />
+                            <input type="text" tabindex="2" class="input input-bordered w-full"
+                                formControlName="firstname" [maxLength]="NAME_MAX_LENGTH" />
                             <div class="label">
-                                <span class="label-text-alt">{{state?.formSubmitted ? getErrorMsg(actualControl) : null}}&nbsp;</span>
+                                <span class="label-text-alt">{{state?.formSubmitted ? getErrorMsg(actualControl) :
+                                    null}}&nbsp;</span>
                             </div>
                         </label>
-                        <label class="w-full" *ngrxLet="dataGroup.controls.lastname as actualControl" [ngClass]="{ error: state?.formSubmitted && actualControl.invalid }">
+                        <label class="w-full" *ngrxLet="dataGroup.controls.lastname as actualControl"
+                            [ngClass]="{ error: state?.formSubmitted && actualControl.invalid }">
                             <div class="label">
                                 <span class="label-text">Cognome</span>
                             </div>
-                            <input type="text" tabindex="3" class="input input-bordered w-full" formControlName="lastname" [maxLength]="NAME_MAX_LENGTH" />
+                            <input type="text" tabindex="3" class="input input-bordered w-full"
+                                formControlName="lastname" [maxLength]="NAME_MAX_LENGTH" />
                             <div class="label">
-                                <span class="label-text-alt">{{state?.formSubmitted ? getErrorMsg(actualControl) : null}}&nbsp;</span>
+                                <span class="label-text-alt">{{state?.formSubmitted ? getErrorMsg(actualControl) :
+                                    null}}&nbsp;</span>
                             </div>
                         </label>
                     </div>
                     <div class="flex flex-col lg:flex-row lg:gap-6">
-                        <label class="w-full" *ngrxLet="dataGroup.controls.birthdate as actualControl" [ngClass]="{ error: state?.formSubmitted && actualControl.invalid }">
+                        <label class="w-full" *ngrxLet="dataGroup.controls.birthdate as actualControl"
+                            [ngClass]="{ error: state?.formSubmitted && actualControl.invalid }">
                             <div class="label">
                                 <span class="label-text">Data di nascita</span>
                             </div>
                             <div class="flex flex-row gap-4 w-full" [formGroup]="actualControl">
-                                <select tabindex="4" class="select select-bordered w-[95px] text-[14px] lg:text-[16px] font-medium" formControlName="date">
+                                <select tabindex="4"
+                                    class="select select-bordered w-[95px] text-[14px] lg:text-[16px] font-medium"
+                                    formControlName="date">
                                     <option [ngValue]="null" disabled>gg</option>
-                                    <option *ngFor="let date of dateList" [ngValue]="date" [disabled]="dateInvalid(date, actualControl.value.month, actualControl.value.year)">{{date}}</option>
+                                    <option *ngFor="let date of dateList" [ngValue]="date"
+                                        [disabled]="dateInvalid(date, actualControl.value.month, actualControl.value.year)">
+                                        {{date}}</option>
                                 </select>
-                                <select tabindex="5" class="select select-bordered w-[95px] text-[14px] lg:text-[16px] font-medium" formControlName="month">
+                                <select tabindex="5"
+                                    class="select select-bordered w-[95px] text-[14px] lg:text-[16px] font-medium"
+                                    formControlName="month">
                                     <option [ngValue]="null" disabled>mm</option>
                                     <option *ngFor="let month of monthList" [ngValue]="month">{{month}}</option>
                                 </select>
-                                <select tabindex="6" class="select select-bordered min-w-[100px] grow text-[14px] lg:text-[16px] font-medium" formControlName="year">
+                                <select tabindex="6"
+                                    class="select select-bordered min-w-[100px] grow text-[14px] lg:text-[16px] font-medium"
+                                    formControlName="year">
                                     <option [ngValue]="null" disabled>aaaa</option>
                                     <option *ngFor="let year of yearList" [ngValue]="year">{{year}}</option>
                                 </select>
                             </div>
                             <div class="label">
-                                <span class="label-text-alt">{{state?.formSubmitted ? getErrorMsg(actualControl, 'required') : null}}&nbsp;</span>
+                                <span class="label-text-alt">{{state?.formSubmitted ? getErrorMsg(actualControl,
+                                    'required') : null}}&nbsp;</span>
                             </div>
                         </label>
-                        <label class="w-full" *ngrxLet="dataGroup.controls.taxId as actualControl" [ngClass]="{ error: state?.formSubmitted && actualControl.invalid }">
+                        <label class="w-full" *ngrxLet="dataGroup.controls.taxId as actualControl"
+                            [ngClass]="{ error: state?.formSubmitted && actualControl.invalid }">
                             <div class="label">
                                 <span class="label-text">Codice fiscale</span>
                             </div>
-                            <input tabindex="7" type="text" class="input input-bordered w-full uppercase" formControlName="taxId" [maxLength]="TAX_ID_MAX_LENGTH" />
+                            <input tabindex="7" type="text" class="input input-bordered w-full uppercase"
+                                formControlName="taxId" [maxLength]="TAX_ID_MAX_LENGTH" />
                             <div class="label">
-                                <span class="label-text-alt">{{state?.formSubmitted ? getErrorMsg(actualControl) : null}}&nbsp;</span>
+                                <span class="label-text-alt">{{state?.formSubmitted ? getErrorMsg(actualControl) :
+                                    null}}&nbsp;</span>
                             </div>
                         </label>
                     </div>
                     <div class="flex flex-col lg:flex-row lg:gap-6">
-                        <label class="w-full" *ngrxLet="dataGroup.controls.email as actualControl" [ngClass]="{ error: state?.formSubmitted && actualControl.invalid }">
+                        <label class="w-full" *ngrxLet="dataGroup.controls.email as actualControl"
+                            [ngClass]="{ error: state?.formSubmitted && actualControl.invalid }">
                             <div class="label">
                                 <span class="label-text">E-mail</span>
                             </div>
-                            <input tabindex="8" type="email" class="input input-bordered w-full" formControlName="email" [maxLength]="EMAIL_MAX_LENGTH" />
+                            <input tabindex="8" type="email" class="input input-bordered w-full"
+                                formControlName="email" [maxLength]="EMAIL_MAX_LENGTH" />
                             <div class="label">
-                                <span class="label-text-alt">{{state?.formSubmitted ? getErrorMsg(actualControl) : null}}&nbsp;</span>
+                                <span class="label-text-alt">{{state?.formSubmitted ? getErrorMsg(actualControl) :
+                                    null}}&nbsp;</span>
                             </div>
                         </label>
-                        <p class="w-full text-[16px] leading-[18px] text-center lg:text-left my-4 font-medium underline">
-                            <span class="font-extrabold">Attenzione</span>: l'e-mail utilizzata deve essere la stessa usata per iscriversi alla Lega Risparmio Casa di FantaSanremo
+                        <p
+                            class="w-full text-[16px] leading-[18px] text-center lg:text-left my-4 font-medium underline">
+                            <span class="font-extrabold">Attenzione</span>: l'e-mail utilizzata deve essere la
+                            stessa usata per iscriversi alla Lega Risparmio Casa di FantaSanremo
                         </p>
                     </div>
                     <div class="flex flex-row justify-between items-center">
-                        <label *ngrxLet="dataGroup.controls.rulesAcceptance as actualControl" [ngClass]="{ error: state?.formSubmitted && actualControl.invalid }">
+                        <label *ngrxLet="dataGroup.controls.rulesAcceptance as actualControl"
+                            [ngClass]="{ error: state?.formSubmitted && actualControl.invalid }">
                             <div class="flex flex-row items-center gap-4">
-                                <input tabindex="9" type="checkbox" class="checkbox bg-white checked:bg-primary" formControlName="rulesAcceptance" />
-                                <div class="label-text font-extrabold text-[19px]">Ho letto e accetto il <a class="underline" href="/XA44OBLG/Regolamento Risparmio Casa x Fantasanremo 2025 - definitivo.pdf" target="_blank">regolamento</a></div>
+                                <input tabindex="9" type="checkbox" class="checkbox bg-white checked:bg-primary"
+                                    formControlName="rulesAcceptance" />
+                                <div class="label-text font-extrabold text-[19px]">Ho letto e accetto il <a
+                                        class="underline"
+                                        href="/XA44OBLG/Regolamento_RisparmioCasaxFantasanremo_2025.pdf"
+                                        target="_blank">regolamento</a></div>
                             </div>
                             <div class="label">
-                                <span class="label-text-alt">{{state?.formSubmitted ? getErrorMsg(actualControl) : null}}&nbsp;</span>
+                                <span class="label-text-alt">{{state?.formSubmitted ? getErrorMsg(actualControl) :
+                                    null}}&nbsp;</span>
                             </div>
                         </label>
                     </div>
                     <div class="flex flex-row justify-between items-center">
-                        <label *ngrxLet="dataGroup.controls.privacyPolicyAcceptance as actualControl" [ngClass]="{ error: state?.formSubmitted && actualControl.invalid }">
+                        <label *ngrxLet="dataGroup.controls.privacyPolicyAcceptance as actualControl"
+                            [ngClass]="{ error: state?.formSubmitted && actualControl.invalid }">
                             <div class="flex flex-row items-center gap-4">
-                                <input tabindex="10" type="checkbox" class="checkbox bg-white checked:bg-primary" formControlName="privacyPolicyAcceptance" />
-                                <div class="label-text font-extrabold text-[19px]">Ho letto l'informativa sulla <a class="underline" href="/XA44OBLG/privacy.pdf" target="_blank">privacy policy</a> e accetto quanto in essa indicato</div>
+                                <input tabindex="10" type="checkbox" class="checkbox bg-white checked:bg-primary"
+                                    formControlName="privacyPolicyAcceptance" />
+                                <div class="label-text font-extrabold text-[19px]">Ho letto l'informativa sulla <a
+                                        class="underline" href="/XA44OBLG/privacy.pdf" target="_blank">privacy
+                                        policy</a> e accetto quanto in essa indicato</div>
                             </div>
                             <div class="label">
-                                <span class="label-text-alt">{{state?.formSubmitted ? getErrorMsg(actualControl) : null}}&nbsp;</span>
+                                <span class="label-text-alt">{{state?.formSubmitted ? getErrorMsg(actualControl) :
+                                    null}}&nbsp;</span>
                             </div>
                         </label>
                     </div>
-                    <div class="self-center bg-primary rounded-3xl p-4 text-[16px] text-white text-center leading-[18px]">
+                    <div
+                        class="self-center bg-primary rounded-3xl p-4 text-[16px] text-white text-center leading-[18px]">
                         <span class="uppercase font-extrabold">Verifica i dati prima di procedere</span>
                         <p class="font-medium">
-                            La validità della partecipazione verrà respinta se <span class="font-extrabold">l'indirizzo e-mail</span> usato per iscriverti a questo concorso non è lo stesso impiegato per la registrazione al FantaSanremo
+                            La validità della partecipazione verrà respinta se <span
+                                class="font-extrabold">l'indirizzo e-mail</span> usato per iscriverti a questo
+                            concorso non è lo stesso impiegato per la registrazione al FantaSanremo
                         </p>
                     </div>
-                    <button tabindex="11" class="btn btn-success uppercase w-fit h-[56px] self-center mt-6 pt-[5px] py-2 px-6 text-white text-[40px] font-extrabold leading-none flex justify-center items-center" (click)="sendInfo()">Partecipa</button>
-                    <span class="self-center text-error text-base font-extrabold text-center max-w-[40rem] text-wrap">{{state?.errorText}}&nbsp;</span>
+                    <button tabindex="11"
+                        class="btn btn-success uppercase w-fit h-[56px] self-center mt-6 pt-[5px] py-2 px-6 text-white text-[40px] font-extrabold leading-none flex justify-center items-center"
+                        (click)="sendInfo()">Partecipa</button>
+                    <span
+                        class="self-center text-error text-base font-extrabold text-center max-w-[40rem] text-wrap">{{state?.errorText}}&nbsp;</span>
                 </div>
             </div>
         </ng-container>
     </div>
-    <div *ngIf="state.customerRegistered" class="flex justify-center items-center max-w-[1069px] text-white text-[28px] text-center my-4 p-4 rounded-3xl bg-primary">
-        DATI INSERITI, GRAZIE PER ESSERTI ISCRITTO!
-    </div>
+    <ng-container *ngIf="!state.customerRegistered">
+        <div
+            class="flex justify-center items-center max-w-[1069px] text-white text-[28px] text-center my-4 p-4 rounded-3xl bg-primary">
+            DATI INSERITI, GRAZIE PER ESSERTI ISCRITTO!
+        </div>
+        <p class="text-accent text-center font-semibold px-3 max-w-[1069px]">Controlla la tua mail, ti abbiamo
+            inviato il buono sconto (se non la ricevi, verifica anche in spam/posta indesiderata) </p>
+    </ng-container>
+
     <div class="flex flex-col justify-center items-center mt-8 lg:mt-16">
-        <p class="w-full max-w-[1069px] font-medium text-[16px] leading-[18px] text-center px-[72px]">Concorso a premi valido dal 23/01/2025 all’11/02/2025 riservato agli iscritti FantaSanremo 2025 lega Risparmio Casa e ai titolari di carta fedeltà Risparmio Casa. Estrazione finale entro il 27/02/2025.</p>
-        <p class="w-full max-w-[1069px] font-medium text-[16px] leading-[18px] text-center">Montepremi €13.000 Iva esclusa.</p>
-        <p class="w-full max-w-[1069px] font-medium text-[16px] leading-[18px] text-center">Per informazioni sul concorso: fantasanremo&#64;risparmiocasa.com</p>
-        <p class="w-full max-w-[1069px] font-medium text-[16px] leading-[18px] text-center px-[40px]">Il logo di Vivaticket è di proprietà esclusiva dei rispettivi titolari. Vivaticket non è in alcun modo coinvolto nell’organizzazione del presente concorso e non partecipa all’iniziativa.</p>
+        <p class="w-full max-w-[1069px] font-medium text-[16px] leading-[18px] text-center px-[72px]">Concorso a
+            premi valido dal 23/01/2025 all’11/02/2025 riservato agli iscritti FantaSanremo 2025 lega Risparmio Casa
+            e ai titolari di carta fedeltà Risparmio Casa. Estrazione finale entro il 27/02/2025.</p>
+        <p class="w-full max-w-[1069px] font-medium text-[16px] leading-[18px] text-center">Montepremi €13.000 Iva
+            esclusa.</p>
+        <p class="w-full max-w-[1069px] font-medium text-[16px] leading-[18px] text-center">Per informazioni sul
+            concorso: fantasanremo&#64;risparmiocasa.com</p>
+        <p class="w-full max-w-[1069px] font-medium text-[16px] leading-[18px] text-center px-[40px]">Il logo di
+            Vivaticket è di proprietà esclusiva dei rispettivi titolari. Vivaticket non è in alcun modo coinvolto
+            nell’organizzazione del presente concorso e non partecipa all’iniziativa.</p>
     </div>
     <div class="w-full min-h-[69px] py-8 flex flex-row flex-wrap gap-8 justify-center items-center bg-primary text-[24px] font-extrabold text-white mt-8 lg:mt-16">
         <a href="/XA44OBLG/privacy.pdf" target="_blank"><span>PRIVACY POLICY</span></a>
-        <span>COOKIE POLICY</span>
-        <a href="/XA44OBLG/Regolamento Risparmio Casa x Fantasanremo 2025 - definitivo.pdf" target="_blank"><span>REGOLAMENTO</span></a>
+        <span class="cursor-pointer" (click)="cookiePolicyModal.showModal()">COOKIE POLICY</span>
+        <a href="/XA44OBLG/Regolamento_RisparmioCasaxFantasanremo_2025.pdf" target="_blank"><span>REGOLAMENTO</span></a>
     </div>
+
+    <dialog #cookiePolicyModal class="modal">
+        <div class="modal-box w-11/12 max-w-5xl p-0">
+            <div class="sticky flex flex-row justify-between bg-white top-0 h-[60px] pt-5 px-7 drop-shadow">
+                <h3 class="text-lg font-bold">Cookie Policy</h3>
+                <button class="btn btn-sm btn-circle btn-ghost" (click)="dialogForm.submit()">✕</button>
+            </div>
+            <form #dialogForm class="sticky" method="dialog"></form>
+            <ricaweb-fantasanremo-cookie-policy class="block pb-7 px-7"></ricaweb-fantasanremo-cookie-policy>
+        </div>
+    </dialog>
 </div>

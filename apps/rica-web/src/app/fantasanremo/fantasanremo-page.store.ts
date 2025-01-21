@@ -9,6 +9,8 @@ import { ApiErrorResponse } from "common/_models/api-error-response";
 
 export interface FantasanremoPageState {
     customerRegistered?: boolean;
+    drawerVisible?: boolean;
+    cookiePolicy?: boolean;
     formSubmitted?: boolean;
     loading?: boolean;
     error?: boolean;

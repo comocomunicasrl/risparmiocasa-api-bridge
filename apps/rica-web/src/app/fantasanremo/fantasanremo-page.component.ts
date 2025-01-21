@@ -7,6 +7,7 @@ import { FantasanremoPageState, FantasanremoPageStore } from './fantasanremo-pag
 import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.component';
 import { UserInfo } from './_models/user-info';
 import { Title } from '@angular/platform-browser';
+import { CookiePolicyComponent } from './cookie-policy/cookie-policy.component';
 
 type BirthDateGroup = {
     date: FormControl<number | null>,
@@ -37,7 +38,8 @@ type DataGroup = {
         FormsModule,
         ReactiveFormsModule,
         LetDirective,
-        LoadingSpinnerComponent
+        LoadingSpinnerComponent,
+        CookiePolicyComponent
     ]
 })
 export class FantasanremoPageComponent implements OnInit, AfterViewInit, OnDestroy {
@@ -74,7 +76,6 @@ export class FantasanremoPageComponent implements OnInit, AfterViewInit, OnDestr
     dateList = Array.from(Array(31).keys()).map(i => i + 1);
     monthList = Array.from(Array(12).keys()).map(i => i + 1);
     yearList = Array.from(Array(100).keys()).map((i, idx) => this.CURRENT_YEAR - this.MIN_AGE_CUSTOMER - idx);
-    drawerVisible = false;
 
     dataGroup?: FormGroup<DataGroup>;
     state$?: Observable<FantasanremoPageState>;
@@ -181,8 +182,16 @@ export class FantasanremoPageComponent implements OnInit, AfterViewInit, OnDestr
     }
 
     scrollToElement(element: HTMLElement) {
-        this.drawerVisible = false;
+        this.store.patchState({ drawerVisible: false });
         element.scrollIntoView({ behavior: "smooth", block: "start", inline: "start" });
+    }
+
+    showCookiePolicy() {
+        this.store.patchState({ cookiePolicy: true });
+    }
+
+    onDrawerChange(value: boolean) {
+        this.store.patchState({ drawerVisible: value });
     }
 
     private addCookieScriptTag() {
