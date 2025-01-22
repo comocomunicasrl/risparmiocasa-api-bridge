@@ -344,11 +344,13 @@
         <p class="text-accent text-center font-semibold px-3 max-w-[1069px]">Controlla la tua mail, ti abbiamo
             inviato il buono sconto (se non la ricevi, verifica anche in spam/posta indesiderata) </p>
     </ng-container>
-    <ng-container *ngIf="state.contestClosed">
-        <div class="flex justify-center items-center max-w-[1069px] text-white text-[28px] text-center my-4 p-4 rounded-3xl bg-primary">
-            Le iscrizioni sono terminate. In bocca al lupo a tutti i partecipanti!
-        </div>
-    </ng-container>
+    
+    <div *ngIf="state.contestClosed && ACTUAL_DATE < OPENING_DATE" class="flex justify-center items-center max-w-[1069px] text-white text-[28px] text-center my-4 p-4 rounded-3xl bg-primary">
+        Potrai iscriverti a partire dal 23 Gennaio. Ti aspettiamo!
+    </div>
+    <div *ngIf="state.contestClosed && ACTUAL_DATE > CLOSING_DATE" class="flex justify-center items-center max-w-[1069px] text-white text-[28px] text-center my-4 p-4 rounded-3xl bg-primary">
+        Le iscrizioni sono terminate. In bocca al lupo a tutti i partecipanti!
+    </div>
 
     <div class="flex flex-col justify-center items-center mt-8 lg:mt-16">
         <p class="w-full max-w-[1069px] font-medium text-[16px] leading-[18px] text-center px-[72px]">Concorso a

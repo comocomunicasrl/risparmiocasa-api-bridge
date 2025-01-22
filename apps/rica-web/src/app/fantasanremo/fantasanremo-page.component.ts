@@ -8,6 +8,7 @@ import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.comp
 import { UserInfo } from './_models/user-info';
 import { Title } from '@angular/platform-browser';
 import { CookiePolicyComponent } from './cookie-policy/cookie-policy.component';
+import { ActivatedRoute } from '@angular/router';
 
 type BirthDateGroup = {
     date: FormControl<number | null>,
@@ -80,10 +81,17 @@ export class FantasanremoPageComponent implements OnInit, AfterViewInit, OnDestr
     dataGroup?: FormGroup<DataGroup>;
     state$?: Observable<FantasanremoPageState>;
     _destroyed$ = new Subject<boolean>();
+    readonly ACTUAL_DATE = new Date(new Date().toLocaleString('en-us', {
+        timeZone: 'Europe/Rome'
+    })).getTime();
+
+    readonly OPENING_DATE = new Date("2025-02-11T12:00:00.000+01:00").getTime();
+    readonly CLOSING_DATE = new Date("2025-02-11T12:00:00.000+01:00").getTime();
 
     constructor(
         private store: FantasanremoPageStore,
         private titleService: Title,
+        private route: ActivatedRoute,
         @Inject(PLATFORM_ID) private platformId,
         @Inject(DOCUMENT) private document: Document
     ) {
@@ -95,13 +103,7 @@ export class FantasanremoPageComponent implements OnInit, AfterViewInit, OnDestr
         this.addCookieScriptTag();
         this.initForm();
 
-        const ACTUAL_DATE = new Date(new Date().toLocaleString('en-us', {
-            timeZone: 'Europe/Rome'
-        }));
-
-        const CLOSING_DATE = new Date("2025-02-11T12:00:00.000+01:00");
-
-        if(ACTUAL_DATE.getTime() > CLOSING_DATE.getTime()) {
+        if ((this.route.snapshot.queryParamMap.has('opening')) && (isPlatformBrowser(this.platformId)) && ((this.ACTUAL_DATE < this.OPENING_DATE) || (this.ACTUAL_DATE > this.CLOSING_DATE))) {
             this.store.patchState({ contestClosed: true });
         }
 

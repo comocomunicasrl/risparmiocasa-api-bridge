@@ -20,6 +20,6 @@ export class CookiePolicyComponent implements AfterViewInit {
         script.src = 'https://consent.cookiebot.com/9c123420-fbfe-4f65-9892-96b11e7efe81/cd.js';
         script.type = 'text/javascript';
 
-        this.cookieDeclarationEl.nativeElement.appendChild(script)
+        this.cookieDeclarationEl.nativeElement.appendChild(script);
     }
 }
