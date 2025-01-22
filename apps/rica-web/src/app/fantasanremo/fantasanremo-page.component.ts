@@ -103,7 +103,7 @@ export class FantasanremoPageComponent implements OnInit, AfterViewInit, OnDestr
         this.addCookieScriptTag();
         this.initForm();
 
-        if ((this.route.snapshot.queryParamMap.has('opening')) && (isPlatformBrowser(this.platformId)) && ((this.ACTUAL_DATE < this.OPENING_DATE) || (this.ACTUAL_DATE > this.CLOSING_DATE))) {
+        if ((isPlatformBrowser(this.platformId)) && ((this.ACTUAL_DATE < this.OPENING_DATE) || (this.ACTUAL_DATE > this.CLOSING_DATE))) {
             this.store.patchState({ contestClosed: true });
         }
 
