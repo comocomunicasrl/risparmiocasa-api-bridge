@@ -117,13 +117,15 @@ export class FantasanremoPageComponent implements OnInit, AfterViewInit, OnDestr
 
     ngAfterViewInit(): void {
         if(isPlatformBrowser(this.platformId)) {
-            import('cleave.js').then(m => {
-                const Cleave = m.default;
-                new Cleave(this.cardNumberEl.nativeElement, {
-                    blocks: [this.CARD_NUMBER_MAX_LENGTH],
-                    numericOnly: true
-                })
-            });
+            if (this.cardNumberEl?.nativeElement) {
+                import('cleave.js').then(m => {
+                    const Cleave = m.default;
+                    new Cleave(this.cardNumberEl.nativeElement, {
+                        blocks: [this.CARD_NUMBER_MAX_LENGTH],
+                        numericOnly: true
+                    })
+                });
+            }
         }
     }
 
