@@ -5,8 +5,9 @@ import { RisparmioCasaService } from '../_services/risparmio-casa.service';
 import { catchError, from, map, of, switchMap, tap, throwError, timeout } from 'rxjs';
 import { ApiErrorMessage } from '../../../../../libs/common/src/lib/api-error-message';
 import { QueueService } from '../queue/queue.service';
-import { Client, SendEmailV3_1, LibraryResponse } from 'node-mailjet';
+import { Client } from 'node-mailjet';
 import { FantasanremoFailedEmail, FantasanremoFailedEmailKey } from './fantasanremo-failed-email';
+import { RicaCard, RicaCardKey } from './rica-card';
 
 @Injectable()
 export class FantasanremoService {
@@ -15,15 +16,18 @@ export class FantasanremoService {
     private readonly RICA_QUEUE_STREAM = 'rica';
     private readonly CUSTOMER_SUBSCRIBED_EVENT = 'fantasanremo_customer_subscribed';
     private readonly logger = new Logger(FantasanremoService.name);
+    private readonly TEMPLATE_ID_COUPON = 6651319;
+    private readonly TEMPLATE_ID_NO_COUPON = 6660998;
 
     constructor(
         @InjectModel('FantasanremoCustomer') private fantasanremoCustomerModel: Model<FantasanremoCustomer, FantasanremoCustomerKey>,
+        @InjectModel('RicaCard') private ricaCardModel: Model<RicaCard, RicaCardKey>,
         @InjectModel('FantasanremoFailedEmail') private fantasanremoFailedEmailModel: Model<FantasanremoFailedEmail, FantasanremoFailedEmailKey>,
         private risparmioCasaService: RisparmioCasaService,
         private queueService: QueueService
     ) {
         this.queueService.client.dequeueData(this.RICA_QUEUE_STREAM, this.CUSTOMER_SUBSCRIBED_EVENT).pipe(
-            switchMap(customer => this.sendCouponToCustomer(customer as FantasanremoCustomer))
+            switchMap(customer => this.sendEmailToCustomer(customer as FantasanremoCustomer))
         ).subscribe();
     }
 
@@ -64,37 +68,41 @@ export class FantasanremoService {
         );
     }
 
-    private sendCouponToCustomer(customer: FantasanremoCustomer) {
+    private sendEmailToCustomer(customer: FantasanremoCustomer) {
         const mailjet = new Client({
             apiKey: process.env.MAILJET_API_KEY,
             apiSecret: process.env.MAILJET_API_SECRET
         });
 
-        const data: SendEmailV3_1.Body = {
-            Messages: [
-                {
-                    From: {
-                        Email: 'noreply@cartafedelta.online',
-                        Name: 'Risparmio Casa'
-                    },
-                    To: [{ Email: customer.email }],
-                    TemplateID: 6651319,
-                    TemplateLanguage: true
-                }
-            ]
-        };
-
-        return from(mailjet.post('send', { version: 'v3.1' }).request(data)).pipe(
-            catchError(err => {
-                this.logger.error(err);
-                return from(this.fantasanremoFailedEmailModel.create({ id: customer.id, cardNumber: customer.cardNumber, email: customer.email, timestamp: new Date().toISOString() })).pipe(
-                    catchError(err => {
-                        this.logger.error(`Failed registering EMAIL SEND ERROR for card number ${customer.cardNumber}`);
-                        this.logger.error(err);
-                        throw err;
-                    })
-                );
-            })
+        return of(customer).pipe(
+            switchMap(customer => from(this.ricaCardModel.scan().filter('cardNumber').eq(customer.cardNumber).exec()).pipe(
+                map(items => {
+                    return ((items.length === 0) || (items.at(0).discountCode?.toLowerCase() != 'fantasanremo')) ? this.TEMPLATE_ID_COUPON : this.TEMPLATE_ID_NO_COUPON; 
+                }),
+                switchMap(TemplateID => from(mailjet.post('send', { version: 'v3.1' }).request({
+                    Messages: [
+                        {
+                            From: {
+                                Email: 'noreply@cartafedelta.online',
+                                Name: 'Risparmio Casa'
+                            },
+                            To: [{ Email: customer.email }],
+                            TemplateID,
+                            TemplateLanguage: true
+                        }
+                    ]
+                }))),
+                catchError(err => {
+                    this.logger.error(err);
+                    return from(this.fantasanremoFailedEmailModel.create({ id: customer.id, cardNumber: customer.cardNumber, email: customer.email, timestamp: new Date().toISOString() })).pipe(
+                        catchError(err => {
+                            this.logger.error(`Failed registering EMAIL SEND ERROR for card number ${customer.cardNumber}`);
+                            this.logger.error(err);
+                            throw err;
+                        })
+                    );
+                })
+            ))
         );
     }
 }

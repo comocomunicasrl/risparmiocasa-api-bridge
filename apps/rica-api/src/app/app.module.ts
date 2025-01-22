@@ -12,6 +12,7 @@ import { FantasanremoCustomerSchema } from './fantasanremo/fantasanremo-cutomer.
 import { FantasanremoService } from './fantasanremo/fantasanremo.service';
 import { RisparmioCasaService } from './_services/risparmio-casa.service';
 import { FantasanremoFailedEmailSchema } from './fantasanremo/fantasanremo-failed-email.schema';
+import { RicaCardCustomerSchema } from './fantasanremo/rica-card.schema';
 
 console.log( process.env.AWS_RISPARMIOCASA_ACCOUNT_KEY);
 @Module({
@@ -39,6 +40,13 @@ console.log( process.env.AWS_RISPARMIOCASA_ACCOUNT_KEY);
                 schema: FantasanremoFailedEmailSchema,
                 options: {
                 tableName: 'fantasanremoFailedEmail',
+                }
+            },
+            {
+                name: 'RicaCard',
+                schema: RicaCardCustomerSchema,
+                options: {
+                tableName: 'risparmiocasa-cards',
                 }
             }
         ])
