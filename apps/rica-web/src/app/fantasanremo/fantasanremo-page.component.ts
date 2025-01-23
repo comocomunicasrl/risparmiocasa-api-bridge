@@ -85,7 +85,7 @@ export class FantasanremoPageComponent implements OnInit, AfterViewInit, OnDestr
         timeZone: 'Europe/Rome'
     })).getTime();
 
-    readonly OPENING_DATE = new Date("2025-01-23T12:00:00.000+01:00").getTime();
+    readonly OPENING_DATE = new Date("2025-01-23T00:00:00.000+01:00").getTime();
     readonly CLOSING_DATE = new Date("2025-02-11T12:00:00.000+01:00").getTime();
 
     constructor(
