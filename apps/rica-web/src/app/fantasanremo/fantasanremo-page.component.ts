@@ -212,8 +212,8 @@ export class FantasanremoPageComponent implements OnInit, AfterViewInit, OnDestr
             script.id = 'Cookiebot';
             script.src = 'https://consent.cookiebot.com/uc.js';
             script.setAttribute('data-cbid', '9c123420-fbfe-4f65-9892-96b11e7efe81');
-            script.setAttribute('data-blockingmode', 'auto');
             script.type = 'text/javascript';
+            script.async = true;
 
             this.document.head.appendChild(script);
         }
