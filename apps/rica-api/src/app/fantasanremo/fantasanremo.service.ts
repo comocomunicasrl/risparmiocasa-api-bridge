@@ -77,7 +77,7 @@ export class FantasanremoService {
         return of(customer).pipe(
             switchMap(customer => from(this.ricaCardModel.scan().filter('cardNumber').eq(customer.cardNumber).exec()).pipe(
                 map(items => {
-                    return ((items.length === 0) || (items.at(0).discountCode?.toLowerCase() != 'fantasanremo')) ? this.TEMPLATE_ID_COUPON : this.TEMPLATE_ID_NO_COUPON; 
+                    return ((items.length === 0) || (items.findIndex(i => i.discountCode?.toLowerCase() === 'fantasanremo') === -1)) ? this.TEMPLATE_ID_COUPON : this.TEMPLATE_ID_NO_COUPON; 
                 }),
                 switchMap(TemplateID => from(mailjet.post('send', { version: 'v3.1' }).request({
                     Messages: [
