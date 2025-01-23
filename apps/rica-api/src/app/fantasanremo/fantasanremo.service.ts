@@ -8,6 +8,7 @@ import { QueueService } from '../queue/queue.service';
 import { Client } from 'node-mailjet';
 import { FantasanremoFailedEmail, FantasanremoFailedEmailKey } from './fantasanremo-failed-email';
 import { RicaCard, RicaCardKey } from './rica-card';
+import excludedCardNumbers from './excluded_card.json';
 
 @Injectable()
 export class FantasanremoService {
@@ -74,35 +75,29 @@ export class FantasanremoService {
             apiSecret: process.env.MAILJET_API_SECRET
         });
 
-        return of(customer).pipe(
-            switchMap(customer => from(this.ricaCardModel.scan().filter('cardNumber').eq(customer.cardNumber).exec()).pipe(
-                map(items => {
-                    return ((items.length === 0) || (items.findIndex(i => i.discountCode?.toLowerCase() === 'fantasanremo') === -1)) ? this.TEMPLATE_ID_COUPON : this.TEMPLATE_ID_NO_COUPON; 
-                }),
-                switchMap(TemplateID => from(mailjet.post('send', { version: 'v3.1' }).request({
-                    Messages: [
-                        {
-                            From: {
-                                Email: 'noreply@cartafedelta.online',
-                                Name: 'Risparmio Casa'
-                            },
-                            To: [{ Email: customer.email }],
-                            TemplateID,
-                            TemplateLanguage: true
-                        }
-                    ]
-                }))),
-                catchError(err => {
-                    this.logger.error(err);
-                    return from(this.fantasanremoFailedEmailModel.create({ id: customer.id, cardNumber: customer.cardNumber, email: customer.email, timestamp: new Date().toISOString() })).pipe(
-                        catchError(err => {
-                            this.logger.error(`Failed registering EMAIL SEND ERROR for card number ${customer.cardNumber}`);
-                            this.logger.error(err);
-                            throw err;
-                        })
-                    );
-                })
-            ))
+        return from(mailjet.post('send', { version: 'v3.1' }).request({
+            Messages: [
+                {
+                    From: {
+                        Email: 'noreply@cartafedelta.online',
+                        Name: 'Risparmio Casa'
+                    },
+                    To: [{ Email: customer.email }],
+                    TemplateID: excludedCardNumbers?.find(i => i === customer.cardNumber ) ? this.TEMPLATE_ID_NO_COUPON : this.TEMPLATE_ID_COUPON,
+                    TemplateLanguage: true
+                }
+            ]
+        })).pipe(
+            catchError(err => {
+                this.logger.error(err);
+                return from(this.fantasanremoFailedEmailModel.create({ id: customer.id, cardNumber: customer.cardNumber, email: customer.email, timestamp: new Date().toISOString() })).pipe(
+                    catchError(err => {
+                        this.logger.error(`Failed registering EMAIL SEND ERROR for card number ${customer.cardNumber}`);
+                        this.logger.error(err);
+                        throw err;
+                    })
+                );
+            })
         );
     }
 }
