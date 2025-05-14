@@ -13,6 +13,9 @@ import { FantasanremoService } from './fantasanremo/fantasanremo.service';
 import { RisparmioCasaService } from './_services/risparmio-casa.service';
 import { FantasanremoFailedEmailSchema } from './fantasanremo/fantasanremo-failed-email.schema';
 import { RicaCardCustomerSchema } from './fantasanremo/rica-card.schema';
+import { TwoFactorAuthController } from './two-factor-auth/two-factor-auth.controller';
+import { SmsService } from './_services/sms.service';
+import { TwoFactorAuthSchema } from './two-factor-auth/two-factor-auth.schema';
 
 console.log( process.env.AWS_RISPARMIOCASA_ACCOUNT_KEY);
 @Module({
@@ -32,21 +35,28 @@ console.log( process.env.AWS_RISPARMIOCASA_ACCOUNT_KEY);
                 name: 'FantasanremoCustomer',
                 schema: FantasanremoCustomerSchema,
                 options: {
-                tableName: 'fantasanremoCustomer',
+                    tableName: 'fantasanremoCustomer',
                 }
             },
             {
                 name: 'FantasanremoFailedEmail',
                 schema: FantasanremoFailedEmailSchema,
                 options: {
-                tableName: 'fantasanremoFailedEmail',
+                    tableName: 'fantasanremoFailedEmail',
                 }
             },
             {
                 name: 'RicaCard',
                 schema: RicaCardCustomerSchema,
                 options: {
-                tableName: 'risparmiocasa-cards',
+                    tableName: 'risparmiocasa-cards',
+                }
+            },
+            {
+                name: 'TwoFactorAuth',
+                schema: TwoFactorAuthSchema,
+                options: {
+                    tableName: 'two-factor-auth',
                 }
             }
         ])
@@ -54,12 +64,14 @@ console.log( process.env.AWS_RISPARMIOCASA_ACCOUNT_KEY);
     controllers: [
         AppController,
         ApiBridgeController,
-        FantasanremoController
+        FantasanremoController,
+        TwoFactorAuthController
     ],
     providers: [
         AppService,
         FantasanremoService,
-        RisparmioCasaService
+        RisparmioCasaService,
+        SmsService
     ],
 })
 export class AppModule { }
