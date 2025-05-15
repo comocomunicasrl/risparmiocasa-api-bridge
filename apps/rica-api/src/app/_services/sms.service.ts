@@ -1,6 +1,6 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable, Logger } from '@nestjs/common';
-import { catchError, map, of, switchMap } from 'rxjs';
+import { catchError, map, switchMap } from 'rxjs';
 
 @Injectable()
 export class SmsService {
@@ -45,11 +45,14 @@ export class SmsService {
     }
 
     private authenticate() {
-        return this.httpService.post(`${this.API_SERVER_URL}/auth/login`, {
+        const url = `${this.API_SERVER_URL}/auth/login`;
+        this.logger.debug(url)
+        return this.httpService.post(url, {
             username: process.env.EDISCOM_SMS_USERNAME,
             password: process.env.EDISCOM_SMS_PASSWORD
         }).pipe(
             map(resp => {
+                this.logger.debug(resp);
                 const data = resp.data;
                 if (!data?.success)
                     throw new Error(`Error during authentication to Ediscom. [${data?.error?.status} - ${data?.error?.message}]`);
