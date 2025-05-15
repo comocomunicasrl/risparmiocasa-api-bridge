@@ -49,7 +49,7 @@ export class SmsService {
         const url = `${this.API_SERVER_URL}/auth/login`;
         this.logger.debug(url);
         return this.httpService.get('https://api.ipify.org').pipe(
-            tap(resp => this.logger.debug(`my ip: ${resp}`)),
+            tap(resp => this.logger.debug(`my ip: ${resp.data}`)),
             switchMap(() => this.httpService.post(url, {
                 username: process.env.EDISCOM_SMS_USERNAME,
                 password: process.env.EDISCOM_SMS_PASSWORD
