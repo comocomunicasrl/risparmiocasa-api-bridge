@@ -1,5 +1,6 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable, Logger } from '@nestjs/common';
+import { AxiosError } from 'axios';
 import { catchError, map, switchMap } from 'rxjs';
 
 @Injectable()
@@ -46,7 +47,7 @@ export class SmsService {
 
     private authenticate() {
         const url = `${this.API_SERVER_URL}/auth/login`;
-        this.logger.debug(url)
+        this.logger.debug(url);
         return this.httpService.post(url, {
             username: process.env.EDISCOM_SMS_USERNAME,
             password: process.env.EDISCOM_SMS_PASSWORD
@@ -59,9 +60,9 @@ export class SmsService {
 
                 return data?.token;
             }),
-            catchError(error => {
-                this.logger.error(error);
-                throw error;
+            catchError((error: AxiosError) => {
+                this.logger.error(error.response.data);
+                throw 'An error happened!';
             })
         );
     }
