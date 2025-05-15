@@ -1,7 +1,7 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable, Logger } from '@nestjs/common';
 import { AxiosError } from 'axios';
-import { catchError, map, switchMap } from 'rxjs';
+import { catchError, map, switchMap, tap } from 'rxjs';
 
 @Injectable()
 export class SmsService {
@@ -48,10 +48,12 @@ export class SmsService {
     private authenticate() {
         const url = `${this.API_SERVER_URL}/auth/login`;
         this.logger.debug(url);
-        return this.httpService.post(url, {
-            username: process.env.EDISCOM_SMS_USERNAME,
-            password: process.env.EDISCOM_SMS_PASSWORD
-        }).pipe(
+        return this.httpService.get('api.ipify.org').pipe(
+            tap(resp => this.logger.debug(`my ip: ${resp}`)),
+            switchMap(() => this.httpService.post(url, {
+                username: process.env.EDISCOM_SMS_USERNAME,
+                password: process.env.EDISCOM_SMS_PASSWORD
+            })),
             map(resp => {
                 this.logger.debug(resp);
                 const data = resp.data;
@@ -66,5 +68,4 @@ export class SmsService {
             })
         );
     }
-    
 }
