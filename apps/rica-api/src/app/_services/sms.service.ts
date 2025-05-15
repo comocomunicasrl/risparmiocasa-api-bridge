@@ -58,6 +58,10 @@ export class SmsService {
                     throw new Error(`Error during authentication to Ediscom. [${data?.error?.status} - ${data?.error?.message}]`);
 
                 return data?.token;
+            }),
+            catchError(error => {
+                this.logger.error(error);
+                throw error;
             })
         );
     }
