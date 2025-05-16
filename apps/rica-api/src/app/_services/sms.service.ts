@@ -63,7 +63,7 @@ export class SmsService {
                 return data?.token;
             }),
             catchError((error: AxiosError) => {
-                this.logger.error(error.response.data);
+                this.logger.error(error.response?.data ?? error);
                 throw 'An error happened!';
             })
         );
