@@ -19,17 +19,21 @@ export class SmsService {
                     Authorization: `Bearer ${authToken}`,
                     'Content-Type': 'application/json'
                 };
-                return this.httpService.post(`${this.API_SERVER_URL}/sms/batch`, {
+                const body = {
                     global: {
                         route: 'GW1',
                         from: 'RispCasa',
+                        coding: '0',
                         text,
                         campaignId: 'OTP'
                     },
                     message: [
                         { to: recipient }
                     ]
-                }, { headers }).pipe(
+                };
+                this.logger.debug(body);
+
+                return this.httpService.post(`${this.API_SERVER_URL}/sms/batch`, body, { headers }).pipe(
                     map(resp => {
                         const data = resp.data;
                         if (!data?.success || data.error)
