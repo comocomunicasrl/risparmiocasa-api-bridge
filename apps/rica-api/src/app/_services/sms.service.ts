@@ -38,9 +38,9 @@ export class SmsService {
                     })
                 );
             }),
-            catchError(error => {
-                this.logger.debug(error);
-                throw new Error(error.message);
+            catchError((error: AxiosError) => {
+                this.logger.error(error.response?.data ?? error.message);
+                throw 'An error happened!';
             })
         );
     }
