@@ -58,12 +58,12 @@ export class SmsService {
                 password: process.env.EDISCOM_SMS_PASSWORD
             }, { headers })),
             map(resp => {
-                this.logger.debug(resp);
-                const data = resp.data;
-                if (!data?.success)
-                    throw new Error(`Error during authentication to Ediscom. [${data?.error?.status} - ${data?.error?.message}]`);
+                this.logger.debug(resp.data);
+                const responsData = resp.data;
+                if (!responsData?.success)
+                    throw new Error(`Error during authentication to Ediscom. [${responsData?.error?.status} - ${responsData?.error?.message}]`);
 
-                return data?.token;
+                return responsData.data.token;
             }),
             catchError((error: AxiosError) => {
                 this.logger.error(error.response?.data ?? error.message);
