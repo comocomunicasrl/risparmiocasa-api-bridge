@@ -23,7 +23,7 @@ export class TwoFactorAuthController {
         return of({ id: `${payload.recipient}-${OTP}`, OTP }).pipe(
             switchMap(({ id, OTP }) => {
                 return from(this.twoFactorAuthModel.create({ id, recipient: payload.recipient, OTP, creationDate: Date.now().toString() })).pipe(
-                    switchMap(() => this.smsService.send(payload.recipient, `Risparmio Casa: il tuo codice di verifica è ${OTP}. Non consividerlo con nessuno.`))
+                    switchMap(() => this.smsService.send(payload.recipient, `${OTP} è il tuo codice di conferma per Risparmio Casa`))
                 );
             })
         );
