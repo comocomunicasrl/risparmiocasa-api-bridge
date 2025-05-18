@@ -21,7 +21,8 @@ export class SmsService {
                 };
                 return this.httpService.post(`${this.API_SERVER_URL}/sms/batch`, {
                     global: {
-                        route: 'GW1',
+                        route: 'GW2',
+                        from: 'RispCasa',
                         text,
                         campaignId: 'OTP'
                     },
