@@ -17,7 +17,7 @@ export class SmsService {
             switchMap(authToken => {
                 const headers = {
                     Authentication: `Bearer ${authToken}`,
-                    'Content-Type': 'application/json; charset=UTF-8'
+                    'Content-Type': 'application/json'
                 };
                 return this.httpService.post(`${this.API_SERVER_URL}/sms/batch`, {
                     global: {
