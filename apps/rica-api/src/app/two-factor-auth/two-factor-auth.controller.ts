@@ -41,7 +41,7 @@ export class TwoFactorAuthController {
                     return of(false);
                 }
 
-                return from(this.twoFactorAuthModel.update({ id: result.id }, { OTP: '' })).pipe(
+                return from(this.twoFactorAuthModel.delete({ id: result.id })).pipe(
                     map(() => true)
                 );
             }),
