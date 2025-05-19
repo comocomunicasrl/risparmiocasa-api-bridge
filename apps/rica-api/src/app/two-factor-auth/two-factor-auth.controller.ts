@@ -7,6 +7,10 @@ import { catchError, from, map, of, switchMap } from 'rxjs';
 @Controller('two-factor-auth')
 export class TwoFactorAuthController {
     private readonly logger = new Logger(TwoFactorAuthController.name);
+    private readonly otpMessageMap: Record<'it'|'en', string> = {
+        it: '{OTP} è il tuo codice di conferma per Risparmio Casa',
+        en: '{OTP} is your confirmation code for Risparmio Casa'
+    };
     
     constructor(
         private smsService: SmsService,
@@ -23,7 +27,7 @@ export class TwoFactorAuthController {
         return of({ id: `${payload.recipient}-${OTP}`, OTP }).pipe(
             switchMap(({ id, OTP }) => {
                 return from(this.twoFactorAuthModel.create({ id, recipient: payload.recipient, OTP, creationDate: Date.now().toString() })).pipe(
-                    switchMap(() => this.smsService.send(payload.recipient, `${OTP} è il tuo codice di conferma per Risparmio Casa`))
+                    switchMap(() => this.smsService.send(payload.recipient, (this.otpMessageMap[payload.languageCode] ?? this.otpMessageMap['it']).replace('{OTP}', OTP)))
                 );
             })
         );

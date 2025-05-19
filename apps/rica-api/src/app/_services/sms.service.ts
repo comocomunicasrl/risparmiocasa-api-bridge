@@ -31,7 +31,6 @@ export class SmsService {
                         { to: recipient.replace('+', '') }
                     ]
                 };
-                this.logger.debug(body);
 
                 return this.httpService.post(`${this.API_SERVER_URL}/sms/batch`, body, { headers }).pipe(
                     map(resp => {
@@ -55,13 +54,11 @@ export class SmsService {
         const headers = {
             'Content-Type': 'application/json'
         };
-        this.logger.debug(url);
-        return this.httpService.get('https://api.ipify.org').pipe(
-            tap(resp => this.logger.debug(`my ip: ${resp.data}`)),
-            switchMap(() => this.httpService.post(url, {
-                username: process.env.EDISCOM_SMS_USERNAME,
-                password: process.env.EDISCOM_SMS_PASSWORD
-            }, { headers })),
+
+        return this.httpService.post(url, {
+            username: process.env.EDISCOM_SMS_USERNAME,
+            password: process.env.EDISCOM_SMS_PASSWORD
+        }, { headers }).pipe(
             map(resp => {
                 this.logger.debug(resp.data);
                 const responsData = resp.data;
