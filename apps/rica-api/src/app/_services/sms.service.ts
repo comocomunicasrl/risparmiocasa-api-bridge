@@ -21,7 +21,7 @@ export class SmsService {
                 };
                 const body = {
                     global: {
-                        route: 'GW1',
+                        route: 'GW2',
                         from: 'RispCasa',
                         coding: '0',
                         text,
