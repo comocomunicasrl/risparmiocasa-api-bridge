@@ -28,7 +28,7 @@ export class SmsService {
                         campaignId: 'OTP'
                     },
                     message: [
-                        { to: recipient }
+                        { to: recipient.replace('+', '00') }
                     ]
                 };
                 this.logger.debug(body);
