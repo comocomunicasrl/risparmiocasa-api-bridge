@@ -36,7 +36,7 @@ export class TwoFactorAuthController {
 
         return from(this.twoFactorAuthModel.get({ id: `${payload.recipient}-${payload.OTP}` })).pipe(
             switchMap(result => {
-                if (!result || result.OTP != payload.OTP || (Date.now() - Number.parseInt(result.creationDate)) > 3600000) {
+                if (!result || (result.OTP != payload.OTP) || ((Date.now() - Number.parseInt(result.creationDate)) > 3600000)) {
                     this.logger.debug(`Invalid OTP!.`);
                     return of(false);
                 }

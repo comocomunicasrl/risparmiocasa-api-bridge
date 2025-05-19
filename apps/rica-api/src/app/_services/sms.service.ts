@@ -22,7 +22,7 @@ export class SmsService {
                 const body = {
                     global: {
                         route: 'GW2',
-                        from: 'RispCasa',
+                        from: process.env.EDISCOM_SMS_SENDER,
                         coding: '0',
                         text,
                         campaignId: 'OTP'
