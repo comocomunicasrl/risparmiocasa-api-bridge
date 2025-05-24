@@ -1,0 +1,1 @@
+export const managedCountryCodes = ['it', 'ch', 'mt'];

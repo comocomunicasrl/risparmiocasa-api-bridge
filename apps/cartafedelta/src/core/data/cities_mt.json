@@ -1,0 +1,290 @@
+[
+    {
+        "label": "Attard",
+        "cap": ["ATD"]
+    },
+    {
+        "label": "Balzan",
+        "cap": ["BZN"]
+    },
+    {
+        "label": "Birkirkara",
+        "cap": ["BKR"]
+    },
+    {
+        "label": "Birzebbuga",
+        "cap": ["BBG"]
+    },
+    {
+        "label": "Bormla",
+        "cap": ["BML"]
+    },
+    {
+        "label": "Dingli",
+        "cap": ["DGL"]
+    },
+    {
+        "label": "Ghajnsielem",
+        "cap": ["GSM"]
+    },
+    {
+        "label": "Kemmuna",
+        "cap": ["KMN"]
+    },
+    {
+        "label": "Valletta",
+        "cap": ["VLT"]
+    },
+    {
+        "label": "Birgu",
+        "cap": ["BRG"]
+    },
+    {
+        "label": "Fgura",
+        "cap": ["FGR"]
+    },
+    {
+        "label": "Fontana",
+        "cap": ["FNT"]
+    },
+    {
+        "label": "Floriana",
+        "cap": ["FRN"]
+    },
+    {
+        "label": "Gudja",
+        "cap": ["GDJ"]
+    },
+    {
+        "label": "Gzira",
+        "cap": ["GZR"]
+    },
+    {
+        "label": "Kalkara",
+        "cap": ["KKR"]
+    },
+    {
+        "label": "Smart City",
+        "cap": ["SCM"]
+    },
+    {
+        "label": "Marsa",
+        "cap": ["MRS"]
+    },
+    {
+        "label": "MaltaPost",
+        "cap": ["MTP"]
+    },
+    {
+        "label": "Mellieha",
+        "cap": ["MLH"]
+    },
+    {
+        "label": "Mosta",
+        "cap": ["MST"]
+    },
+    {
+        "label": "Munxar",
+        "cap": ["MXR"]
+    },
+    {
+        "label": "Xlendi",
+        "cap": ["XLN"]
+    },
+    {
+        "label": "Qala",
+        "cap": ["QLA"]
+    },
+    {
+        "label": "Qrendi",
+        "cap": ["QRD"]
+    },
+    {
+        "label": "Hamrun",
+        "cap": ["HMR"]
+    },
+    {
+        "label": "Nadur",
+        "cap": ["NDR"]
+    },
+    {
+        "label": "Naxxar",
+        "cap": ["NXR"]
+    },
+    {
+        "label": "Rabat",
+        "cap": ["RBT"]
+    },
+    {
+        "label": "Siggiewi",
+        "cap": ["SGW"]
+    },
+    {
+        "label": "Swieqi",
+        "cap": ["SWQ"]
+    },
+    {
+        "label": "Xaghra",
+        "cap": ["XRA"]
+    },
+    {
+        "label": "Xewkija",
+        "cap": ["XWK"]
+    },
+    {
+        "label": "Xghajra",
+        "cap": ["XJR"]
+    },
+    {
+        "label": "Marsalforn",
+        "cap": ["MFN"]
+    },
+    {
+        "label": "Zebbug",
+        "cap": ["ZBB", "ZBG"]
+    },
+    {
+        "label": "Zejtun",
+        "cap": ["ZTN"]
+    },
+    {
+        "label": "Zurrieq",
+        "cap": ["ZRQ"]
+    },
+    {
+        "label": "Kirkop",
+        "cap": ["KKP"]
+    },
+    {
+        "label": "Gharb",
+        "cap": ["GRB"]
+    },
+    {
+        "label": "Ghasri",
+        "cap": ["GSR"]
+    },
+    {
+        "label": "Iklin",
+        "cap": ["IKL"]
+    },
+    {
+        "label": "Mdina",
+        "cap": ["MDN"]
+    },
+    {
+        "label": "Mqabba",
+        "cap": ["MQB"]
+    },
+    {
+        "label": "Msida",
+        "cap": ["MSD"]
+    },
+    {
+        "label": "Mtarfa",
+        "cap": ["MTF"]
+    },
+    {
+        "label": "Mgarr",
+        "cap": ["MGR"]
+    },
+    {
+        "label": "Isla",
+        "cap": ["ISL"]
+    },
+    {
+        "label": "Lija",
+        "cap": ["LJA"]
+    },
+    {
+        "label": "Luqa",
+        "cap": ["LQA"]
+    },
+    {
+        "label": "Marsaskala",
+        "cap": ["MSK"]
+    },
+    {
+        "label": "Marsaxlokk",
+        "cap": ["MXK"]
+    },
+    {
+        "label": "Paola",
+        "cap": ["PLA"]
+    },
+    {
+        "label": "Pembroke",
+        "cap": ["PBK"]
+    },
+    {
+        "label": "Qormi",
+        "cap": ["QRM"]
+    },
+    {
+        "label": "Safi",
+        "cap": ["SFI"]
+    },
+    {
+        "label": "San Gwann",
+        "cap": ["SGN"]
+    },
+    {
+        "label": "Saint Julians",
+        "cap": ["STJ"]
+    },
+    {
+        "label": "San Lawrenz",
+        "cap": ["SLZ"]
+    },
+    {
+        "label": "Santa Lucija",
+        "cap": ["SLC"]
+    },
+    {
+        "label": "Saint Paul's Bay",
+        "cap": ["SPB"]
+    },
+    {
+        "label": "Santa Venera",
+        "cap": ["SVR"]
+    },
+    {
+        "label": "Sannat",
+        "cap": ["SNT"]
+    },
+    {
+        "label": "Pieta'",
+        "cap": ["PTA"]
+    },
+    {
+        "label": "Tarxien",
+        "cap": ["TXN"]
+    },
+    {
+        "label": "Sliema",
+        "cap": ["SLM"]
+    },
+    {
+        "label": "Kercem",
+        "cap": ["KCM"]
+    },
+    {
+        "label": "Ta' Xbiex",
+        "cap": ["XBX"]
+    },
+    {
+        "label": "Victoria",
+        "cap": ["VCT"]
+    },
+    {
+        "label": "Gharghur",
+        "cap": ["GHR"]
+    },
+    {
+        "label": "Ghaxaq",
+        "cap": ["GXQ"]
+    },
+    {
+        "label": "Zabbar",
+        "cap": ["ZBR"]
+    }
+]
