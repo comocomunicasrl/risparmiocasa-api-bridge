@@ -1,21 +1,21 @@
 import type { NextPage } from 'next';
 import React, { PropsWithChildren } from 'react';
-import PersonDetails from '../../components/PersonDetails';
-import NavigationStepHeader from '../../components/NavigationStepHeader';
-import { CreateCardStep } from '../../core/models/enums/CreateCardStep';
-import EmailConfirmation from '../../components/EmailConfirmation';
-import { IPersonDetails } from '../../core/models/IPersonDetails';
-import CardConfirmation from '../../components/CardConfirmation';
+import PersonDetails from '@/components/PersonDetails';
+import NavigationStepHeader from '@/components/NavigationStepHeader';
+import { CreateCardStep } from '@/core/models/enums/CreateCardStep';
+import EmailConfirmation from '@/components/EmailConfirmation';
+import { IPersonDetails } from '@/core/models/IPersonDetails';
+import CardConfirmation from '@/components/CardConfirmation';
 import Head from 'next/head';
-import { RisparmioCasaRepository } from '../../core/repositories/RisparmioCasaRepository';
-import { IPreferredStore } from '../../core/models/IPreferredStore';
-import cities from './../../core/data/cities.json';
-import citiesCh from './../../core/data/cities_ch.json';
-import { ICity } from '../../core/models/ICity';
+import { RisparmioCasaRepository } from '@/core/repositories/RisparmioCasaRepository';
+import { IPreferredStore } from '@/core/models/IPreferredStore';
+import cities from '@/core/data/cities.json';
+import citiesCh from '@/core/data/cities_ch.json';
+import { ICity } from '@/core/models/ICity';
 import axios from 'axios';
-import { EmailProvider } from '../../core/models/EmailProvider';
-import { CountryCode, CountryOfResidence } from '../../core/models/enums/Country';
-import Footer from '../../components/Footer';
+import { EmailProvider } from '@/core/models/EmailProvider';
+import { CountryCode, CountryOfResidence } from '@/core/models/enums/Country';
+import Footer from '@/components/Footer';
 
 export async function getServerSideProps() {
     const risparmioCasaRepository = new RisparmioCasaRepository();

@@ -1,36 +1,37 @@
-import {RisparmioCasaRepository} from '../../core/repositories/RisparmioCasaRepository';
-import citiesMt from './../../core/data/cities_mt.json';
-import dialCodes from '../../core/data/dialCodes.json';
-import {IPreferredStore} from '../../core/models/IPreferredStore';
-import {ICity} from '../../core/models/ICity';
-import {NextPage} from 'next';
-import React, {PropsWithChildren} from 'react';
+import { RisparmioCasaRepository } from '../../../../core/repositories/RisparmioCasaRepository';
+import cities from '@/core/data/cities.json';
+import citiesCh from '@/core/data/cities_ch.json';
+import dialCodes from '@/core/data/dialCodes.json';
+import { IPreferredStore } from '@/core/models/IPreferredStore';
+import { ICity } from '@/core/models/ICity';
+import { NextPage } from 'next';
+import React, { PropsWithChildren } from 'react';
 import Head from 'next/head';
-import NavigationStepHeader from '../../components/NavigationStepHeader';
-import {UpdateCardStep} from '../../core/models/enums/UpdateCardStep';
-import {IPersonDetails} from '../../core/models/IPersonDetails';
-import {IVerifiedCardData} from '../../core/models/IVerifiedCardData';
-import VerificationWizardItem from '../../components/data-update-wizard/VerificationWizardItem';
-import {getCurrentYear, serializePreferredStores} from '../../utils/utils';
-import CardUpdateWizardItem from '../../components/data-update-wizard/CardUpdateWizardItem';
-import ConfirmEmailWizardItem from '../../components/data-update-wizard/ConfirmEmailWizardItem';
-import ConfirmationWizardItem from '../../components/data-update-wizard/ConfirmationWizardItem';
+import NavigationStepHeader from '@/components/NavigationStepHeader';
+import { UpdateCardStep } from '@/core/models/enums/UpdateCardStep';
+import { IPersonDetails } from '@/core/models/IPersonDetails';
+import { IVerifiedCardData } from '@/core/models/IVerifiedCardData';
+import VerificationWizardItem from '@/components/data-update-wizard/VerificationWizardItem';
+import {getCurrentYear, serializePreferredStores} from '@/utils/utils';
+import CardUpdateWizardItem from '@/components/data-update-wizard/CardUpdateWizardItem';
+import ConfirmEmailWizardItem from '@/components/data-update-wizard/ConfirmEmailWizardItem';
+import ConfirmationWizardItem from '@/components/data-update-wizard/ConfirmationWizardItem';
 import axios from 'axios';
-import {EmailProvider} from '../../core/models/EmailProvider';
-import {CountryCode} from "../../core/models/enums/Country";
-import {TranslationLanguageCode} from "../../core/models/enums/Translation";
+import { EmailProvider } from '@/core/models/EmailProvider';
+import {CountryCode, CountryOfResidence} from "@/core/models/enums/Country";
 
 export async function getServerSideProps() {
     const risparmioCasaRepository = new RisparmioCasaRepository();
     const preferredStores = serializePreferredStores(await risparmioCasaRepository.getPreferredStores(
-        CountryCode.Malta
+        CountryCode.Switzerland
     ));
 
     return {
         props: {
             preferredStores,
             cities: {
-                [CountryCode.Malta]: citiesMt,
+                [CountryCode.Italy]: cities,
+                [CountryCode.Switzerland]: citiesCh,
             },
         },
     };
@@ -51,7 +52,7 @@ const CardUpdate: NextPage = ({ preferredStores, cities }: PropsWithChildren<IPr
             .post('/api/update-card-confirm', {
                 details: {
                     ...details,
-                    registrationCountry: CountryCode.Malta,
+                    registrationCountry: CountryCode.Switzerland,
                     email,
                 },
                 provider,
@@ -77,34 +78,33 @@ const CardUpdate: NextPage = ({ preferredStores, cities }: PropsWithChildren<IPr
             <div className="container mx-auto">
                 <div className="mx-auto mt-5 mb-5">
                     <h1 className="text-[16px] sm:text-[24px] font-bold text-center">
-                        Loyalty card update data form
+                        Modulo aggiornamento dati carta fedeltà
                     </h1>
                 </div>
                 <div className="border border-t-0 shadow min-h-[220px]">
                     <div className="h-full p-4 border-t-4 sm:p-5 border-risparmiocasa-dark-blue">
                         <div className="flex w-full mx-auto text-center">
                             <NavigationStepHeader
-                                title="1 - Loyalty Card"
+                                title="1 - Carta fedeltà"
                                 active={currentStep === UpdateCardStep.CardCheck}
                             />
                             <NavigationStepHeader
-                                title="2 - Personal data"
+                                title="2 - Dati anagrafici"
                                 active={currentStep === UpdateCardStep.PersonDetails}
                             />
                             <NavigationStepHeader
-                                title="3 - Confirm email"
+                                title="3 - Conferma email"
                                 active={currentStep === UpdateCardStep.EmailConfirmation}
                             />
                             <NavigationStepHeader
-                                title="4 - Confirm"
+                                title="4 - Conferma"
                                 active={currentStep === UpdateCardStep.Confirmation}
                             />
                         </div>
                         {currentStep === UpdateCardStep.CardCheck && (
                             <VerificationWizardItem
+                                region={CountryCode.Switzerland}
                                 checkIfCardAlreadyUpdated={false}
-                                languageCode={TranslationLanguageCode.En}
-                                region={CountryCode.Malta}
                                 dialCodes={dialCodes}
                                 onSuccess={(verifiedData) => {
                                     setVerifiedData(verifiedData);
@@ -115,10 +115,19 @@ const CardUpdate: NextPage = ({ preferredStores, cities }: PropsWithChildren<IPr
                         {currentStep === UpdateCardStep.PersonDetails && (
                             <CardUpdateWizardItem
                                 preferredStores={preferredStores}
+                                countriesOfResidence={[
+                                    {
+                                        code: CountryCode.Italy,
+                                        label: CountryOfResidence.Italy,
+                                    },
+                                    {
+                                        code: CountryCode.Switzerland,
+                                        label: CountryOfResidence.Switzerland,
+                                    },
+                                ]}
+                                region={CountryCode.Switzerland}
                                 cities={cities}
                                 verifiedCardData={verifiedData}
-                                region={CountryCode.Malta}
-                                languageCode={TranslationLanguageCode.En}
                                 onSuccess={(data) => {
                                     setDetails(data);
                                     setCurrentStep(UpdateCardStep.EmailConfirmation);
@@ -127,12 +136,11 @@ const CardUpdate: NextPage = ({ preferredStores, cities }: PropsWithChildren<IPr
                         )}
                         {currentStep === UpdateCardStep.EmailConfirmation && (
                             <ConfirmEmailWizardItem
-                                languageCode={TranslationLanguageCode.En}
                                 details={details}
                                 onSuccess={(email, provider) => updateCard(email, provider)}
                             />
                         )}
-                        {currentStep === UpdateCardStep.Confirmation && <ConfirmationWizardItem languageCode={TranslationLanguageCode.En}/>}
+                        {currentStep === UpdateCardStep.Confirmation && <ConfirmationWizardItem />}
                     </div>
                 </div>
                 <footer className="pb-6 mx-auto mt-6 text-center sm:mt-10">

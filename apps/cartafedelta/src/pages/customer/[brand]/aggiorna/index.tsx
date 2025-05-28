@@ -1,42 +1,55 @@
-import { RisparmioCasaRepository } from '../../core/repositories/RisparmioCasaRepository';
-import cities from '../../core/data/cities.json';
-import dialCodes from '../../core/data/dialCodes.json';
-import { IPreferredStore } from '../../core/models/IPreferredStore';
-import { ICity } from '../../core/models/ICity';
+import { RisparmioCasaRepository } from '../../../../core/repositories/RisparmioCasaRepository';
+import cities from '@/core/data/cities.json';
+import dialCodes from '@/core/data/dialCodes.json';
+import { IPreferredStore } from '@/core/models/IPreferredStore';
+import { ICity } from '@/core/models/ICity';
 import { NextPage } from 'next';
 import React, { PropsWithChildren } from 'react';
 import Head from 'next/head';
-import NavigationStepHeader from '../../components/NavigationStepHeader';
-import { UpdateCardStep } from '../../core/models/enums/UpdateCardStep';
-import { IPersonDetails } from '../../core/models/IPersonDetails';
-import PersonDetailsUpdateWizardItem from '../../components/data-update-wizard/csv/PersonDetailsUpdateWizardItem';
-import UpdateConfirmationWizardItem from '../../components/data-update-wizard/csv/UpdateConfirmationWizardItem';
-import { IVerifiedCardData } from '../../core/models/IVerifiedCardData';
-import VerificationWizardItem from '../../components/data-update-wizard/VerificationWizardItem';
+import NavigationStepHeader from '@/components/NavigationStepHeader';
+import { UpdateCardStep } from '@/core/models/enums/UpdateCardStep';
+import { IPersonDetails } from '@/core/models/IPersonDetails';
+import { IVerifiedCardData } from '@/core/models/IVerifiedCardData';
+import VerificationWizardItem from '@/components/data-update-wizard/VerificationWizardItem';
+import {getCurrentYear, serializePreferredStores} from '@/utils/utils';
+import CardUpdateWizardItem from '@/components/data-update-wizard/CardUpdateWizardItem';
+import ConfirmEmailWizardItem from '@/components/data-update-wizard/ConfirmEmailWizardItem';
+import ConfirmationWizardItem from '@/components/data-update-wizard/ConfirmationWizardItem';
 import axios from 'axios';
-import {getCurrentYear} from "../../utils/utils";
+import { EmailProvider } from '@/core/models/EmailProvider';
+import {CountryCode} from "@/core/models/enums/Country";
 
 export async function getServerSideProps() {
     const risparmioCasaRepository = new RisparmioCasaRepository();
-    const preferredStores = await risparmioCasaRepository.getPreferredStores();
+    const preferredStores = serializePreferredStores(
+        await risparmioCasaRepository.getPreferredStores()
+    );
 
     return {
-        props: { preferredStores, cities, dialCodes },
+        props: { preferredStores, cities: { [CountryCode.Italy]: cities }, dialCodes },
     };
 }
 
 interface IProps {
     preferredStores: IPreferredStore[];
-    cities: ICity[];
+    cities: { [key: string]: ICity[] };
 }
 
-const Update: NextPage = ({ preferredStores }: PropsWithChildren<IProps>) => {
+const CardUpdate: NextPage = ({ preferredStores, cities }: PropsWithChildren<IProps>) => {
     const [currentStep, setCurrentStep] = React.useState(UpdateCardStep.CardCheck);
     const [verifiedData, setVerifiedData] = React.useState<IVerifiedCardData>();
+    const [details, setDetails] = React.useState<IPersonDetails>();
 
-    const addUpdateRecord = (details: IPersonDetails) => {
+    const updateCard = (email: string, provider: EmailProvider) => {
         axios
-            .post('/api/update-card', { details })
+            .post('/api/update-card-confirm', {
+                details: {
+                    ...details,
+                    registrationCountry: CountryCode.Italy,
+                    email,
+                },
+                provider,
+            })
             .then((response) => {
                 setCurrentStep(UpdateCardStep.Confirmation);
             })
@@ -73,12 +86,17 @@ const Update: NextPage = ({ preferredStores }: PropsWithChildren<IProps>) => {
                                 active={currentStep === UpdateCardStep.PersonDetails}
                             />
                             <NavigationStepHeader
-                                title="3 - Conferma"
+                                title="3 - Conferma email"
+                                active={currentStep === UpdateCardStep.EmailConfirmation}
+                            />
+                            <NavigationStepHeader
+                                title="4 - Conferma"
                                 active={currentStep === UpdateCardStep.Confirmation}
                             />
                         </div>
                         {currentStep === UpdateCardStep.CardCheck && (
                             <VerificationWizardItem
+                                checkIfCardAlreadyUpdated={false}
                                 dialCodes={dialCodes}
                                 onSuccess={(verifiedData) => {
                                     setVerifiedData(verifiedData);
@@ -87,16 +105,23 @@ const Update: NextPage = ({ preferredStores }: PropsWithChildren<IProps>) => {
                             />
                         )}
                         {currentStep === UpdateCardStep.PersonDetails && (
-                            <PersonDetailsUpdateWizardItem
+                            <CardUpdateWizardItem
                                 preferredStores={preferredStores}
                                 cities={cities}
                                 verifiedCardData={verifiedData}
-                                onSuccess={addUpdateRecord}
+                                onSuccess={(data) => {
+                                    setDetails(data);
+                                    setCurrentStep(UpdateCardStep.EmailConfirmation);
+                                }}
                             />
                         )}
-                        {currentStep === UpdateCardStep.Confirmation && (
-                            <UpdateConfirmationWizardItem />
+                        {currentStep === UpdateCardStep.EmailConfirmation && (
+                            <ConfirmEmailWizardItem
+                                details={details}
+                                onSuccess={(email, provider) => updateCard(email, provider)}
+                            />
                         )}
+                        {currentStep === UpdateCardStep.Confirmation && <ConfirmationWizardItem />}
                     </div>
                 </div>
                 <footer className="pb-6 mx-auto mt-6 text-center sm:mt-10">
@@ -109,4 +134,4 @@ const Update: NextPage = ({ preferredStores }: PropsWithChildren<IProps>) => {
     );
 };
 
-export default Update;
+export default CardUpdate;

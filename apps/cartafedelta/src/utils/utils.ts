@@ -109,7 +109,14 @@ export function getCountryName(code: string) {
     return null;
 }
 
-
 export function getCurrentYear() {
     return new Date().getFullYear()
+}
+
+export async function getServerSideBrandProps(context) {
+    return { 
+        props: { 
+            brand: context.query.brand
+        } 
+    };
 }
