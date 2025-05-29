@@ -49,6 +49,7 @@ const VerificationWizardItem = ({
 
             {cardVerificationStep === CardVerificationStep.Barcode && (
                 <CardVerificationBarcode
+                    brand={brand}
                     region={region}
                     languageCode={languageCode}
                     checkIfCardAlreadyUpdated={checkIfCardAlreadyUpdated}
