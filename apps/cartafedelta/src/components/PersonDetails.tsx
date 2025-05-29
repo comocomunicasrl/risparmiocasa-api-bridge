@@ -22,6 +22,7 @@ interface WithRouterProps {
 }
 
 interface IPersonDetailsProps extends WithRouterProps {
+    brand: string;
     countryCode: string;
     personDetails?: IPersonDetails;
     cities: { [key: string]: ICity[] };
@@ -34,6 +35,7 @@ interface IPersonDetailsProps extends WithRouterProps {
 }
 
 const PersonDetails = ({
+    brand,
     countryCode,
     personDetails,
     cities,
@@ -58,6 +60,7 @@ const PersonDetails = ({
         postalCode: '',
         city: null,
         countryOfResidence: region ? region : CountryCode.Italy,
+        preferredStoreCode: (preferredStores?.length === 1) ? preferredStores.at(0).id : undefined,
         ...(personDetails ?? {})
     } as IPersonDetails);
     const [phoneAlreadySet] = React.useState(person.phoneNumber != null);
@@ -130,15 +133,11 @@ const PersonDetails = ({
     const verifyPersonData = async () => {
         setLoading(true);
 
-        if (personDataForm.getValues('discountCode') && !(await isValidDiscount(personDataForm.getValues('discountCode')))) {
+        if (personDataForm.getValues('discountCode') && !(await isValidDiscount(personDataForm.getValues('discountCode'), brand))) {
             window.alert('Codice sconto non valido');
             setLoading(false);
             return;
         }
-            // if (!person.phoneNumberSecondary) {
-            //     person.phoneNumberSecondary = person.phoneNumber;
-            // }
-
         
         onSuccess({
             ...personDataForm.getValues(),
@@ -166,7 +165,7 @@ const PersonDetails = ({
                             className={`rounded h-[40px] w-full mt-2 px-4 text-gray-600 ${
                                 personDataForm.getFieldState('name').invalid
                                     ? 'border-red-700 outline-red-800 border-2'
-                                    : 'border-risparmiocasa-neutral outline-blue-600 hover:border-black border'
+                                    : 'border-brand-neutral outline-blue-600 hover:border-black border'
                             }`}
                             maxLength={100}
                             value={personDataForm.watch('name')}
@@ -187,7 +186,7 @@ const PersonDetails = ({
                             className={`rounded h-[40px] w-full mt-2 px-4 text-gray-600 ${
                                 personDataForm.getFieldState('surname').invalid
                                     ? 'border-red-700 outline-red-800 border-2'
-                                    : 'border-risparmiocasa-neutral outline-blue-600 hover:border-black border'
+                                    : 'border-brand-neutral outline-blue-600 hover:border-black border'
                             }`}
                             maxLength={100}
                             value={personDataForm.watch('surname')}
@@ -392,7 +391,7 @@ const PersonDetails = ({
                                         className={`rounded h-[40px] w-full mt-2 px-4 text-gray-600 ${
                                             personDataForm.getFieldState('email').invalid
                                                 ? 'border-red-700 outline-red-800 border-2'
-                                                : 'border-risparmiocasa-neutral outline-blue-600 hover:border-black border'
+                                                : 'border-brand-neutral outline-blue-600 hover:border-black border'
                                         }`}
                                         maxLength={100}
                                         value={personDataForm.watch('email')}
@@ -551,7 +550,7 @@ const PersonDetails = ({
                             className={`rounded h-[40px] w-full mt-2 px-4 text-gray-600 ${
                                 personDataForm.getFieldState('address').invalid
                                     ? 'border-red-700 outline-red-800 border-2'
-                                    : 'border-risparmiocasa-neutral outline-blue-600 hover:border-black border'
+                                    : 'border-brand-neutral outline-blue-600 hover:border-black border'
                             }`}
                             maxLength={200}
                             value={personDataForm.watch('address')}
@@ -573,7 +572,7 @@ const PersonDetails = ({
                             className={`rounded h-[40px] w-full mt-2 px-4 text-gray-600 ${
                                 personDataForm.getFieldState('streetNumber').invalid
                                     ? 'border-red-700 outline-red-800 border-2'
-                                    : 'border-risparmiocasa-neutral outline-blue-600 hover:border-black border'
+                                    : 'border-brand-neutral outline-blue-600 hover:border-black border'
                             }`}
                             maxLength={10}
                             value={personDataForm.watch('streetNumber')}
@@ -584,7 +583,7 @@ const PersonDetails = ({
                 </div>
             </div>
             <div className="mt-4 sm:flex">
-                {!storeVersion && (
+                {!storeVersion && (preferredStores?.length > 1) && (
                     <div className="mt-2 sm:mt-0 sm:w-1/3 sm:pr-6">
                         <InputContainer
                             inputId="person-preferred-store"
@@ -703,7 +702,7 @@ const PersonDetails = ({
                             className={`rounded h-[40px] w-full mt-2 px-4 text-gray-600 ${
                                 personDataForm.getFieldState('discountCode').invalid
                                     ? 'border-red-700 outline-red-800 border-2'
-                                    : 'border-risparmiocasa-neutral outline-blue-600 hover:border-black border'
+                                    : 'border-brand-neutral outline-blue-600 hover:border-black border'
                             }`}
                             value={personDataForm.watch('discountCode')}
                             { ...personDataForm.register('discountCode') }
@@ -875,7 +874,7 @@ const PersonDetails = ({
                     </button>
                 )}
                 <button
-                    className={`mt-5 md:mt-10 bg-risparmiocasa-blue rounded-3xl p-2 px-10 ${
+                    className={`mt-5 md:mt-10 bg-brand-primary rounded-3xl p-2 px-10 ${
                         loading ? 'opacity-80 cursor-not-allowed' : ''
                     }`}
                     onClick={async (e) => {

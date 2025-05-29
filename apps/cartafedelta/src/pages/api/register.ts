@@ -5,13 +5,55 @@ import { RisparmioCasaRepository } from '../../core/repositories/RisparmioCasaRe
 import { IDiscountCode } from '../../core/models/IDiscountCode';
 import { EmailProvider } from '../../core/models/EmailProvider';
 import { mailjetClient } from '../../lib/mailjet';
-import { CountryCode } from '../../core/models/enums/Country';
+
+const emailTemplateMap = {
+    rica: { 
+        senderName: 'Risparmio Casa',
+        senderEmail: 'noreply@cartafedelta.online',
+        replyTo: 'cartafedelta@risparmiocasa.com',
+        sendGridTemplateIds: {
+            it: 'd-8e92080be6aa4066b20a060f045cf954',
+            mt: 'd-3d28ee40daca4050a17a4653c1d40c35',
+            ch: 'd-8e92080be6aa4066b20a060f045cf954'
+        },
+        mailjetTemplateIds: {
+            it: 3866301,
+            mt: 5803997,
+            ch: 3866301
+        },
+        mailjetSubjects: {
+            it: 'Risparmio Casa - Autenticazione Carta Fedeltà',
+            mt: 'Risparmio Casa - Loyalty Card Authentication',
+            ch: 'Risparmio Casa - Autenticazione Carta Fedeltà'
+        }
+    },
+    uniprice: { 
+        senderName: 'Uniprice',
+        senderEmail: 'noreply@cartafedelta.online',
+        replyTo: 'cartafedelta@uniprice.eu',
+        sendgridTemplateIds: {
+            it: 'd-8e92080be6aa4066b20a060f045cf954',
+            mt: '',
+            ch: ''
+        },
+        mailjetTemplateIds: {
+            it: 3866301,
+            mt: -1,
+            ch: -1
+        },
+        mailjetSubjects: {
+            it: 'Uniprice - Autenticazione Carta Fedeltà',
+            mt: '',
+            ch: ''
+        }
+    }
+}
 
 export default async function handler(req, res) {
     if (req.method === 'POST') {
-        const risparmioCasaRepository = new RisparmioCasaRepository();
         const details = req.body as IPersonDetails;
-        const { provider } = req.body;
+        const { provider, brand } = req.body;
+        const risparmioCasaRepository = new RisparmioCasaRepository(brand);
         console.log(details);
 
         if (details.discountCode) {
@@ -25,12 +67,9 @@ export default async function handler(req, res) {
         if (provider === EmailProvider.SendGrid) {
             const { sendGridClient } = sendGrid;
             const message = {
-                from: { name: 'Risparmio Casa', email: 'noreply@cartafedelta.online' },
-                replyTo: { email: 'cartafedelta@risparmiocasa.com' },
-                templateId:
-                    details.registrationCountry === CountryCode.Malta
-                        ? 'd-3d28ee40daca4050a17a4653c1d40c35'
-                        : 'd-8e92080be6aa4066b20a060f045cf954',
+                from: { name: emailTemplateMap[brand].senderName, email: emailTemplateMap[brand].senderEmail },
+                replyTo: { email: emailTemplateMap[brand].replyTo },
+                templateId: emailTemplateMap[brand].sendgridTemplateIds[details.registrationCountry],
                 personalizations: [
                     {
                         to: [{ email: details.email }],
@@ -54,16 +93,12 @@ export default async function handler(req, res) {
                 Messages: [
                     {
                         From: {
-                            Email: 'noreply@cartafedelta.online',
-                            Name: 'Risparmio Casa',
+                            Email: emailTemplateMap[brand].senderEmail,
+                            Name: emailTemplateMap[brand].senderName,
                         },
                         To: [{ Email: details.email }],
-                        Subject:
-                            details.registrationCountry === CountryCode.Malta
-                                ? 'Risparmio Casa - Loyalty Card Authentication'
-                                : 'Risparmio Casa - Autenticazione Carta Fedeltà',
-                        TemplateID:
-                            details.registrationCountry === CountryCode.Malta ? 5803997 : 3866301,
+                        Subject: emailTemplateMap[brand].mailjetSubjects[details.registrationCountry],
+                        TemplateID: emailTemplateMap[brand].mailjetTemplateIds[details.registrationCountry],
                         TemplateLanguage: true,
                         Variables: {
                             auth: authCode,

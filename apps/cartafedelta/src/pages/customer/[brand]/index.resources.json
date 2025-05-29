@@ -1,0 +1,10 @@
+{
+    "rica": {
+        "logo": "/logo-rica.png",
+        "favicon": "/favicon-rica.png"
+    },
+    "uniprice": {
+        "logo": "/logo-uniprice.svg",
+        "favicon": "/favicon-uniprice.png"
+    }
+}

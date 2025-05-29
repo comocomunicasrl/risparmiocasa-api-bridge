@@ -6,6 +6,7 @@ import {TranslationLanguageCode} from "../../../core/models/enums/Translation";
 import {CountryCode} from "../../../core/models/enums/Country";
 
 interface ICardVerificationBarcodeProps {
+    brand: string;
     region?: CountryCode;
     checkIfCardAlreadyUpdated?: boolean;
     languageCode?: TranslationLanguageCode;
@@ -13,6 +14,7 @@ interface ICardVerificationBarcodeProps {
 }
 
 const CardVerificationBarcode = ({
+    brand,
     checkIfCardAlreadyUpdated = true,
     region = CountryCode.Italy,
     languageCode = TranslationLanguageCode.It,
@@ -42,10 +44,10 @@ const CardVerificationBarcode = ({
         setLoading(true);
         try {
             if (checkIfCardAlreadyUpdated) {
-                await axios.post('/api/check-card-updated', { cardNumber: card });
+                await axios.post('/api/check-card-updated', { cardNumber: card, brand });
             }
 
-            await axios.post('/api/check-card', { cardNumber: card, registrationCountry: region });
+            await axios.post('/api/check-card', { cardNumber: card, registrationCountry: region, brand });
 
             setError(false);
             onSuccess(card);
@@ -58,7 +60,7 @@ const CardVerificationBarcode = ({
 
     return (
         <>
-            <img src="/card-with-barcode.jpg" alt="Risparmiocasa card" className="mx-auto" />
+            <img src="/card-with-barcode.jpg" alt="Fidelity card" className="mx-auto" />
 
             <div className="mt-8 text-center">
                 <p className="sm:text-sm">
@@ -75,7 +77,7 @@ const CardVerificationBarcode = ({
                         'ml-2',
                         valueError && !card
                             ? 'border-red-700 border-2'
-                            : 'border-risparmiocasa-neutral hover:border-black border'
+                            : 'border-brand-neutral hover:border-black border'
                     )}
                     onChange={(event) => setCard(event.target.value)}
                 />
@@ -83,7 +85,7 @@ const CardVerificationBarcode = ({
             <div className="text-center">
                 <button
                     className={clsx(
-                        'mx-auto mt-10 bg-risparmiocasa-blue rounded-3xl p-2 px-10',
+                        'mx-auto mt-10 bg-brand-primary rounded-3xl p-2 px-10',
                         loading && 'opacity-80 cursor-not-allowed'
                     )}
                     onClick={handleVerify}

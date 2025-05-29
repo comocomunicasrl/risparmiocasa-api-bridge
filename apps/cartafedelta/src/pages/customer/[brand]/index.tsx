@@ -17,19 +17,30 @@ import { CountryCode } from '@/core/models/enums/Country';
 import { serializePreferredStores } from '@/utils/utils';
 import Footer from '@/components/Footer';
 import locales from './index.locales.json';
+import resources from './index.resources.json';
+import globalLocales from '@/dictionaries/global.locales.json';
 
 export async function getServerSideProps(context) {
-    const risparmioCasaRepository = new RisparmioCasaRepository();
-    const preferredStores = serializePreferredStores(
-        await risparmioCasaRepository.getPreferredStores()
-    );
+    const brand = context.query.brand;
+    let preferredStores: IPreferredStore[];
+
+    if (brand === 'rica') {
+        const risparmioCasaRepository = new RisparmioCasaRepository(brand);
+        preferredStores = serializePreferredStores(
+            await risparmioCasaRepository.getPreferredStores()
+        );
+    } else {
+        preferredStores = [{ id: '0000AE', label: 'Pinerolo' }];
+    }
 
     return {
         props: { 
-            brand: context.query.brand,
+            brand,
             preferredStores, 
             cities: { [CountryCode.Italy]: cities } ,
-            locales 
+            locales,
+            globalLocales,
+            resources
         }
     };
 }
@@ -38,10 +49,12 @@ interface IProps {
     brand: string;
     preferredStores: IPreferredStore[];
     cities: { [key: string]: ICity[] };
-    locales: Record<string, Record<string, string>>
+    locales: Record<string, Record<string, string>>;
+    globalLocales: Record<string, Record<string, string>>;
+    resources: Record<string, Record<string, string>>;
 }
 
-const Home: NextPage = ({ brand, preferredStores, cities, locales }: PropsWithChildren<IProps>) => {
+const Home: NextPage = ({ brand, preferredStores, cities, locales, globalLocales, resources }: PropsWithChildren<IProps>) => {
     const [currentStep, setCurrentStep] = React.useState(CreateCardStep.PersonDetails);
     const [details, setDetails] = React.useState<IPersonDetails>();
     const [cardNumber, setCardNumber] = React.useState('');
@@ -51,7 +64,7 @@ const Home: NextPage = ({ brand, preferredStores, cities, locales }: PropsWithCh
         details.registrationCountry = CountryCode.Italy;
 
         axios
-            .post('/api/create-card', { details, provider })
+            .post('/api/create-card', { details, provider, brand })
             .then((response) => {
                 setCardNumber(response.data.cardNumber);
                 setCurrentStep(CreateCardStep.CardConfirmation);
@@ -65,58 +78,62 @@ const Home: NextPage = ({ brand, preferredStores, cities, locales }: PropsWithCh
     return (
         <>
             <Head>
-                <title>{locales[brand]?.page_title}</title>
-                <link rel="icon" href="/favicon.png" />
+                <title>{globalLocales[brand]?.basicWindowTitle}</title>
+                <link rel="icon" href={resources[brand].favicon} />
             </Head>
-            <header className="h-[110px] bg-risparmiocasa-blue border-b border-gray-500">
-                <img src="/logo.png" alt="Risparmiocasa logo" className="mx-auto" />
-            </header>
-            <div className="container mx-auto">
-                <div className="mx-auto mt-5 mb-5">
-                    <h1 className="text-[16px] sm:text-[24px] font-bold text-center">
-                        Modulo richiesta nuova carta fedeltà
-                    </h1>
-                </div>
-                <div className="border border-t-0 shadow min-h-[220px]">
-                    <div className="h-full p-4 border-t-4 sm:p-5 border-risparmiocasa-dark-blue">
-                        <div className="flex w-full mx-auto text-center">
-                            <NavigationStepHeader
-                                title="1 - Dati anagrafici"
-                                active={currentStep === CreateCardStep.PersonDetails}
-                            />
-                            <NavigationStepHeader
-                                title="2 - Conferma email"
-                                active={currentStep === CreateCardStep.EmailConfirmation}
-                            />
-                            <NavigationStepHeader
-                                title="3 - Emissione carta"
-                                active={currentStep === CreateCardStep.CardConfirmation}
-                            />
-                        </div>
-                        {currentStep === CreateCardStep.PersonDetails && (
-                            <PersonDetails
-                                countryCode="it"
-                                preferredStores={preferredStores}
-                                cities={cities}
-                                onSuccess={(data) => {
-                                    setDetails(data);
-                                    setCurrentStep(CreateCardStep.EmailConfirmation);
-                                }}
-                            />
-                        )}
-                        {currentStep === CreateCardStep.EmailConfirmation && (
-                            <EmailConfirmation
-                                details={details}
-                                onSuccess={createCard}
-                                countryCode={CountryCode.Italy}
-                            />
-                        )}
-                        {currentStep === CreateCardStep.CardConfirmation && (
-                            <CardConfirmation cardNumber={cardNumber} />
-                        )}
+            <div className={`brand-${brand}`}>
+                <header className="h-[110px] bg-brand-primary border-b border-gray-500">
+                    <img src={resources[brand].logo} alt={`${globalLocales[brand].brandName} logo`} className="mx-auto min-h-[107px]" />
+                </header>
+                <div className="container mx-auto">
+                    <div className="mx-auto mt-5 mb-5">
+                        <h1 className="text-[16px] sm:text-[24px] font-bold text-center">
+                            Modulo richiesta nuova carta fedeltà
+                        </h1>
                     </div>
+                    <div className="border border-t-0 shadow min-h-[220px]">
+                        <div className="h-full p-4 border-t-4 sm:p-5 border-dark-primary">
+                            <div className="flex w-full mx-auto text-center">
+                                <NavigationStepHeader
+                                    title="1 - Dati anagrafici"
+                                    active={currentStep === CreateCardStep.PersonDetails}
+                                />
+                                <NavigationStepHeader
+                                    title="2 - Conferma email"
+                                    active={currentStep === CreateCardStep.EmailConfirmation}
+                                />
+                                <NavigationStepHeader
+                                    title="3 - Emissione carta"
+                                    active={currentStep === CreateCardStep.CardConfirmation}
+                                />
+                            </div>
+                            {currentStep === CreateCardStep.PersonDetails && (
+                                <PersonDetails
+                                    brand={brand}
+                                    countryCode="it"
+                                    preferredStores={preferredStores}
+                                    cities={cities}
+                                    onSuccess={(data) => {
+                                        setDetails(data);
+                                        setCurrentStep(CreateCardStep.EmailConfirmation);
+                                    }}
+                                />
+                            )}
+                            {currentStep === CreateCardStep.EmailConfirmation && (
+                                <EmailConfirmation
+                                    brand={brand}
+                                    details={details}
+                                    onSuccess={createCard}
+                                    countryCode={CountryCode.Italy}
+                                />
+                            )}
+                            {currentStep === CreateCardStep.CardConfirmation && (
+                                <CardConfirmation cardNumber={cardNumber} />
+                            )}
+                        </div>
+                    </div>
+                    <Footer brand={brand} />
                 </div>
-                <Footer brand={brand} />
             </div>
         </>
     );

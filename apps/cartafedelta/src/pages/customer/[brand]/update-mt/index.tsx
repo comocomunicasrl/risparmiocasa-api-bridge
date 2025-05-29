@@ -21,7 +21,7 @@ import {CountryCode} from "@/core/models/enums/Country";
 import {TranslationLanguageCode} from "@/core/models/enums/Translation";
 
 export async function getServerSideProps() {
-    const risparmioCasaRepository = new RisparmioCasaRepository();
+    const risparmioCasaRepository = new RisparmioCasaRepository('rica');
     const preferredStores = serializePreferredStores(await risparmioCasaRepository.getPreferredStores(
         CountryCode.Malta
     ));
@@ -55,6 +55,7 @@ const CardUpdate: NextPage = ({ preferredStores, cities }: PropsWithChildren<IPr
                     email,
                 },
                 provider,
+                brand: 'rica'
             })
             .then((response) => {
                 setCurrentStep(UpdateCardStep.Confirmation);
@@ -102,6 +103,7 @@ const CardUpdate: NextPage = ({ preferredStores, cities }: PropsWithChildren<IPr
                         </div>
                         {currentStep === UpdateCardStep.CardCheck && (
                             <VerificationWizardItem
+                                brand="rica"
                                 checkIfCardAlreadyUpdated={false}
                                 languageCode={TranslationLanguageCode.En}
                                 region={CountryCode.Malta}
@@ -114,6 +116,7 @@ const CardUpdate: NextPage = ({ preferredStores, cities }: PropsWithChildren<IPr
                         )}
                         {currentStep === UpdateCardStep.PersonDetails && (
                             <CardUpdateWizardItem
+                                brand="rica"
                                 preferredStores={preferredStores}
                                 cities={cities}
                                 verifiedCardData={verifiedData}
@@ -127,6 +130,7 @@ const CardUpdate: NextPage = ({ preferredStores, cities }: PropsWithChildren<IPr
                         )}
                         {currentStep === UpdateCardStep.EmailConfirmation && (
                             <ConfirmEmailWizardItem
+                                brand="rica"
                                 languageCode={TranslationLanguageCode.En}
                                 details={details}
                                 onSuccess={(email, provider) => updateCard(email, provider)}

@@ -2,8 +2,8 @@ import { RisparmioCasaRepository } from '../../core/repositories/RisparmioCasaRe
 
 export default async function handler(req, res) {
     if (req.method === 'POST') {
-        const { details } = req.body;
-        const risparmioCasaRepository = new RisparmioCasaRepository();
+        const { details, brand } = req.body;
+        const risparmioCasaRepository = new RisparmioCasaRepository(brand);
 
         console.log('Trying to add update record', details);
         await risparmioCasaRepository.addCardUpdated(details);

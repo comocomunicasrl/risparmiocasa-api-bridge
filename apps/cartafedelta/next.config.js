@@ -13,6 +13,34 @@ const nextConfig = {
     return {
         beforeFiles: [
             {
+                source: "/uniprice/store/it/login",
+                destination: "/store/uniprice/it/login",
+            },
+            {
+                source: "/uniprice/store/it",
+                destination: "/store/uniprice/it",
+            },
+            {
+                source: "/uniprice/store/it/:path(.*)",
+                destination: "/store/uniprice/it/:path",
+            },
+            {
+                source: "/store",
+                destination: "/store/rica",
+            },
+            {
+                source: "/store/:countryCode(it|ch|mt)/login",
+                destination: "/store/rica/:countryCode/login",
+            },
+            {
+                source: "/store/:countryCode(it|ch|mt)",
+                destination: "/store/rica/:countryCode",
+            },
+            {
+                source: "/store/:countryCode(it|ch|mt)/:path(.*)",
+                destination: "/store/rica/:countryCode/:path",
+            },
+            {
                 source: "/:brand(rica|uniprice)",
                 destination: "/customer/:brand",
             },

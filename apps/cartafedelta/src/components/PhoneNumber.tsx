@@ -100,7 +100,7 @@ const PhoneNumber = ({
                     'rounded h-[40px] w-full px-4 text-gray-600',
                     error
                         ? 'border-red-700 outline-red-800 border-2'
-                        : 'border-risparmiocasa-neutral outline-blue-600 hover:border-black border'
+                        : 'border-brand-neutral outline-blue-600 hover:border-black border'
                 )}
                 disabled={disabled}
                 inputMode="numeric"

@@ -4,21 +4,52 @@ import { RisparmioCasaRepository } from '../../core/repositories/RisparmioCasaRe
 import JsBarcode from 'jsbarcode';
 import { EmailProvider } from '../../core/models/EmailProvider';
 import { mailjetClient } from '../../lib/mailjet';
-import { CountryCode } from '../../core/models/enums/Country';
 import { createCanvas } from 'canvas';
+
+const emailTemplateMap = {
+    rica: { 
+        senderName: 'Risparmio Casa',
+        senderEmail: 'noreply@cartafedelta.online',
+        replyTo: 'cartafedelta@risparmiocasa.com',
+        sendgridTemplateIds: {
+            it: 'd-b8bb196915bb49a6a16657774d01776d',
+            mt: 'd-5e29ba9c01614fa18a2b238f63252711',
+            ch: 'd-b8bb196915bb49a6a16657774d01776d'
+        },
+        mailjetTemplateIds: {
+            it: 3868063,
+            mt: 5803147,
+            ch: 3868063
+        }
+    },
+    uniprice: { 
+        senderName: 'Uniprice',
+        senderEmail: 'noreply@cartafedelta.online',
+        replyTo: 'cartafedelta@uniprice.eu',
+        sendgridTemplateIds: {
+            it: 'd-b8bb196915bb49a6a16657774d01776d',
+            mt: '',
+            ch: ''
+        },
+        mailjetTemplateIds: {
+            it: 3868063,
+            mt: -1,
+            ch: -1
+        }
+    }
+}
 
 export default async function handler(req, res) {
     if (req.method === 'PUT') {
-        const { details } = req.body;
+        const { details, brand } = req.body;
         console.log(details);
         await axios.post(process.env.RISPARMIOCASA_CREATE_CARD_SOAP_URL.replace('create-card', 'create-card-temp'), {
-            details,
+            details, brand
         });
         return res.status(200).end();
     } else if (req.method === 'POST') {
-        const { details } = req.body;
-        const { provider } = req.body;
-        const risparmioCasaRepository = new RisparmioCasaRepository();
+        const { provider, brand, details } = req.body;
+        const risparmioCasaRepository = new RisparmioCasaRepository(brand);
 
         if (await risparmioCasaRepository.cardAlreadyExists(details.email)) {
             console.log('Card already exists for this email.');
@@ -32,7 +63,7 @@ export default async function handler(req, res) {
 
         console.log(details);
         const results = await axios.post(process.env.RISPARMIOCASA_CREATE_CARD_SOAP_URL, {
-            details,
+            details, brand
         }).catch(function (error) {
             console.log(error);
             return res.status(500).send(error);
@@ -57,7 +88,8 @@ export default async function handler(req, res) {
                         store: details.preferredStoreCode,
                         cardNumber: data.cardNumber,
                         points: discount.value,
-                        ean: discount.ean
+                        ean: discount.ean,
+                        brand
                     })
                     .then(() => {
                         console.log('Discount code applied');
@@ -81,12 +113,9 @@ export default async function handler(req, res) {
             console.log('Sending new card email with Sendgrid.');
             const { sendGridClient } = sendGrid;
             const message = {
-                from: { name: 'Risparmio Casa', email: 'noreply@cartafedelta.online' },
-                replyTo: { email: 'cartafedelta@risparmiocasa.com' },
-                templateId:
-                    details.registrationCountry === CountryCode.Malta
-                        ? 'd-5e29ba9c01614fa18a2b238f63252711'
-                        : 'd-b8bb196915bb49a6a16657774d01776d',
+                from: { name: emailTemplateMap[brand].senderName, email: emailTemplateMap[brand].senderEmail },
+                replyTo: { email: emailTemplateMap[brand].replyTo },
+                templateId: emailTemplateMap[brand].sendgridTemplateIds[details.registrationCountry],
                 attachments: [
                     {
                         content: img,
@@ -112,8 +141,8 @@ export default async function handler(req, res) {
                 Messages: [
                     {
                         From: {
-                            Email: 'noreply@cartafedelta.online',
-                            Name: 'Risparmio Casa',
+                            Email: emailTemplateMap[brand].senderEmail,
+                            Name: emailTemplateMap[brand].senderName,
                         },
                         To: [
                             {
@@ -128,8 +157,7 @@ export default async function handler(req, res) {
                                 ContentId: 'id1',
                             },
                         ],
-                        TemplateID:
-                            details.registrationCountry === CountryCode.Malta ? 5803147 : 3868063,
+                        TemplateID: emailTemplateMap[brand].mailjetTemplateIds[details.registrationCountry],
                         TemplateLanguage: true,
                         Variables: {
                             cardNumber: data.cardNumber,

@@ -14,13 +14,17 @@ module.exports = {
         extend: {
             backgroundColor: {
                 'risparmiocasa-blue': '#17458E',
+                'brand-primary': 'var(--brand-primary)',
             },
             borderColor: {
                 'risparmiocasa-dark-blue': '#02103D',
                 'risparmiocasa-neutral': '#D1D4D9',
+                'brand-dark-primary': 'var(--brand-dark-primary)',
+                'brand-neutral': 'var(--brand-neutral)'
             },
             textColor: {
                 'risparmiocasa-light-blue': '#3D90DF',
+                'brand-light-primary': 'var(--brand-light-primary)'
             },
         },
     },

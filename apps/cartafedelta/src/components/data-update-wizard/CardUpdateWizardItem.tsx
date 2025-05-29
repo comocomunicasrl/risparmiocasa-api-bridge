@@ -21,6 +21,7 @@ interface WithRouterProps {
 }
 
 interface IPersonDetailsProps extends WithRouterProps {
+    brand: string;
     cities: { [key: string]: ICity[] };
     languageCode?: TranslationLanguageCode,
     region?: CountryCode;
@@ -31,6 +32,7 @@ interface IPersonDetailsProps extends WithRouterProps {
 }
 
 const CardUpdateWizardItem = ({
+    brand,
     cities,
     languageCode = TranslationLanguageCode.It,
     region,
@@ -104,7 +106,7 @@ const CardUpdateWizardItem = ({
             setError(true);
             setLoading(false);
         } else {
-            if (person.discountCode && !(await isValidDiscount(person.discountCode))) {
+            if (person.discountCode && !(await isValidDiscount(person.discountCode, brand))) {
                 setDiscountError(true);
                 setLoading(false);
                 return;
@@ -651,7 +653,7 @@ const CardUpdateWizardItem = ({
             </div>
             <div className="text-center">
                 <button
-                    className={`mx-auto mt-5 sm:mt-10 bg-risparmiocasa-blue rounded-3xl p-2 px-10 ${
+                    className={`mx-auto mt-5 sm:mt-10 bg-brand-primary rounded-3xl p-2 px-10 ${
                         loading ? 'opacity-80 cursor-not-allowed' : ''
                     }`}
                     onClick={() => {

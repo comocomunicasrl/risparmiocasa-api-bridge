@@ -12,6 +12,7 @@ import clsx from 'clsx';
 import ListboxComponent from '../../form/ListboxComponent';
 
 interface IPersonDetailsProps {
+    brand: string;
     cities: ICity[];
     preferredStores: IPreferredStore[];
     onSuccess?: (data: IPersonDetails) => void;
@@ -19,6 +20,7 @@ interface IPersonDetailsProps {
 }
 
 const PersonDetailsUpdateWizardItem = ({
+    brand,
     cities,
     preferredStores,
     onSuccess,
@@ -78,7 +80,7 @@ const PersonDetailsUpdateWizardItem = ({
             setError(true);
             setLoading(false);
         } else {
-            if (person.discountCode && !(await isValidDiscount(person.discountCode))) {
+            if (person.discountCode && !(await isValidDiscount(person.discountCode, brand))) {
                 setDiscountError(true);
                 setLoading(false);
                 return;

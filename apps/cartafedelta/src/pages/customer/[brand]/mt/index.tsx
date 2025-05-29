@@ -17,7 +17,7 @@ import { CountryCode } from '@/core/models/enums/Country';
 import Footer from '@/components/Footer';
 
 export async function getServerSideProps() {
-    const risparmioCasaRepository = new RisparmioCasaRepository();
+    const risparmioCasaRepository = new RisparmioCasaRepository('rica');
     const preferredStores = await risparmioCasaRepository.getPreferredStores(CountryCode.Malta);
 
     return {
@@ -45,7 +45,7 @@ const RegistrationMalta: NextPage = ({ preferredStores, cities }: PropsWithChild
         details.registrationCountry = CountryCode.Malta;
 
         axios
-            .post('/api/create-card', { details, provider })
+            .post('/api/create-card', { details, provider, brand: 'rica' })
             .then((response) => {
                 setCardNumber(response.data.cardNumber);
                 setCurrentStep(CreateCardStep.CardConfirmation);
@@ -89,6 +89,7 @@ const RegistrationMalta: NextPage = ({ preferredStores, cities }: PropsWithChild
                         </div>
                         {currentStep === CreateCardStep.PersonDetails && (
                             <PersonDetails
+                                brand="rica"
                                 countryCode="mt"
                                 preferredStores={preferredStores}
                                 cities={cities}
@@ -101,6 +102,7 @@ const RegistrationMalta: NextPage = ({ preferredStores, cities }: PropsWithChild
                         )}
                         {currentStep === CreateCardStep.EmailConfirmation && (
                             <EmailConfirmation
+                                brand="rica"
                                 details={details}
                                 onSuccess={createCard}
                                 countryCode={CountryCode.Malta}

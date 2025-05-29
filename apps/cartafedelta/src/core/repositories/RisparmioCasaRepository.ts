@@ -6,7 +6,11 @@ import { IDiscountCode } from '../models/IDiscountCode';
 import { CountryCode } from './../models/enums/Country';
 
 export class RisparmioCasaRepository implements IRisparmioCasaRepository {
-    private _tableName: string = dynamoDb.tableName;
+    private _tableName: string;
+
+    constructor(private brand: string) {
+        this._tableName = dynamoDb.tableName[brand];
+    }
 
     public async createCard(details: IPersonDetails, verificationCode: string): Promise<void> {
         await dynamoDb.put({

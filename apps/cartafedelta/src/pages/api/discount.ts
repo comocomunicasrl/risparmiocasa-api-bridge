@@ -2,8 +2,8 @@ import { RisparmioCasaRepository } from '../../core/repositories/RisparmioCasaRe
 
 export default async function handler(req, res) {
     if (req.method === 'GET') {
-        const { code } = req.query;
-        const risparmioCasaRepository = new RisparmioCasaRepository();
+        const { code, brand } = req.query;
+        const risparmioCasaRepository = new RisparmioCasaRepository(brand);
 
         const discount = await risparmioCasaRepository.getDiscountCode(code);
         return discount ? res.status(200).end() : res.status(400).end();

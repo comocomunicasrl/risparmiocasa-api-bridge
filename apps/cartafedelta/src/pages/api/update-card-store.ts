@@ -9,16 +9,60 @@ import {CountryCode, CountryOfResidence} from "../../core/models/enums/Country";
 import JsBarcode from 'jsbarcode';
 import { createCanvas } from 'canvas';
 
+const emailTemplateMap = {
+    rica: { 
+        senderName: 'Risparmio Casa',
+        senderEmail: 'noreply@cartafedelta.online',
+        replyTo: 'cartafedelta@risparmiocasa.com',
+        sendGridTemplateIds: {
+            it: 'd-a1026e5621c741ac8f39e9732183fcff',
+            mt: 'd-23883eb1d2c14ea1976440dd70e7a164',
+            ch: 'd-a1026e5621c741ac8f39e9732183fcff'
+        },
+        mailjetTemplateIds: {
+            it: 6538966,
+            mt: 6538971,
+            ch: 6538966
+        },
+        mailjetSubjects: {
+            it: 'Grazie per aver richiesto la Carta Fedeltà Risparmio Casa',
+            mt: 'Risparmio Casa - Thank you for requesting the Loyalty Card',
+            ch: 'Grazie per aver richiesto la Carta Fedeltà Risparmio Casa'
+        }
+    },
+    uniprice: { 
+        senderName: 'Uniprice',
+        senderEmail: 'noreply@cartafedelta.online',
+        replyTo: 'cartafedelta@uniprice.eu',
+        sendgridTemplateIds: {
+            it: 'd-a1026e5621c741ac8f39e9732183fcff',
+            mt: '',
+            ch: ''
+        },
+        mailjetTemplateIds: {
+            it: 6538966,
+            mt: -1,
+            ch: -1
+        },
+        mailjetSubjects: {
+            it: 'Grazie per aver richiesto la Carta Fedeltà Uniprice',
+            mt: 'Uniprice - Thank you for requesting the Loyalty Card',
+            ch: 'Grazie per aver richiesto la Carta Fedeltà Uniprice'
+        }
+    }
+}
+
 export default async function handler(req, res) {
     if (req.method === 'POST') {
-        const { provider } = req.body;
+        const { provider, brand } = req.body;
         const details = req.body.details as IPersonDetails;
-        const risparmioCasaRepository = new RisparmioCasaRepository();
+        const risparmioCasaRepository = new RisparmioCasaRepository(brand);
 
         console.log('Attempting to update card');
         console.log(details);
 
         const results = await axios.post(process.env.RISPARMIOCASA_UPDATE_CARD_SOAP_URL, {
+            brand,
             details,
             cardNumber: details.cardNumber,
             updateFromStore: true
@@ -37,6 +81,7 @@ export default async function handler(req, res) {
                 console.log('Found valid discount code. Applying to the card.');
                 const discountAssignmentRes = await axios
                     .post(process.env.RISPARMIOCASA_DISCOUNT_SOAP_URL, {
+                        brand,
                         store: details.preferredStoreCode,
                         cardNumber: details.cardNumber,
                         points: discount.value,
@@ -63,11 +108,9 @@ export default async function handler(req, res) {
         if (provider === EmailProvider.SendGrid) {
             const { sendGridClient } = sendGrid;
             const message = {
-                from: { name: 'Risparmio Casa', email: 'noreply@cartafedelta.online' },
-                replyTo: { email: 'cartafedelta@risparmiocasa.com' },
-                templateId: details.registrationCountry === CountryCode.Malta
-                    ? 'd-23883eb1d2c14ea1976440dd70e7a164'
-                    : 'd-a1026e5621c741ac8f39e9732183fcff',
+                from: { name: emailTemplateMap[brand].senderName, email: emailTemplateMap[brand].senderEmail },
+                replyTo: { email: emailTemplateMap[brand].replyTo },
+                templateId: emailTemplateMap[brand].sendgridTemplateIds[details.registrationCountry],
                 attachments: [
                     {
                         content: img,
@@ -128,14 +171,12 @@ export default async function handler(req, res) {
                 Messages: [
                     {
                         From: {
-                            Email: 'noreply@cartafedelta.online',
-                            Name: 'Risparmio Casa',
+                            Email: emailTemplateMap[brand].senderEmail,
+                            Name: emailTemplateMap[brand].senderName,
                         },
+                        Subject: emailTemplateMap[brand].mailjetSubjects[details.registrationCountry],
+                        TemplateID: emailTemplateMap[brand].mailjetTemplateIds[details.registrationCountry],
                         To: [{ Email: details.email }],
-                        Subject:
-                            details.registrationCountry === CountryCode.Malta
-                                ? 'Risparmio Casa - Thank you for requesting the Loyalty Card'
-                                : 'Grazie per aver richiesto la Carta Fedeltà Risparmio Casa',
                         InlinedAttachments: [
                             {
                                 ContentType: 'image/png',
@@ -144,8 +185,6 @@ export default async function handler(req, res) {
                                 ContentId: 'id1',
                             },
                         ],
-                        TemplateID:
-                            details.registrationCountry === CountryCode.Malta ? 6538971 : 6538966,
                         TemplateLanguage: true,
                         Variables: {
                             image: `<img width="320" style="display: block; margin: 0 auto;" src="cid:id1" />`,

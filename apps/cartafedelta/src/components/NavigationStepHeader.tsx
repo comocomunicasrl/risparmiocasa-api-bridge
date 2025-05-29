@@ -8,7 +8,7 @@ interface INavigationStepHeaderProps {
 const NavigationStepHeader = ({ title, active }: INavigationStepHeaderProps) => {
     return (
         <div
-            className={`w-1/3 text-risparmiocasa-light-blue text-[11px] sm:text-[16px] lg:text-[24px] font-bold ${
+            className={`w-1/3 text-brand-light-primary text-[11px] sm:text-[16px] lg:text-[24px] font-bold ${
                 active ? 'opacity-100' : 'opacity-50'
             }`}
         >

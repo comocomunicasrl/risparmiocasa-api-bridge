@@ -15,6 +15,7 @@ const DEFAULT_CODE = {
 }
 
 const PhoneNumberInput = ({
+    brand,
     phoneNumberInputTitle,
     confirmButtonLabel,
     dialCodes,
@@ -22,6 +23,7 @@ const PhoneNumberInput = ({
     languageCode = TranslationLanguageCode.It,
     onSuccess,
 }: {
+    brand: string;
     phoneNumberInputTitle?: string;
     confirmButtonLabel?: string;
     dialCodes: IDialCode[];
@@ -56,6 +58,7 @@ const PhoneNumberInput = ({
             .post('/api/2fa-request', {
                 phoneNumber: phoneCountryCode + phone,
                 languageCode,
+                brand
             })
             .then(() => true)
             .catch(() => {
@@ -120,7 +123,7 @@ const PhoneNumberInput = ({
                         'ml-2',
                         valueError && (!phone || phone.length < 8 || phone.length > 10)
                             ? 'border-red-700 border-2'
-                            : 'border-risparmiocasa-neutral hover:border-black border'
+                            : 'border-brand-neutral hover:border-black border'
                     )}
                     maxLength={10}
                     inputMode="numeric"
@@ -136,7 +139,7 @@ const PhoneNumberInput = ({
             <div className="text-center">
                 <button
                     className={clsx(
-                        'mx-auto mt-10 md:mt-28 bg-risparmiocasa-blue rounded-3xl p-2 px-10',
+                        'mx-auto mt-10 md:mt-28 bg-brand-primary rounded-3xl p-2 px-10',
                         loading && 'opacity-80 cursor-not-allowed'
                     )}
                     onClick={async () => {

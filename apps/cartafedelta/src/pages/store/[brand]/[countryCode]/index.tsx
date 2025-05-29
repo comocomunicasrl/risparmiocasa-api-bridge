@@ -1,26 +1,36 @@
 import { InferGetServerSidePropsType, NextPage } from 'next';
 import { useState } from 'react';
-import BasicLayout from '../../../components/BasicLayout';
-import NavigationStepHeader from '../../../components/NavigationStepHeader';
-import { StoreActivateCardStep } from '../../../core/models/enums/StoreActivateCardStep';
-import OTPAuth from '../../../components/OTPAuth';
-import { IPersonDetails } from '../../../core/models/IPersonDetails';
-import PersonDetails from '../../../components/PersonDetails';
-import { RisparmioCasaRepository } from '../../../core/repositories/RisparmioCasaRepository';
-import { serializePreferredStores, translate } from '../../../utils/utils';
-import { CountryCode, CountryOfResidence } from '../../../core/models/enums/Country';
-import citiesIt from '../../../core/data/cities.json';
-import citiesCh from '../../../core/data/cities_ch.json';
-import citiesMt from '../../../core/data/cities_mt.json';
-import CardNumber from '../../../components/CardNumber';
+import BasicLayout from '@/components/BasicLayout';
+import NavigationStepHeader from '@/components/NavigationStepHeader';
+import { StoreActivateCardStep } from '@/core/models/enums/StoreActivateCardStep';
+import OTPAuth from '@/components/OTPAuth';
+import { IPersonDetails } from '@/core/models/IPersonDetails';
+import PersonDetails from '@/components/PersonDetails';
+import { RisparmioCasaRepository } from '@/core/repositories/RisparmioCasaRepository';
+import { serializePreferredStores, translate } from '@/utils/utils';
+import { CountryCode, CountryOfResidence } from '@/core/models/enums/Country';
+import citiesIt from '@/core/data/cities.json';
+import citiesCh from '@/core/data/cities_ch.json';
+import citiesMt from '@/core/data/cities_mt.json';
+import CardNumber from '@/components/CardNumber';
+import { IPreferredStore } from '@/core/models/IPreferredStore';
 
 export async function getServerSideProps(context) {
-    const risparmioCasaRepository = new RisparmioCasaRepository();
-    const preferredStores = serializePreferredStores(
-        await risparmioCasaRepository.getPreferredStores()
-    );
+    const brand = context.query.brand;
+    let preferredStores: IPreferredStore[];
+
+    if (brand === 'rica') {
+        const risparmioCasaRepository = new RisparmioCasaRepository(brand);
+        preferredStores = serializePreferredStores(
+            await risparmioCasaRepository.getPreferredStores()
+        );
+    } else {
+        preferredStores = [{ id: '0000AE', label: 'Pinerolo' }];
+    }
+
     return { 
         props: { 
+            brand,
             countryCode: context.query.countryCode,
             preferredStores
         } 
@@ -28,6 +38,7 @@ export async function getServerSideProps(context) {
 }
 
 const Page: NextPage = ({
+    brand,
     countryCode,
     preferredStores
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
@@ -58,9 +69,9 @@ const Page: NextPage = ({
 
     return (
         <>
-            <BasicLayout paragraphTitle={translate(languageCode, 'storePage.fidelityCardSubscription')}>
+            <BasicLayout brand={brand} paragraphTitle={translate(languageCode, 'storePage.fidelityCardSubscription')}>
                 <div className="flex flex-col border border-t-0 shadow min-h-[500px]">
-                    <div className="flex flex-col grow p-4 border-t-4 sm:p-5 border-risparmiocasa-dark-blue overflow-hidden">
+                    <div className="flex flex-col grow p-4 border-t-4 sm:p-5 border-brand-dark-primary overflow-hidden">
                         <div className="hidden xl:flex w-full mx-auto text-center ">
                             <NavigationStepHeader
                                 title={`1 - ${translate(languageCode, 'storePage.OTPAuth')}`}
@@ -81,13 +92,14 @@ const Page: NextPage = ({
                         </div>
                         {currentStep === StoreActivateCardStep.OTPAuth && (
                             <div className="grow mt-8">
-                                <OTPAuth countryCode={countryCode} onSuccess={onOTPConfirmed} />
+                                <OTPAuth brand={brand} countryCode={countryCode} onSuccess={onOTPConfirmed} />
                             </div>
                             
                         )}
                         {currentStep === StoreActivateCardStep.PersonalData && (
                             <div className="grow mt-8">
                                 <PersonDetails
+                                    brand={brand}
                                     countryCode={countryCode}
                                     personDetails={details}
                                     preferredStores={preferredStores}
@@ -116,6 +128,7 @@ const Page: NextPage = ({
                         {currentStep === StoreActivateCardStep.CardAssociation && (
                             <div className="grow mt-8">
                                 <CardNumber 
+                                    brand={brand}
                                     personDetails={details} 
                                     countryCode={countryCode}
                                     onSuccess={(data) => {
@@ -135,7 +148,7 @@ const Page: NextPage = ({
                                 </div>
                                 <div className="text-center">
                                     <button
-                                        className='mx-auto mt-5 sm:mt-10 bg-risparmiocasa-blue rounded-3xl p-2 px-10'
+                                        className='mx-auto mt-5 sm:mt-10 bg-brand-primary rounded-3xl p-2 px-10'
                                         onClick={() => {
                                             window.location.reload()
                                         }}

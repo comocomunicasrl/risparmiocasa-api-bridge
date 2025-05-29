@@ -2,14 +2,15 @@ import axios from 'axios';
 
 export default async function handler(req, res) {
     if (req.method === 'POST') {
-        const { cardNumber, registrationCountry } = req.body;
+        const { cardNumber, registrationCountry, brand } = req.body;
 
         console.log(`Try to verify card ${cardNumber} for ${registrationCountry ?? 'it'} region`);
 
         try {
             const results = await axios.post(process.env.RISPARMIOCASA_VERIFY_CARD_SOAP_URL, {
                 cardNumber,
-                registrationCountry
+                registrationCountry,
+                brand
             });
 
             if (results.status !== 200) {

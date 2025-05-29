@@ -7,6 +7,7 @@ import { TranslationLanguageCode } from '../core/models/enums/Translation';
 import { translate } from '../utils/utils';
 
 interface IPhoneNumberConfirmationProps {
+    brand: string;
     details: IPersonDetails;
     title?: string; 
     sentCodeMessage?: string;
@@ -14,7 +15,7 @@ interface IPhoneNumberConfirmationProps {
     onSuccess: (phoneNumber: string) => void;
 }
 
-const PhoneNumberConfirmation = ({ details, title, sentCodeMessage, countryCode, onSuccess }: IPhoneNumberConfirmationProps) => {
+const PhoneNumberConfirmation = ({ brand, details, title, sentCodeMessage, countryCode, onSuccess }: IPhoneNumberConfirmationProps) => {
     const [phoneNumber, setPhoneNumber] = useState('');
     const [phoneVerificationStep, setPhoneVerificationStep] = useState('phone');
     const languageCode = (countryCode === 'mt') ? 'en' : 'it';
@@ -23,6 +24,7 @@ const PhoneNumberConfirmation = ({ details, title, sentCodeMessage, countryCode,
         <div className="w-full mx-auto mt-4 sm:mt-14">
             {phoneVerificationStep === 'phone' && (
                 <PhoneNumberInput
+                    brand={brand}
                     phoneNumberInputTitle={translate(languageCode, 'phoneNumberInput.insertPhone') + ':'}
                     confirmButtonLabel={translate(languageCode, 'common.next_step')?.toUpperCase()}
                     countryCode={countryCode}
@@ -43,6 +45,7 @@ const PhoneNumberConfirmation = ({ details, title, sentCodeMessage, countryCode,
                         }></p>
                     )}
                     <PhoneOtpVerification
+                        brand={brand}
                         fullPhone={phoneNumber}
                         otpHeadingText=''
                         otpLabel={translate(languageCode, 'common.enterToContinue')}

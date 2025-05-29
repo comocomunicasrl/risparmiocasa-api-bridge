@@ -2,8 +2,8 @@ import {RisparmioCasaRepository} from '../../core/repositories/RisparmioCasaRepo
 
 export default async function handler(req, res) {
     if (req.method === 'POST') {
-        const risparmioCasaRepository = new RisparmioCasaRepository();
-        const { email } = req.body;
+        const { email, brand } = req.body;
+        const risparmioCasaRepository = new RisparmioCasaRepository(brand);
 
         const hasCardRegistered = await risparmioCasaRepository.cardAlreadyExists(email);
 

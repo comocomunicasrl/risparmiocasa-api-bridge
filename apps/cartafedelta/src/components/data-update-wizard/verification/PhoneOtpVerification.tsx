@@ -7,6 +7,7 @@ import {TranslationLanguageCode} from "../../../core/models/enums/Translation";
 import Input from '../../form/Input';
 
 const PhoneOtpVerification = ({
+    brand,
     fullPhone,
     otpHeadingText,
     otpLabel,
@@ -14,6 +15,7 @@ const PhoneOtpVerification = ({
     onSuccess,
     onCancel
 }: {
+    brand: string;
     fullPhone: string;
     otpHeadingText?: string;
     otpLabel?: string;
@@ -42,7 +44,7 @@ const PhoneOtpVerification = ({
 
         setLoading(true);
         const result = axios
-            .post('/api/2fa-verify', { phoneNumber: fullPhone, pin: otp })
+            .post('/api/2fa-verify', { phoneNumber: fullPhone, pin: otp, brand })
             .then(() => true)
             .catch(() => {
                 setError(true);
@@ -58,7 +60,8 @@ const PhoneOtpVerification = ({
         const result = axios
             .post('/api/2fa-request', {
                 phoneNumber: fullPhone,
-                languageCode
+                languageCode,
+                brand
             })
             .then(() => true)
             .catch(() => {
@@ -83,16 +86,6 @@ const PhoneOtpVerification = ({
                     error={error}
                     onChange={(code) => setOtp(code)}
                 />
-                {/* <input
-                    className={clsx(
-                        'rounded h-[40px] w-full mt-2 px-4 text-gray-600 outline-blue-600',
-                        'ml-2',
-                        valueError
-                            ? 'border-red-700 border-2'
-                            : 'border-risparmiocasa-neutral hover:border-black border'
-                    )}
-                    onChange={(event) => setOtp(event.target.value)}
-                /> */}
             </div>
 
             <div className="mt-12 text-center">
@@ -130,7 +123,7 @@ const PhoneOtpVerification = ({
                 )}
                 <button
                     className={clsx(
-                        'mt-5 md:mt-10 bg-risparmiocasa-blue rounded-3xl p-2 px-10',
+                        'mt-5 md:mt-10 bg-brand-primary rounded-3xl p-2 px-10',
                         loading && 'opacity-80 cursor-not-allowed'
                     )}
                     onClick={async () => {

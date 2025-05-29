@@ -7,7 +7,10 @@ const client = new AWS.DynamoDB.DocumentClient({
 });
 
 export default {
-    tableName: process.env.AWS_RISPARMIOCASA_TABLE,
+    tableName: {
+        rica: process.env.AWS_RISPARMIOCASA_TABLE,
+        uniprice: process.env.AWS_UNIPRICE_TABLE
+    },
     get: (params) => client.get(params).promise(),
     put: (params) => client.put(params).promise(),
     batchWrite: (params) => client.batchWrite(params).promise(),

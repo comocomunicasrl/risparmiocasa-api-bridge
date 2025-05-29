@@ -4,11 +4,29 @@ import sendGrid from '../../lib/sendGrid';
 import { EmailProvider } from '../../core/models/EmailProvider';
 import { mailjetClient } from '../../lib/mailjet';
 
+const emailTemplateMap = {
+    rica: { 
+        senderName: 'Risparmio Casa',
+        senderEmail: 'noreply@cartafedelta.online',
+        replyTo: 'cartafedelta@risparmiocasa.com',
+        sendgridTemplateId: 'd-8e92080be6aa4066b20a060f045cf954',
+        mailjetTemplateId: 3866301,
+        mailjetSubject: 'Risparmio Casa - Autenticazione Carta Fedeltà'
+    },
+    uniprice: { 
+        senderName: 'Uniprice',
+        senderEmail: 'noreply@cartafedelta.online',
+        replyTo: 'cartafedelta@uniprice.eu',
+        sendgridTemplateId: 'd-8e92080be6aa4066b20a060f045cf954',
+        mailjetTemplateId: 3866301,
+        mailjetSubject: 'Uniprice - Autenticazione Carta Fedeltà'
+    }
+}
+
 export default async function handler(req, res) {
     if (req.method === 'POST') {
-        const { email } = req.body;
-        const { provider } = req.body;
-        const risparmioCasaRepository = new RisparmioCasaRepository();
+        const { email, brand, provider } = req.body;
+        const risparmioCasaRepository = new RisparmioCasaRepository(brand);
 
         console.log('Request verification for email', email);
 
@@ -19,9 +37,9 @@ export default async function handler(req, res) {
         if (provider === EmailProvider.SendGrid) {
             const { sendGridClient } = sendGrid;
             const message = {
-                from: { name: 'Risparmio Casa', email: 'noreply@cartafedelta.online' },
-                replyTo: { email: 'cartafedelta@risparmiocasa.com' },
-                templateId: 'd-8e92080be6aa4066b20a060f045cf954',
+                from: { name: emailTemplateMap[brand].senderName, email: emailTemplateMap[brand].senderEmail },
+                replyTo: { email: emailTemplateMap[brand].replyTo },
+                templateId: emailTemplateMap[brand].sendgridTemplateId,
                 personalizations: [
                     {
                         to: [{ email }],
@@ -45,12 +63,12 @@ export default async function handler(req, res) {
                 Messages: [
                     {
                         From: {
-                            Email: 'noreply@cartafedelta.online',
-                            Name: 'Risparmio Casa',
+                            Email: emailTemplateMap[brand].senderEmail,
+                            Name: emailTemplateMap[brand].senderName,
                         },
                         To: [{ Email: email }],
-                        Subject: 'Risparmio Casa - Autenticazione Carta Fedeltà',
-                        TemplateID: 3866301,
+                        Subject: emailTemplateMap[brand].mailjetSubject,
+                        TemplateID: emailTemplateMap[brand].senderEmail,
                         TemplateLanguage: true,
                         Variables: {
                             auth: authCode,

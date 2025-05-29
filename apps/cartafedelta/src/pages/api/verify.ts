@@ -2,8 +2,8 @@ import { RisparmioCasaRepository } from '../../core/repositories/RisparmioCasaRe
 
 export default async function handler(req, res) {
     if (req.method === 'POST') {
-        const risparmioCasaRepository = new RisparmioCasaRepository();
-        const { email, code } = req.body;
+        const { email, code, brand } = req.body;
+        const risparmioCasaRepository = new RisparmioCasaRepository(brand);
 
         console.log(`Checking if email ${email} has been verified.`);
         const isVerified = await risparmioCasaRepository.verifyEmail(email, code);

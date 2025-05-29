@@ -6,11 +6,12 @@ import PhoneNumberConfirmation from "./PhoneNumberConfirmation";
 import { translate } from "../utils/utils";
 
 interface PhoneNumberProps {
+    brand: string;
     countryCode: string;
     onSuccess?: (IPersonDetails) => void;
 };
 
-const OTPAuth = ({ countryCode, onSuccess }: PhoneNumberProps) => {
+const OTPAuth = ({ brand, countryCode, onSuccess }: PhoneNumberProps) => {
     const [otpMode, setOtpMode] = useState('email');
     const [details] = useState<IPersonDetails>({});
     const languageCode = (countryCode === 'mt') ? 'en' : 'it';
@@ -65,6 +66,7 @@ const OTPAuth = ({ countryCode, onSuccess }: PhoneNumberProps) => {
             <div className="grow w-full text-center">
                 {(otpMode === 'email') && (
                     <EmailConfirmation
+                        brand={brand}
                         details={details}
                         title=""
                         firstStepButtonLabel={translate(languageCode, 'common.next_step')?.toUpperCase()}
@@ -76,6 +78,7 @@ const OTPAuth = ({ countryCode, onSuccess }: PhoneNumberProps) => {
                 )}
                 {(otpMode === 'sms') && (
                     <PhoneNumberConfirmation
+                        brand={brand}
                         details={details}
                         title=""
                         sentCodeMessage={translate(languageCode, 'OTPAuth.smsSent')}

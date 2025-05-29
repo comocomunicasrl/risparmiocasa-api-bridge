@@ -1,11 +1,11 @@
 import { NextPage } from 'next';
-import BasicLayout from '../../components/BasicLayout';
+import BasicLayout from '@/components/BasicLayout';
 import Link from 'next/link';
 
 const Page: NextPage = () => {
     return (
         <>
-            <BasicLayout paragraphTitle="Modulo sottoscrizione carta fedeltà">
+            <BasicLayout brand="rica" paragraphTitle="Modulo sottoscrizione carta fedeltà">
                 <div className="flex flex-col border border-t-0 shadow min-h-[500px]">
                     <div className="flex flex-col gap-24 grow p-4 border-t-4 sm:p-5 border-risparmiocasa-dark-blue overflow-hidden">
                         <div className="flex justify-center text-2xl">

@@ -7,12 +7,14 @@ import { EmailProvider } from '../../core/models/EmailProvider';
 import {TranslationLanguageCode} from "../../core/models/enums/Translation";
 
 interface IEmailConfirmationProps {
+    brand: string;
     details: IPersonDetails;
     languageCode?: TranslationLanguageCode,
     onSuccess: (email: string, provider: EmailProvider) => void;
 }
 
 const ConfirmEmailWizardItem = ({
+    brand,
     details,
     languageCode = TranslationLanguageCode.It,
     onSuccess
@@ -62,7 +64,7 @@ const ConfirmEmailWizardItem = ({
             return;
         }
         axios
-            .post('/api/check-email-update-card', { email, cardNumber: details.cardNumber })
+            .post('/api/check-email-update-card', { email, cardNumber: details.cardNumber, brand })
             .then((result) => {
                 if (result.data.emailTaken) {
                     setAlreadyRegisteredError(true);
@@ -75,6 +77,7 @@ const ConfirmEmailWizardItem = ({
                         .post('/api/email-verify-request', {
                             email,
                             provider,
+                            brand
                         })
                         .then(() => {
                             setLoading(false);
@@ -97,7 +100,7 @@ const ConfirmEmailWizardItem = ({
     const attemptVerification = () => {
         setLoading(true);
         axios
-            .post('/api/verify', { email, code })
+            .post('/api/verify', { email, code, brand })
             .then(() => {
                 setError(false);
                 onSuccess(email, provider);
@@ -144,7 +147,7 @@ const ConfirmEmailWizardItem = ({
                     )}
                     <div className="mt-4 mb-4 text-center sm:mt-0 sm:mb-4">
                         <button
-                            className={`mx-auto mt-5 sm:mt-10 bg-risparmiocasa-blue rounded-3xl p-2 px-10 ${
+                            className={`mx-auto mt-5 sm:mt-10 bg-brand-primary rounded-3xl p-2 px-10 ${
                                 loading ? 'opacity-80 cursor-not-allowed' : ''
                             }`}
                             onClick={() => {
@@ -200,7 +203,7 @@ const ConfirmEmailWizardItem = ({
                         />
                         <div className="mt-4 mb-4 text-center sm:mt-0">
                             <button
-                                className="p-2 px-10 mx-auto mt-2 sm:mt-10 bg-risparmiocasa-blue rounded-3xl"
+                                className="p-2 px-10 mx-auto mt-2 sm:mt-10 bg-brand-primary rounded-3xl"
                                 onClick={() => {
                                     if (!loading) attemptVerification();
                                 }}

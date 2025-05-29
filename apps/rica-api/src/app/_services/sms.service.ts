@@ -12,7 +12,7 @@ export class SmsService {
         private httpService: HttpService
     ) {}
 
-    send(recipient: string, text: string) {
+    send(brand: string, recipient: string, text: string) {
         return this.authenticate().pipe(
             switchMap(authToken => {
                 const headers = {
@@ -22,7 +22,7 @@ export class SmsService {
                 const body = {
                     global: {
                         route: 'GW2',
-                        from: process.env.EDISCOM_SMS_SENDER,
+                        from: (brand === 'rica') ? process.env.EDISCOM_SMS_SENDER : process.env.EDISCOM_UNIPRICE_SMS_SENDER,
                         coding: '0',
                         text,
                         campaignId: 'OTP'

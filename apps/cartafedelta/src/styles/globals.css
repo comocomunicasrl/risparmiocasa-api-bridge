@@ -16,6 +16,20 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
+.brand-rica {
+    --brand-primary: #17458E;
+    --brand-dark-primary: #02103D;
+    --brand-light-primary: #3D90DF;
+    --brand-neutral: #D1D4D9;
+}
+
+.brand-uniprice {
+    --brand-primary: #06519A;
+    --brand-dark-primary: #04386d;
+    --brand-light-primary: #0973de;
+    --brand-neutral: #D1D4D9;
+}
+
 .form-check-input:checked[type=radio] {
     background-image:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%22-4 -4 8 8%22%3E%3Ccircle r=%222%22 fill=%22%23fff%22/%3E%3C/svg%3E");
 }

@@ -6,12 +6,22 @@ import * as cookie from 'cookie';
 const publicStoreRoutes = ['/login', '/authRefresh'];
 
 export async function middleware(request: NextRequest) {
-    if ((request.nextUrl.pathname != '/store') && (request.nextUrl.pathname != '/store/') && request.nextUrl.pathname.startsWith('/store')) {
-        const countryCode = request.nextUrl.pathname.split('/')[2] ?? '';
+    if ((request.nextUrl.pathname === '/store') || (request.nextUrl.pathname === '/store/'))
+        return NextResponse.next();
+
+    if (request.nextUrl.pathname.startsWith('/store') || request.nextUrl.pathname.startsWith('/uniprice/store')) {
+        let brandPathPrefix = '';
+        let pathname = request.nextUrl.pathname;
+        if (pathname.startsWith('/uniprice/store')) {
+            brandPathPrefix = '/uniprice';
+            pathname = `/${pathname.split('/').slice(2).join('/')}`;
+        }
+        const countryCode = pathname.split('/')[2] ?? 'it';
         if (managedCountryCodes.indexOf(countryCode) === -1)
             return NextResponse.redirect(new URL('/404', request.nextUrl.origin));
 
-        const relativeRoute = `/${request.nextUrl.pathname.split('/').slice(3).join('/')}`;
+        const relativeRoute = `/${pathname.split('/').slice(3).join('/')}`;
+        console.log(relativeRoute);
         const cookies = cookie.parse(request.headers.get('cookie') ?? '');
         if (!publicStoreRoutes.includes(relativeRoute)) {
             try {
@@ -24,7 +34,8 @@ export async function middleware(request: NextRequest) {
                 await jose.jwtVerify(reqJWT, secret);  
                 
             } catch (err) {
-                const response = NextResponse.redirect(new URL(`/store/${countryCode}/login`, request.nextUrl.origin));
+                console.log(`${brandPathPrefix}/store/${countryCode}/login`);
+                const response = NextResponse.redirect(new URL(`${brandPathPrefix}/store/${countryCode}/login`, request.nextUrl.origin));
                 response.headers.set('Set-Cookie', cookie.serialize('rica-auth-jwt', null, { httpOnly: true, expires: new Date(Date.now() - (24 * 60 * 60 * 1000)) }));
                 return response
             }

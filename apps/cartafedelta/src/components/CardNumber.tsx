@@ -9,13 +9,14 @@ import { EmailProvider } from "../core/models/EmailProvider";
 import Quagga from 'quagga';
 
 interface CardNumberProps {
+    brand: string;
     personDetails: IPersonDetails;
     countryCode: string;
     onSuccess?: (value: IPersonDetails) => void;
     onCancel?: () => void;
 };
 
-const CardNumber = ({ personDetails, countryCode, onSuccess, onCancel }: CardNumberProps) => {
+const CardNumber = ({ brand, personDetails, countryCode, onSuccess, onCancel }: CardNumberProps) => {
     const [error, setError] = useState(false);
     const [errorText, setErrorText] = useState(null);
     const [insertMode, setInsertMode] = useState<'manual'|'scan'>('manual');
@@ -41,8 +42,9 @@ const CardNumber = ({ personDetails, countryCode, onSuccess, onCancel }: CardNum
             details: {
                 ...personDetails,
                 registrationCountry: countryCode,
-                cardNumber,
+                cardNumber
             },
+            brand,
             provider: EmailProvider.SendGrid,
         })
         .then((response) => {
@@ -114,7 +116,7 @@ const CardNumber = ({ personDetails, countryCode, onSuccess, onCancel }: CardNum
                         )}
                         onClick={() => stopScanner()}
                     >
-                        <span className="text-[12px] sm:text-[18px] font-bold text-risparmiocasa-blue">{translate(languageCode, 'common.cancel')?.toUpperCase()}</span>
+                        <span className="text-[12px] sm:text-[18px] font-bold text-brand-primary">{translate(languageCode, 'common.cancel')?.toUpperCase()}</span>
                     </button>
                 </>
             )}
@@ -182,7 +184,7 @@ const CardNumber = ({ personDetails, countryCode, onSuccess, onCancel }: CardNum
                                     )}
                                     onClick={() => initScanner()}
                                 >
-                                    <span className="text-[12px] sm:text-[18px] font-bold text-risparmiocasa-blue">{translate(languageCode, 'common.use_camera')?.toUpperCase()}</span>
+                                    <span className="text-[12px] sm:text-[18px] font-bold text-brand-primary">{translate(languageCode, 'common.use_camera')?.toUpperCase()}</span>
                                 </button>
                             </div>
                             <div className="text-center flex flex-row gap-8 gap-y-0 flex-wrap-reverse">
@@ -202,11 +204,11 @@ const CardNumber = ({ personDetails, countryCode, onSuccess, onCancel }: CardNum
                                     )}
                                     onClick={() => initScanner()}
                                 >
-                                    <span className="text-[12px] sm:text-[18px] font-bold text-risparmiocasa-blue">{translate(languageCode, 'common.use_camera')?.toUpperCase()}</span>
+                                    <span className="text-[12px] sm:text-[18px] font-bold text-brand-primary">{translate(languageCode, 'common.use_camera')?.toUpperCase()}</span>
                                 </button>
                                 <button
                                     className={clsx(
-                                        'mx-auto mt-14 md:mt-28 bg-risparmiocasa-blue rounded-3xl p-2 px-10',
+                                        'mx-auto mt-14 md:mt-28 bg-brand-primary rounded-3xl p-2 px-10',
 
                                         loading && 'opacity-80 cursor-not-allowed'
                                     )}

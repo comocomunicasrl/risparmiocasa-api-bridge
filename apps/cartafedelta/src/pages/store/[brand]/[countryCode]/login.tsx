@@ -1,20 +1,21 @@
 import { BaseSyntheticEvent, useState } from 'react';
-import BasicLayout from '../../../components/BasicLayout';
-import { translate } from '../../../utils/utils';
+import BasicLayout from '../../../../components/BasicLayout';
+import { translate } from '../../../../utils/utils';
 import { InferGetServerSidePropsType } from 'next';
-import InputContainer from '../../../components/form/Input-container';
+import InputContainer from '../../../../components/form/Input-container';
 import { FieldError, useForm } from 'react-hook-form';
 
 export async function getServerSideProps(context) {
     return { 
         props: { 
-            countryCode: context.query.countryCode
+            countryCode: context.query.countryCode,
+            brand: context.query.brand
         } 
     };
 }
 
 export default function LoginPage({
-    countryCode
+    countryCode, brand
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<{ code: string, message: string }|null>(null);
@@ -47,7 +48,7 @@ export default function LoginPage({
             });
 
             if (response.ok) {
-                window.location.href = `/store/${countryCode}`;
+                window.location.href = (brand === 'rica') ? `/store/${countryCode}` : `/${brand}/store/${countryCode}`;
             } else if (response.status === 401) {
                 setLoading(false);
                 setError({ code: 'AUTH_FAILED', message: translate(languageCode, 'login.authenticationFailed') });
@@ -63,9 +64,9 @@ export default function LoginPage({
 
     return (
         <>
-            <BasicLayout paragraphTitle={translate(languageCode, 'storePage.storeAuthentication')}>
+            <BasicLayout brand={brand} paragraphTitle={translate(languageCode, 'storePage.storeAuthentication')}>
                 <div className="border border-t-0 shadow min-h-[220px] grow">
-                    <div className="h-full p-4 border-t-4 sm:p-5 border-risparmiocasa-dark-blue">
+                    <div className="h-full p-4 border-t-4 sm:p-5 border-brand-dark-primary">
                         <div className="flex flex-col w-full items-center justify-center">
                             <div className="flex flex-col items-center justify-center w-72">
                                 <InputContainer
@@ -80,7 +81,7 @@ export default function LoginPage({
                                         className={`rounded h-[40px] w-full mt-2 px-4 text-gray-600 ${
                                             (passwordDataForm.getFieldState('password').invalid || error)
                                                 ? 'border-red-700 outline-red-800 border-2'
-                                                : 'border-risparmiocasa-neutral outline-blue-600 hover:border-black border'
+                                                : 'border-brand-neutral outline-blue-600 hover:border-black border'
                                         }`}
                                         onInput={() => setError(null)}
                                         disabled={loading}
@@ -88,7 +89,7 @@ export default function LoginPage({
                                     />
                                 </InputContainer>
                                 <button
-                                    className={`mt-5 sm:mt-10 bg-risparmiocasa-blue rounded-3xl py-2 px-10`}
+                                    className={`mt-5 sm:mt-10 bg-brand-primary rounded-3xl py-2 px-10`}
                                     onClick={dataFormSubmitHandler}
                                 >
                                     <span className="text-[12px] sm:text-[18px] font-bold text-white">

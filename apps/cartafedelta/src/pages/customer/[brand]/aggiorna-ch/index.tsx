@@ -21,7 +21,7 @@ import { EmailProvider } from '@/core/models/EmailProvider';
 import {CountryCode, CountryOfResidence} from "@/core/models/enums/Country";
 
 export async function getServerSideProps() {
-    const risparmioCasaRepository = new RisparmioCasaRepository();
+    const risparmioCasaRepository = new RisparmioCasaRepository('rica');
     const preferredStores = serializePreferredStores(await risparmioCasaRepository.getPreferredStores(
         CountryCode.Switzerland
     ));
@@ -56,6 +56,7 @@ const CardUpdate: NextPage = ({ preferredStores, cities }: PropsWithChildren<IPr
                     email,
                 },
                 provider,
+                brand: 'rica'
             })
             .then((response) => {
                 setCurrentStep(UpdateCardStep.Confirmation);
@@ -103,6 +104,7 @@ const CardUpdate: NextPage = ({ preferredStores, cities }: PropsWithChildren<IPr
                         </div>
                         {currentStep === UpdateCardStep.CardCheck && (
                             <VerificationWizardItem
+                                brand="rica"
                                 region={CountryCode.Switzerland}
                                 checkIfCardAlreadyUpdated={false}
                                 dialCodes={dialCodes}
@@ -114,6 +116,7 @@ const CardUpdate: NextPage = ({ preferredStores, cities }: PropsWithChildren<IPr
                         )}
                         {currentStep === UpdateCardStep.PersonDetails && (
                             <CardUpdateWizardItem
+                                brand="rica"
                                 preferredStores={preferredStores}
                                 countriesOfResidence={[
                                     {
@@ -136,6 +139,7 @@ const CardUpdate: NextPage = ({ preferredStores, cities }: PropsWithChildren<IPr
                         )}
                         {currentStep === UpdateCardStep.EmailConfirmation && (
                             <ConfirmEmailWizardItem
+                                brand="rica"
                                 details={details}
                                 onSuccess={(email, provider) => updateCard(email, provider)}
                             />

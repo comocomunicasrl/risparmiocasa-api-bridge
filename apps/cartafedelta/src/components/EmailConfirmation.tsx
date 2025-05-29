@@ -9,6 +9,7 @@ import { FieldError, useForm } from 'react-hook-form';
 import clsx from 'clsx';
 
 interface IEmailConfirmationProps {
+    brand: string;
     details: IPersonDetails;
     title?: string; 
     firstStepButtonLabel?: string;
@@ -18,7 +19,7 @@ interface IEmailConfirmationProps {
     onSuccess: (email: string, provider: EmailProvider) => void;
 }
 
-const EmailConfirmation = ({ details, title, firstStepButtonLabel, secondStepButtonLabel, sentCodeMessage, countryCode, onSuccess }: IEmailConfirmationProps) => {
+const EmailConfirmation = ({ brand, details, title, firstStepButtonLabel, secondStepButtonLabel, sentCodeMessage, countryCode, onSuccess }: IEmailConfirmationProps) => {
     const languageCode = (countryCode === 'mt') ? 'en' : 'it';
     const [error, setError] = useState(false);
     const [alreadyRegisteredError, setAlreadyRegisteredError] = useState(false);
@@ -107,7 +108,7 @@ const EmailConfirmation = ({ details, title, firstStepButtonLabel, secondStepBut
         setLoading(true);
         setProvider(provider);
 
-        axios.post('/api/check-email', { email: emailDataForm.getValues('email') })
+        axios.post('/api/check-email', { email: emailDataForm.getValues('email'), brand })
             .then((result) => {
                 if (result.data.registered) {
                     setAlreadyRegisteredError(true);
@@ -121,6 +122,7 @@ const EmailConfirmation = ({ details, title, firstStepButtonLabel, secondStepBut
                             email: emailDataForm.getValues('email'),
                             provider,
                             registrationCountry: countryCode,
+                            brand
                         })
                         .then(() => {
                             setLoading(false);
@@ -142,7 +144,7 @@ const EmailConfirmation = ({ details, title, firstStepButtonLabel, secondStepBut
 
     const attemptVerification = () => {
         setLoading(true);
-        axios.post('/api/verify', { email: emailDataForm.getValues('email'), code: OTPDataForm.getValues('code') })
+        axios.post('/api/verify', { email: emailDataForm.getValues('email'), code: OTPDataForm.getValues('code'), brand })
             .then(() => {
                 setError(false);
                 onSuccess(emailDataForm.getValues('email'), provider);
@@ -175,7 +177,7 @@ const EmailConfirmation = ({ details, title, firstStepButtonLabel, secondStepBut
                                 className={`rounded h-[40px] w-full mt-2 px-4 text-gray-600 ${
                                     emailDataForm.getFieldState('email').invalid
                                         ? 'border-red-700 outline-red-800 border-2'
-                                        : 'border-risparmiocasa-neutral outline-blue-600 hover:border-black border'
+                                        : 'border-brand-neutral outline-blue-600 hover:border-black border'
                                 }`}
                                 { ...emailDataControlsFactories.email() }
                             />
@@ -194,7 +196,7 @@ const EmailConfirmation = ({ details, title, firstStepButtonLabel, secondStepBut
                                 className={`rounded h-[40px] w-full mt-2 px-4 text-gray-600 ${
                                     emailDataForm.getFieldState('repeatedEmail').invalid
                                         ? 'border-red-700 outline-red-800 border-2'
-                                        : 'border-risparmiocasa-neutral outline-blue-600 hover:border-black border'
+                                        : 'border-brand-neutral outline-blue-600 hover:border-black border'
                                 }`}
                                 { ...emailDataControlsFactories.repeatedEmail() }
                             />
@@ -212,7 +214,7 @@ const EmailConfirmation = ({ details, title, firstStepButtonLabel, secondStepBut
                     )}
                     <div className="mt-4 mb-4 text-center sm:mt-0 sm:mb-4">
                         <button
-                            className={`mx-auto mt-5 sm:mt-10 bg-risparmiocasa-blue rounded-3xl p-2 px-10 ${
+                            className={`mx-auto mt-5 sm:mt-10 bg-brand-primary rounded-3xl p-2 px-10 ${
                                 loading ? 'opacity-80 cursor-not-allowed' : ''
                             }`}
                             onClick={(e) => {
@@ -276,7 +278,7 @@ const EmailConfirmation = ({ details, title, firstStepButtonLabel, secondStepBut
                                 className={`rounded h-[40px] w-full mt-2 px-4 text-gray-600 ${
                                     OTPDataForm.getFieldState('code').invalid
                                         ? 'border-red-700 outline-red-800 border-2'
-                                        : 'border-risparmiocasa-neutral outline-blue-600 hover:border-black border'
+                                        : 'border-brand-neutral outline-blue-600 hover:border-black border'
                                 }`}
                                 { ...OTPDataForm.register('code', { required: true }) }
                             />
@@ -292,7 +294,7 @@ const EmailConfirmation = ({ details, title, firstStepButtonLabel, secondStepBut
                                 <span className="text-[12px] sm:text-[18px] font-bold text-white">{translate(languageCode, 'common.cancel')?.toUpperCase()}</span>
                             </button>
                             <button
-                                className="p-2 px-10 mx-auto mt-2 sm:mt-10 bg-risparmiocasa-blue rounded-3xl"
+                                className="p-2 px-10 mx-auto mt-2 sm:mt-10 bg-brand-primary rounded-3xl"
                                 onClick={(e) => {
                                     if (!loading) OTPlDataFormSubmit(e);
                                 }}

@@ -10,6 +10,7 @@ import {translate} from "../../utils/utils";
 import {TranslationLanguageCode} from "../../core/models/enums/Translation";
 
 interface ICardVerificationProps {
+    brand: string;
     region?: CountryCode;
     languageCode?: TranslationLanguageCode;
     dialCodes: IDialCode[];
@@ -18,6 +19,7 @@ interface ICardVerificationProps {
 }
 
 const VerificationWizardItem = ({
+    brand,
     region = CountryCode.Italy,
     languageCode = TranslationLanguageCode.It,
     dialCodes,
@@ -59,6 +61,7 @@ const VerificationWizardItem = ({
 
             {cardVerificationStep === CardVerificationStep.Phone && (
                 <PhoneNumberInput
+                    brand={brand}
                     countryCode={region}
                     languageCode={languageCode}
                     onSuccess={(verifiedPhone) => {
@@ -71,6 +74,7 @@ const VerificationWizardItem = ({
 
             {cardVerificationStep === CardVerificationStep.Otp && (
                 <PhoneOtpVerification
+                    brand={brand}
                     fullPhone={verifiedPhone}
                     languageCode={languageCode}
                     onSuccess={() =>

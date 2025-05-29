@@ -33,9 +33,9 @@ export function isValidBirthDate(birthday: IBirthDate): boolean {
     return false;
 }
 
-export function isValidDiscount(code: string): Promise<boolean> {
+export function isValidDiscount(code: string, brand: string): Promise<boolean> {
     return axios
-        .get('/api/discount', { params: { code } })
+        .get('/api/discount', { params: { code, brand } })
         .then(() => {
             return true;
         })
