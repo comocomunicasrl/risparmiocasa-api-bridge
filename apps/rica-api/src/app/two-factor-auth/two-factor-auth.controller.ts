@@ -18,16 +18,16 @@ export class TwoFactorAuthController {
     ){}
 
     @Post('sendOTP')
-    sendOTP(@Body() payload?: { brand: string, recipient: string, languageCode: string }) {
+    sendOTP(@Body() payload?: { brand?: string, recipient: string, languageCode: string }) {
         if (!payload)
             throw new BadRequestException('Missing payload!');
 
         const OTP = Math.floor(Math.random() * 999999).toString().padStart(6, '0');
 
-        return of({ id: `${payload.brand}-${payload.recipient}-${OTP}`, OTP }).pipe(
+        return of({ id: `${payload.brand ?? 'rica'}-${payload.recipient}-${OTP}`, OTP }).pipe(
             switchMap(({ id, OTP }) => {
                 return from(this.twoFactorAuthModel.create({ id, recipient: payload.recipient, OTP, creationDate: Date.now().toString() })).pipe(
-                    switchMap(() => this.smsService.send(payload.brand, payload.recipient, (this.otpMessageMap[payload.languageCode] ?? this.otpMessageMap['it']).replace('{OTP}', OTP)))
+                    switchMap(() => this.smsService.send(payload.brand ?? 'rica', payload.recipient, (this.otpMessageMap[payload.languageCode] ?? this.otpMessageMap['it']).replace('{OTP}', OTP)))
                 );
             })
         );
@@ -38,7 +38,7 @@ export class TwoFactorAuthController {
         if (!payload)
             throw new BadRequestException('Missing payload!');
 
-        return from(this.twoFactorAuthModel.get({ id: `${payload.brand}-${payload.recipient}-${payload.OTP}` })).pipe(
+        return from(this.twoFactorAuthModel.get({ id: `${payload.brand ?? 'rica'}-${payload.recipient}-${payload.OTP}` })).pipe(
             switchMap(result => {
                 if (!result || (result.OTP != payload.OTP) || ((Date.now() - Number.parseInt(result.creationDate)) > 3600000)) {
                     this.logger.debug(`Invalid OTP!.`);
