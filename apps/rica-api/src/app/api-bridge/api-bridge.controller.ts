@@ -28,13 +28,16 @@ export class ApiBridgeController {
     createCard(@Body() reqBody: { details: { [key: string]: any } & { registrationCountry: Country } }) {
         return this.risparmioCasaService.createEmptyCard(reqBody.details.registrationCountry).pipe(
             switchMap(cardNumber => {
-                if (!cardNumber)
+                if (!cardNumber) {
+                    this.logger.error('[create-card] NOT card number returned from RiCa API!');
                     throw new BadRequestException();
+                }
 
                 return this.risparmioCasaService.addDataToCard(reqBody.details, cardNumber, false).pipe(
                     map(res => {
-                        if (!res)
+                        if (!res) {
                             throw new BadRequestException();
+                        }
                         return { cardNumber };
                     })
                 );

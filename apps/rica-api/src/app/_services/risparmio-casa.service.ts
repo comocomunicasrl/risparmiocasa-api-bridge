@@ -144,6 +144,7 @@ export class RisparmioCasaService {
 
         return this.httpService.post(url, xml, { headers }).pipe(
             map(result => {
+                this.logger.debug(result.data);
                 const status = result.data.match(regExp)[0];
                 return parseInt(status) >= 0;
             })
