@@ -32,12 +32,12 @@ const emailTemplateMap = {
         senderEmail: 'noreply@cartafedelta.online',
         replyTo: 'cartafedelta@uniprice.eu',
         sendgridTemplateIds: {
-            it: 'd-8e92080be6aa4066b20a060f045cf954',
+            it: 'd-cd20e4a634f845edb8f5dca6350f36e5',
             mt: '',
             ch: ''
         },
         mailjetTemplateIds: {
-            it: 3866301,
+            it: 7031672,
             mt: -1,
             ch: -1
         },

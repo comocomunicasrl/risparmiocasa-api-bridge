@@ -17,8 +17,8 @@ const emailTemplateMap = {
         senderName: 'Uniprice',
         senderEmail: 'noreply@cartafedelta.online',
         replyTo: 'cartafedelta@uniprice.eu',
-        sendgridTemplateId: 'd-8e92080be6aa4066b20a060f045cf954',
-        mailjetTemplateId: 3866301,
+        sendgridTemplateId: 'd-cd20e4a634f845edb8f5dca6350f36e5',
+        mailjetTemplateId: 7031672,
         mailjetSubject: 'Uniprice - Autenticazione Carta Fedeltà'
     }
 }
