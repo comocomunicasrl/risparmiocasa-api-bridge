@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node ./dist/apps/rica-api/main.js"
+    "start": "node ./dist/apps/rica-api/main.js",
+    "start-cartafedelta": "npx next start ./apps/cartafedelta -p 3001"
   },
   "author": "Fernando Walter Gagni <tech@yepmind.dev>",
   "license": "ISC",
