@@ -791,7 +791,7 @@ const PersonDetails = ({
                             className="text-blue-600 hover:underline hover:cursor-pointer"
                             rel="noreferrer"
                         >
-                            {translate(languageCode, 'personalDetails.consentToStatisticsTwo')}
+                            {translate(languageCode, 'personalDetails.consentToMarketingTwo')}
                         </a>)}{' '}
                         {translate(languageCode, 'personalDetails.consentToMarketingThree')}
                     </label>
