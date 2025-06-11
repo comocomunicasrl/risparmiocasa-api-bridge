@@ -14,7 +14,7 @@ const emailTemplateMap = {
         senderName: 'Risparmio Casa',
         senderEmail: 'noreply@cartafedelta.online',
         replyTo: 'cartafedelta@risparmiocasa.com',
-        sendGridTemplateIds: {
+        sendgridTemplateIds: {
             it: 'd-a1026e5621c741ac8f39e9732183fcff',
             mt: 'd-23883eb1d2c14ea1976440dd70e7a164',
             ch: 'd-a1026e5621c741ac8f39e9732183fcff'
