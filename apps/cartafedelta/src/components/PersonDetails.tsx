@@ -771,39 +771,28 @@ const PersonDetails = ({
                         htmlFor="person-marketing-confirmation"
                     >
                         {translate(languageCode, 'personalDetails.consentToMarketingOne')}{' '}
-                        <a
+                        {(brand === 'rica') && (<a
                             href={
                                 region === CountryCode.Switzerland
-                                    ? '/Regolamento-completo-del-Programma-Fedeltà.pdf'
-                                    : region === CountryCode.Malta
-                                    ? '/regulation-project.pdf'
-                                    : '/69020814-regolamento-2024.pdf'
+                                            ? '/regolamento-2025-CH.pdf'
+                                            : region === CountryCode.Malta
+                                            ? '/regolamento-2025-MT.pdf'
+                                            : '/regolamento-2025-IT.pdf'
                             }
                             target="_blank"
                             className="text-blue-600 hover:underline hover:cursor-pointer"
                             rel="noreferrer"
                         >
-                            {translate(languageCode, (actualUTCDateMs > startOf2025Ms) ? 'personalDetails.consentToMarketingTwo2024' : 'personalDetails.consentToMarketingTwo')}
-                        </a>{' '}
-                        {(actualUTCDateMs > startOf2025Ms) && (
-                            <>
-                                {translate(languageCode, 'personalDetails.consentToMarketingTwoAnd')}{' '}
-                                <a
-                                    href={
-                                        region === CountryCode.Switzerland
-                                            ? '/regolamento-2025-CH.pdf'
-                                            : region === CountryCode.Malta
-                                            ? '/regolamento-2025-MT.pdf'
-                                            : '/regolamento-2025-IT.pdf'
-                                    }
-                                    target="_blank"
-                                    className="text-blue-600 hover:underline hover:cursor-pointer"
-                                    rel="noreferrer"
-                                >
-                                    {translate(languageCode, 'personalDetails.consentToMarketingTwo2025')}
-                                </a>{' '}
-                            </>
-                        )}
+                            {translate(languageCode, 'personalDetails.consentToMarketingTwo')}
+                        </a>)}
+                        {(brand === 'uniprice') && (<a
+                            href="/regolamento-2025-IT-uniprice.pdf"
+                            target="_blank"
+                            className="text-blue-600 hover:underline hover:cursor-pointer"
+                            rel="noreferrer"
+                        >
+                            {translate(languageCode, 'personalDetails.consentToStatisticsTwo')}
+                        </a>)}{' '}
                         {translate(languageCode, 'personalDetails.consentToMarketingThree')}
                     </label>
                 </div>
@@ -824,39 +813,28 @@ const PersonDetails = ({
                         htmlFor="person-statistics-confirmation"
                     >
                         {translate(languageCode, 'personalDetails.consentToStatisticsOne')}{' '}
-                        <a
+                        {(brand === 'rica') && (<a
                             href={
                                 region === CountryCode.Switzerland
-                                    ? '/Regolamento-completo-del-Programma-Fedeltà.pdf'
+                                    ? '/regolamento-2025-CH.pdf'
                                     : region === CountryCode.Malta
-                                    ? '/regulation-project.pdf'
-                                    : '/69020814-regolamento-2024.pdf'
+                                    ? '/regolamento-2025-MT.pdf'
+                                    : '/regolamento-2025-IT.pdf'
                             }
                             target="_blank"
                             className="text-blue-600 hover:underline hover:cursor-pointer"
                             rel="noreferrer"
                         >
-                            {translate(languageCode, (actualUTCDateMs > startOf2025Ms) ? 'personalDetails.consentToStatisticsTwo2024' : 'personalDetails.consentToStatisticsTwo')}
-                        </a>{' '}
-                        {(actualUTCDateMs > startOf2025Ms) && (
-                            <>
-                                {translate(languageCode, 'personalDetails.consentToStatisticsTwoAnd')}{' '}
-                                <a
-                                    href={
-                                        region === CountryCode.Switzerland
-                                            ? '/regolamento-2025-CH.pdf'
-                                            : region === CountryCode.Malta
-                                            ? '/regolamento-2025-MT.pdf'
-                                            : '/regolamento-2025-IT.pdf'
-                                    }
-                                    target="_blank"
-                                    className="text-blue-600 hover:underline hover:cursor-pointer"
-                                    rel="noreferrer"
-                                >
-                                    {translate(languageCode, 'personalDetails.consentToStatisticsTwo2025')}
-                                </a>{' '}
-                            </>
-                        )}
+                            {translate(languageCode, 'personalDetails.consentToStatisticsTwo')}
+                        </a>)}
+                        {(brand === 'uniprice') && (<a
+                            href="/regolamento-2025-IT-uniprice.pdf"
+                            target="_blank"
+                            className="text-blue-600 hover:underline hover:cursor-pointer"
+                            rel="noreferrer"
+                        >
+                            {translate(languageCode, 'personalDetails.consentToStatisticsTwo')}
+                        </a>)}{' '}
                         {translate(languageCode, 'personalDetails.consentToStatisticsThree')}
                     </label>
                 </div>
