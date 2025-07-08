@@ -27,7 +27,7 @@ const VerificationWizardItem = ({
     onSuccess,
 }: ICardVerificationProps) => {
     const [cardVerificationStep, setCardVerificationStep] = React.useState(
-        CardVerificationStep.Phone
+        CardVerificationStep.Barcode
     );
 
     const [verifiedCard, setVerifiedCard] = React.useState('');
