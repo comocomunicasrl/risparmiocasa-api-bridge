@@ -13,7 +13,7 @@ export default async function handler(req, res) {
                 headers: { "Content-Type": "application/x-www-form-urlencoded" }
             });
 
-            if ((recaptchaVerifyRes.status < 200) || (recaptchaVerifyRes.status > 299) || (!recaptchaVerifyRes.data.success) || (recaptchaVerifyRes.data.action != 'submit')) {
+            if ((recaptchaVerifyRes.status < 200) || (recaptchaVerifyRes.status > 299) || (!recaptchaVerifyRes.data.success) || (recaptchaVerifyRes.data.action != 'submit') || (recaptchaVerifyRes.data.score <= 0.5)) {
                 console.log('Received captcha error');
                 console.log(recaptchaVerifyRes.data);
                 return res.status(400).end();
