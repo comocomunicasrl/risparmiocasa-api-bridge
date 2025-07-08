@@ -1,7 +1,7 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable, Logger } from '@nestjs/common';
 import { AxiosError } from 'axios';
-import { catchError, map, switchMap, tap } from 'rxjs';
+import { catchError, map, switchMap } from 'rxjs';
 
 @Injectable()
 export class SmsService {

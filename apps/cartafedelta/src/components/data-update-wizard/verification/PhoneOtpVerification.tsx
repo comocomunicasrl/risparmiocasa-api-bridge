@@ -5,6 +5,7 @@ import axios from 'axios';
 import {translate} from "../../../utils/utils";
 import {TranslationLanguageCode} from "../../../core/models/enums/Translation";
 import Input from '../../form/Input';
+import Script from 'next/script';
 
 const PhoneOtpVerification = ({
     brand,
@@ -55,13 +56,16 @@ const PhoneOtpVerification = ({
         return result;
     }
 
-    function request2FA(): Promise<boolean> {
+    async function request2FA(): Promise<boolean> {
         setLoading(true);
+
+        const token = await global.grecaptcha.execute(process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY, {action: 'submit'});
         const result = axios
             .post('/api/2fa-request', {
                 phoneNumber: fullPhone,
                 languageCode,
-                brand
+                brand,
+                token
             })
             .then(() => true)
             .catch(() => {
@@ -75,6 +79,7 @@ const PhoneOtpVerification = ({
 
     return (
         <>
+            <Script src={`https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`} />
             <div className="mt-8 text-center">
                 <p className="text-[14px] sm:text-[17px] text-gray-600">{otpHeadingText ?? translate(languageCode, 'updateCard.verification.otp.heading')}</p>
             </div>

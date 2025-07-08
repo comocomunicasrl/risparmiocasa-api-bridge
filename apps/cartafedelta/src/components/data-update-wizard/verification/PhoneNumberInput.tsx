@@ -7,6 +7,7 @@ import { Box } from '@mui/system';
 import {CountryCode} from "../../../core/models/enums/Country";
 import {translate} from "../../../utils/utils";
 import {TranslationLanguageCode} from "../../../core/models/enums/Translation";
+import Script from 'next/script';
 
 const DEFAULT_CODE = {
     [CountryCode.Italy]:  { name: 'Italy', dial_code: '+39', code: 'IT' },
@@ -48,17 +49,19 @@ const PhoneNumberInput = ({
         return true;
     };
 
-    function request2FA(): Promise<boolean> {
+    async function request2FA(): Promise<boolean> {
         if (!isInputValid()) {
             return;
         }
 
         setLoading(true);
+        const token = await global.grecaptcha.execute(process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY, {action: 'submit'});
         const result = axios
             .post('/api/2fa-request', {
                 phoneNumber: phoneCountryCode + phone,
                 languageCode,
-                brand
+                brand,
+                token
             })
             .then(() => true)
             .catch(() => {
@@ -72,6 +75,7 @@ const PhoneNumberInput = ({
 
     return (
         <>
+            <Script src={`https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`} />
             <div className="mt-8 text-center">
                 <p className="text-[14px] sm:text-[17px] text-gray-600">
                     {phoneNumberInputTitle ?? translate(languageCode, 'phoneNumberInput.label')}
