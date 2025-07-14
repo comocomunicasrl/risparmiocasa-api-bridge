@@ -66,68 +66,70 @@ const Home: NextPage = ({ preferredStores, cities }: PropsWithChildren<IProps>) 
                 <title>Risparmio Casa</title>
                 <link rel="icon" href="/favicon.png" />
             </Head>
-            <header className="h-[110px] bg-risparmiocasa-blue border-b border-gray-500">
-                <img src="/logo.png" alt="Risparmiocasa logo" className="mx-auto" />
-            </header>
-            <div className="container mx-auto">
-                <div className="mx-auto mt-5 mb-5">
-                    <h1 className="text-[16px] sm:text-[24px] font-bold text-center">
-                        Modulo richiesta nuova carta fedeltà
-                    </h1>
-                </div>
-                <div className="border border-t-0 shadow min-h-[220px]">
-                    <div className="h-full p-4 border-t-4 sm:p-5 border-risparmiocasa-dark-blue">
-                        <div className="flex w-full mx-auto text-center">
-                            <NavigationStepHeader
-                                title="1 - Dati anagrafici"
-                                active={currentStep === CreateCardStep.PersonDetails}
-                            />
-                            <NavigationStepHeader
-                                title="2 - Conferma email"
-                                active={currentStep === CreateCardStep.EmailConfirmation}
-                            />
-                            <NavigationStepHeader
-                                title="3 - Emissione carta"
-                                active={currentStep === CreateCardStep.CardConfirmation}
-                            />
-                        </div>
-                        {currentStep === CreateCardStep.PersonDetails && (
-                            <PersonDetails
-                                brand="rica"
-                                countryCode="ch"
-                                preferredStores={preferredStores}
-                                cities={cities}
-                                countriesOfResidence={[
-                                    {
-                                        code: CountryCode.Italy,
-                                        label: CountryOfResidence.Italy,
-                                    },
-                                    {
-                                        code: CountryCode.Switzerland,
-                                        label: CountryOfResidence.Switzerland,
-                                    },
-                                ]}
-                                onSuccess={(data) => {
-                                    setDetails(data);
-                                    setCurrentStep(CreateCardStep.EmailConfirmation);
-                                }}
-                                region={CountryCode.Switzerland}
-                            />
-                        )}
-                        {currentStep === CreateCardStep.EmailConfirmation && (
-                            <EmailConfirmation
-                                brand="rica"
-                                details={details}
-                                onSuccess={createCard}
-                                countryCode={CountryCode.Switzerland}
-                            />
-                        )}
-                        {currentStep === CreateCardStep.CardConfirmation && (
-                            <CardConfirmation cardNumber={cardNumber} />
-                        )}
+            <div className="brand-rica">
+                <header className="h-[110px] bg-risparmiocasa-blue border-b border-gray-500">
+                    <img src="/logo.png" alt="Risparmiocasa logo" className="mx-auto" />
+                </header>
+                <div className="container mx-auto">
+                    <div className="mx-auto mt-5 mb-5">
+                        <h1 className="text-[16px] sm:text-[24px] font-bold text-center">
+                            Modulo richiesta nuova carta fedeltà
+                        </h1>
                     </div>
+                    <div className="border border-t-0 shadow min-h-[220px]">
+                        <div className="h-full p-4 border-t-4 sm:p-5 border-risparmiocasa-dark-blue">
+                            <div className="flex w-full mx-auto text-center">
+                                <NavigationStepHeader
+                                    title="1 - Dati anagrafici"
+                                    active={currentStep === CreateCardStep.PersonDetails}
+                                />
+                                <NavigationStepHeader
+                                    title="2 - Conferma email"
+                                    active={currentStep === CreateCardStep.EmailConfirmation}
+                                />
+                                <NavigationStepHeader
+                                    title="3 - Emissione carta"
+                                    active={currentStep === CreateCardStep.CardConfirmation}
+                                />
+                            </div>
+                            {currentStep === CreateCardStep.PersonDetails && (
+                                <PersonDetails
+                                    brand="rica"
+                                    countryCode="ch"
+                                    preferredStores={preferredStores}
+                                    cities={cities}
+                                    countriesOfResidence={[
+                                        {
+                                            code: CountryCode.Italy,
+                                            label: CountryOfResidence.Italy,
+                                        },
+                                        {
+                                            code: CountryCode.Switzerland,
+                                            label: CountryOfResidence.Switzerland,
+                                        },
+                                    ]}
+                                    onSuccess={(data) => {
+                                        setDetails(data);
+                                        setCurrentStep(CreateCardStep.EmailConfirmation);
+                                    }}
+                                    region={CountryCode.Switzerland}
+                                />
+                            )}
+                            {currentStep === CreateCardStep.EmailConfirmation && (
+                                <EmailConfirmation
+                                    brand="rica"
+                                    details={details}
+                                    onSuccess={createCard}
+                                    countryCode={CountryCode.Switzerland}
+                                />
+                            )}
+                            {currentStep === CreateCardStep.CardConfirmation && (
+                                <CardConfirmation cardNumber={cardNumber} />
+                            )}
+                        </div>
+                    </div>
+                    <Footer />
                 </div>
-                <Footer />
             </div>
         </>
     );
