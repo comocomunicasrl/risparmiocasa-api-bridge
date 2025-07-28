@@ -107,6 +107,7 @@ export const itDictionary = {
         proceed: 'PROCEDI',
         loading: 'Caricamento in corso',
         requiredFields: 'campi obbligatori',
+        friendFidelityCard: 'Fidelity card amico'
     },
     emailConfirmation: {
         enterEmail: 'Inserisci il tuo indirizzo email per continuare:',

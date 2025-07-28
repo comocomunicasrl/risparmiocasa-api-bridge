@@ -78,6 +78,9 @@ export default async function handler(req, res) {
         console.log(`Card created ${data.cardNumber}`);
 
         await risparmioCasaRepository.registerCard(details.email, data.cardNumber);
+        if (details.friendFidelityCard) {
+            await risparmioCasaRepository.registerFriendFidelityCard(details.cardNumber, details.friendFidelityCard);
+        }
 
         if (details.discountCode) {
             const discount = await risparmioCasaRepository.getDiscountCode(details.discountCode);

@@ -22,6 +22,7 @@ import globalLocales from '@/dictionaries/global.locales.json';
 
 export async function getServerSideProps(context) {
     const brand = context.query.brand;
+    const friendPromo = (context.query.friend === 'true') && (brand === 'rica');
     let preferredStores: IPreferredStore[];
 
     if (brand === 'rica') {
@@ -40,7 +41,8 @@ export async function getServerSideProps(context) {
             cities: { [CountryCode.Italy]: cities } ,
             locales,
             globalLocales,
-            resources
+            resources,
+            friendPromo
         }
     };
 }
@@ -52,9 +54,10 @@ interface IProps {
     locales: Record<string, Record<string, string>>;
     globalLocales: Record<string, Record<string, string>>;
     resources: Record<string, Record<string, string>>;
+    friendPromo: boolean;
 }
 
-const Home: NextPage = ({ brand, preferredStores, cities, locales, globalLocales, resources }: PropsWithChildren<IProps>) => {
+const Home: NextPage = ({ brand, preferredStores, cities, locales, globalLocales, resources, friendPromo }: PropsWithChildren<IProps>) => {
     const [currentStep, setCurrentStep] = React.useState(CreateCardStep.PersonDetails);
     const [details, setDetails] = React.useState<IPersonDetails>();
     const [cardNumber, setCardNumber] = React.useState('');
@@ -113,6 +116,7 @@ const Home: NextPage = ({ brand, preferredStores, cities, locales, globalLocales
                                     countryCode="it"
                                     preferredStores={preferredStores}
                                     cities={cities}
+                                    friendPromo={friendPromo}
                                     onSuccess={(data) => {
                                         setDetails(data);
                                         setCurrentStep(CreateCardStep.EmailConfirmation);

@@ -107,6 +107,7 @@ export const enDictionary = {
         proceed: 'NEXT',
         loading: 'Loading',
         requiredFields: 'mandatory fields',
+        friendFidelityCard: 'Friend fidelity card'
     },
     emailConfirmation: {
         enterEmail: 'Enter your email address to continue:',

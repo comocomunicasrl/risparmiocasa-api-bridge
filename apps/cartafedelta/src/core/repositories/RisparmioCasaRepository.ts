@@ -86,6 +86,18 @@ export class RisparmioCasaRepository implements IRisparmioCasaRepository {
         return;
     }
 
+    public async registerFriendFidelityCard(cardNumber: string, friendFidelityCardNumber: string): Promise<void> {
+        await dynamoDb.update({
+            TableName: this._tableName,
+            Key: { PK: 'FRIEND_FIDELITY_CARD', SK: `CARD#${cardNumber}` },
+            UpdateExpression: 'set friendFidelityCard = :val',
+            ExpressionAttributeValues: {
+                ':val': friendFidelityCardNumber,
+            }
+        });
+        return;
+    }
+
     public async cardAlreadyExists(email: string): Promise<boolean> {
         const dbEntry = await dynamoDb.get({
             TableName: this._tableName,

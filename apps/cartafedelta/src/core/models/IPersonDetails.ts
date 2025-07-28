@@ -23,4 +23,5 @@ export interface IPersonDetails {
     rules?: boolean;
     marketing?: boolean;
     statistics?: boolean;
+    friendFidelityCard?: string;
 }

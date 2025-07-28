@@ -32,6 +32,7 @@ interface IPersonDetailsProps extends WithRouterProps {
     onCancel?: () => void;
     region?: CountryCode;
     storeVersion?: boolean;
+    friendPromo?: boolean;
 }
 
 const PersonDetails = ({
@@ -45,6 +46,7 @@ const PersonDetails = ({
     onCancel,
     region,
     storeVersion,
+    friendPromo,
     router
 }: IPersonDetailsProps) => {
     const [person] = React.useState<IPersonDetails>({
@@ -90,6 +92,7 @@ const PersonDetails = ({
         rules: boolean;
         marketing: boolean;
         statistics: boolean;
+        friendFidelityCard: string|null;
     }>({ 
         defaultValues: { 
             name: person.name,
@@ -108,7 +111,8 @@ const PersonDetails = ({
             discountCode: person.discountCode,
             rules: person.rules,
             marketing: person.marketing,
-            statistics: person.statistics
+            statistics: person.statistics,
+            friendFidelityCard: null
         } 
     });
 
@@ -690,24 +694,47 @@ const PersonDetails = ({
                     </InputContainer>
                 </div>
                 <div className="mt-2 sm:mt-0 sm:w-1/3">
-                    <InputContainer
-                        inputId="person-discount-code"
-                        label={translate(languageCode, 'personalDetails.discountCode')}
-                        required={false}
-                        errorText={getErrorText(personDataForm.formState.errors?.discountCode as any, formErrorMap)}
-                    >
-                       <input autoComplete="off"
-                            id="person-discount-code"
-                            type="text"
-                            className={`rounded h-[40px] w-full mt-2 px-4 text-gray-600 ${
-                                personDataForm.getFieldState('discountCode').invalid
-                                    ? 'border-red-700 outline-red-800 border-2'
-                                    : 'border-brand-neutral outline-blue-600 hover:border-black border'
-                            }`}
-                            value={personDataForm.watch('discountCode')}
-                            { ...personDataForm.register('discountCode') }
-                        /> 
-                    </InputContainer>
+                    {friendPromo && (
+                        <InputContainer
+                            inputId="person-friend-fidelity-card"
+                            label={translate(languageCode, 'personalDetails.friendFidelityCard')}
+                            required={false}
+                            errorText={getErrorText(personDataForm.formState.errors?.friendFidelityCard as any, formErrorMap)}
+                        >
+                        <input autoComplete="off"
+                                id="person-friend-fidelity-card"
+                                type="text"
+                                className={`rounded h-[40px] w-full mt-2 px-4 text-gray-600 ${
+                                    personDataForm.getFieldState('friendFidelityCard').invalid
+                                        ? 'border-red-700 outline-red-800 border-2'
+                                        : 'border-brand-neutral outline-blue-600 hover:border-black border'
+                                }`}
+                                value={personDataForm.watch('friendFidelityCard')}
+                                { ...personDataForm.register('friendFidelityCard') }
+                            /> 
+                        </InputContainer>
+                    )}
+
+                    {!friendPromo && (
+                        <InputContainer
+                            inputId="person-discount-code"
+                            label={translate(languageCode, 'personalDetails.discountCode')}
+                            required={false}
+                            errorText={getErrorText(personDataForm.formState.errors?.discountCode as any, formErrorMap)}
+                        >
+                        <input autoComplete="off"
+                                id="person-discount-code"
+                                type="text"
+                                className={`rounded h-[40px] w-full mt-2 px-4 text-gray-600 ${
+                                    personDataForm.getFieldState('discountCode').invalid
+                                        ? 'border-red-700 outline-red-800 border-2'
+                                        : 'border-brand-neutral outline-blue-600 hover:border-black border'
+                                }`}
+                                value={personDataForm.watch('discountCode')}
+                                { ...personDataForm.register('discountCode') }
+                            /> 
+                        </InputContainer>
+                    )}
                 </div>
             </div>
             <div className="mt-6">
