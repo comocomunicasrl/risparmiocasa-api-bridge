@@ -703,7 +703,8 @@ const PersonDetails = ({
                         >
                         <input autoComplete="off"
                                 id="person-friend-fidelity-card"
-                                type="text"
+                                type="tel"
+                                maxLength={13}
                                 className={`rounded h-[40px] w-full mt-2 px-4 text-gray-600 ${
                                     personDataForm.getFieldState('friendFidelityCard').invalid
                                         ? 'border-red-700 outline-red-800 border-2'

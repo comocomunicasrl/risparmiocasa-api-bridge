@@ -22,7 +22,8 @@ import globalLocales from '@/dictionaries/global.locales.json';
 
 export async function getServerSideProps(context) {
     const brand = context.query.brand;
-    const friendPromo = (context.query.friend === 'true') && (brand === 'rica');
+    const currentTime = new Date().getTime();
+    const friendPromo = (brand === 'rica') && (currentTime >= 1753826400000) && (currentTime < 1753912800000);
     let preferredStores: IPreferredStore[];
 
     if (brand === 'rica') {

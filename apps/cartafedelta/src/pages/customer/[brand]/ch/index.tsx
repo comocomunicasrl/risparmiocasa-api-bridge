@@ -19,6 +19,8 @@ import Footer from '@/components/Footer';
 
 export async function getServerSideProps() {
     const risparmioCasaRepository = new RisparmioCasaRepository('rica');
+    const currentTime = new Date().getTime();
+    const friendPromo = (currentTime >= 1753826400000) && (currentTime < 1753912800000);
     const preferredStores = await risparmioCasaRepository.getPreferredStores(
         CountryCode.Switzerland
     );
@@ -30,6 +32,7 @@ export async function getServerSideProps() {
                 [CountryCode.Italy]: cities,
                 [CountryCode.Switzerland]: citiesCh,
             },
+            friendPromo
         },
     };
 }
@@ -37,9 +40,10 @@ export async function getServerSideProps() {
 interface IProps {
     preferredStores: IPreferredStore[];
     cities: { [key: string]: ICity[] };
+    friendPromo: boolean;
 }
 
-const Home: NextPage = ({ preferredStores, cities }: PropsWithChildren<IProps>) => {
+const Home: NextPage = ({ preferredStores, cities, friendPromo }: PropsWithChildren<IProps>) => {
     const [currentStep, setCurrentStep] = React.useState(CreateCardStep.PersonDetails);
     const [details, setDetails] = React.useState<IPersonDetails>();
     const [cardNumber, setCardNumber] = React.useState('');
@@ -98,6 +102,7 @@ const Home: NextPage = ({ preferredStores, cities }: PropsWithChildren<IProps>) 
                                     countryCode="ch"
                                     preferredStores={preferredStores}
                                     cities={cities}
+                                    friendPromo={friendPromo}
                                     countriesOfResidence={[
                                         {
                                             code: CountryCode.Italy,
