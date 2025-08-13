@@ -66,7 +66,14 @@ export class ApiBridgeController {
         if (!cardNumber)
             throw new BadRequestException();
 
-        this.risparmioCasaService.verify(cardNumber, registrationCountry);
+        return this.risparmioCasaService.verify(cardNumber, registrationCountry).pipe(
+            map(result => {
+                if (!result)
+                    throw new BadRequestException();
+
+                return { cardNumber };
+            })
+        );
     }
 
     @Post('update-card')
