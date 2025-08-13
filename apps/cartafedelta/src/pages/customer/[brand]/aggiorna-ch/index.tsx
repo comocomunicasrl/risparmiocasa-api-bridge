@@ -73,85 +73,87 @@ const CardUpdate: NextPage = ({ preferredStores, cities }: PropsWithChildren<IPr
                 <title>Risparmio Casa</title>
                 <link rel="icon" href="/favicon.png" />
             </Head>
-            <header className="h-[110px] bg-risparmiocasa-blue border-b border-gray-500">
-                <img src="/logo.png" alt="Risparmiocasa logo" className="mx-auto" />
-            </header>
-            <div className="container mx-auto">
-                <div className="mx-auto mt-5 mb-5">
-                    <h1 className="text-[16px] sm:text-[24px] font-bold text-center">
-                        Modulo aggiornamento dati carta fedeltà
-                    </h1>
-                </div>
-                <div className="border border-t-0 shadow min-h-[220px]">
-                    <div className="h-full p-4 border-t-4 sm:p-5 border-risparmiocasa-dark-blue">
-                        <div className="flex w-full mx-auto text-center">
-                            <NavigationStepHeader
-                                title="1 - Carta fedeltà"
-                                active={currentStep === UpdateCardStep.CardCheck}
-                            />
-                            <NavigationStepHeader
-                                title="2 - Dati anagrafici"
-                                active={currentStep === UpdateCardStep.PersonDetails}
-                            />
-                            <NavigationStepHeader
-                                title="3 - Conferma email"
-                                active={currentStep === UpdateCardStep.EmailConfirmation}
-                            />
-                            <NavigationStepHeader
-                                title="4 - Conferma"
-                                active={currentStep === UpdateCardStep.Confirmation}
-                            />
-                        </div>
-                        {currentStep === UpdateCardStep.CardCheck && (
-                            <VerificationWizardItem
-                                brand="rica"
-                                region={CountryCode.Switzerland}
-                                checkIfCardAlreadyUpdated={false}
-                                dialCodes={dialCodes}
-                                onSuccess={(verifiedData) => {
-                                    setVerifiedData(verifiedData);
-                                    setCurrentStep(UpdateCardStep.PersonDetails);
-                                }}
-                            />
-                        )}
-                        {currentStep === UpdateCardStep.PersonDetails && (
-                            <CardUpdateWizardItem
-                                brand="rica"
-                                preferredStores={preferredStores}
-                                countriesOfResidence={[
-                                    {
-                                        code: CountryCode.Italy,
-                                        label: CountryOfResidence.Italy,
-                                    },
-                                    {
-                                        code: CountryCode.Switzerland,
-                                        label: CountryOfResidence.Switzerland,
-                                    },
-                                ]}
-                                region={CountryCode.Switzerland}
-                                cities={cities}
-                                verifiedCardData={verifiedData}
-                                onSuccess={(data) => {
-                                    setDetails(data);
-                                    setCurrentStep(UpdateCardStep.EmailConfirmation);
-                                }}
-                            />
-                        )}
-                        {currentStep === UpdateCardStep.EmailConfirmation && (
-                            <ConfirmEmailWizardItem
-                                brand="rica"
-                                details={details}
-                                onSuccess={(email, provider) => updateCard(email, provider)}
-                            />
-                        )}
-                        {currentStep === UpdateCardStep.Confirmation && <ConfirmationWizardItem />}
+            <div className="brand-rica">
+                <header className="h-[110px] bg-risparmiocasa-blue border-b border-gray-500">
+                    <img src="/logo.png" alt="Risparmiocasa logo" className="mx-auto" />
+                </header>
+                <div className="container mx-auto">
+                    <div className="mx-auto mt-5 mb-5">
+                        <h1 className="text-[16px] sm:text-[24px] font-bold text-center">
+                            Modulo aggiornamento dati carta fedeltà
+                        </h1>
                     </div>
+                    <div className="border border-t-0 shadow min-h-[220px]">
+                        <div className="h-full p-4 border-t-4 sm:p-5 border-risparmiocasa-dark-blue">
+                            <div className="flex w-full mx-auto text-center">
+                                <NavigationStepHeader
+                                    title="1 - Carta fedeltà"
+                                    active={currentStep === UpdateCardStep.CardCheck}
+                                />
+                                <NavigationStepHeader
+                                    title="2 - Dati anagrafici"
+                                    active={currentStep === UpdateCardStep.PersonDetails}
+                                />
+                                <NavigationStepHeader
+                                    title="3 - Conferma email"
+                                    active={currentStep === UpdateCardStep.EmailConfirmation}
+                                />
+                                <NavigationStepHeader
+                                    title="4 - Conferma"
+                                    active={currentStep === UpdateCardStep.Confirmation}
+                                />
+                            </div>
+                            {currentStep === UpdateCardStep.CardCheck && (
+                                <VerificationWizardItem
+                                    brand="rica"
+                                    region={CountryCode.Switzerland}
+                                    checkIfCardAlreadyUpdated={false}
+                                    dialCodes={dialCodes}
+                                    onSuccess={(verifiedData) => {
+                                        setVerifiedData(verifiedData);
+                                        setCurrentStep(UpdateCardStep.PersonDetails);
+                                    }}
+                                />
+                            )}
+                            {currentStep === UpdateCardStep.PersonDetails && (
+                                <CardUpdateWizardItem
+                                    brand="rica"
+                                    preferredStores={preferredStores}
+                                    countriesOfResidence={[
+                                        {
+                                            code: CountryCode.Italy,
+                                            label: CountryOfResidence.Italy,
+                                        },
+                                        {
+                                            code: CountryCode.Switzerland,
+                                            label: CountryOfResidence.Switzerland,
+                                        },
+                                    ]}
+                                    region={CountryCode.Switzerland}
+                                    cities={cities}
+                                    verifiedCardData={verifiedData}
+                                    onSuccess={(data) => {
+                                        setDetails(data);
+                                        setCurrentStep(UpdateCardStep.EmailConfirmation);
+                                    }}
+                                />
+                            )}
+                            {currentStep === UpdateCardStep.EmailConfirmation && (
+                                <ConfirmEmailWizardItem
+                                    brand="rica"
+                                    details={details}
+                                    onSuccess={(email, provider) => updateCard(email, provider)}
+                                />
+                            )}
+                            {currentStep === UpdateCardStep.Confirmation && <ConfirmationWizardItem />}
+                        </div>
+                    </div>
+                    <footer className="pb-6 mx-auto mt-6 text-center sm:mt-10">
+                        <p className="text-xs text-black sm:text-sm">
+                            © {getCurrentYear()} Risparmio Casa Invest Srl - P. IVA 04389071004
+                        </p>
+                    </footer>
                 </div>
-                <footer className="pb-6 mx-auto mt-6 text-center sm:mt-10">
-                    <p className="text-xs text-black sm:text-sm">
-                        © {getCurrentYear()} Risparmio Casa Invest Srl - P. IVA 04389071004
-                    </p>
-                </footer>
             </div>
         </>
     );
