@@ -60,7 +60,13 @@ const CardVerificationBarcode = ({
 
     return (
         <>
-            <img src="/card-with-barcode.jpg" alt="Fidelity card" className="mx-auto" />
+            { brand === 'rica' && (
+                <img src="/card-with-barcode.jpg" alt="Fidelity card" className="mx-auto" />
+            ) }
+
+            { brand === 'uniprice' && (
+                <img src="/card-uniprice.jpg" alt="Fidelity card" className="mx-auto" />
+            ) }
 
             <div className="mt-8 text-center">
                 <p className="sm:text-sm">

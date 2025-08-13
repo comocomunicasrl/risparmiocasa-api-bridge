@@ -31,7 +31,8 @@ export const enDictionary = {
     },
     updateCard: {
         verification: {
-            heading: 'Through this page you can update the details of your Risparmio Casa loyalty card.',
+            heading_rica: 'Through this page you can update the details of your Risparmio Casa loyalty card.',
+            heading_uniprice: 'Through this page you can update the details of your Uniprice loyalty card.',
             alreadyUpdated:  'ATTENTION: your data will be updated on our systems within 24 hours.',
             cardNumber: {
                 cardNumberLabel: 'To get started, enter your card number:',

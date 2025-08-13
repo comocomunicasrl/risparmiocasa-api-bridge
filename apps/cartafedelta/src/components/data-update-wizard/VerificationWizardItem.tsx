@@ -37,7 +37,7 @@ const VerificationWizardItem = ({
         <div className="w-full mx-auto mt-4 sm:mt-14">
             <div className="text-center">
                 <p className="font-bold sm:text-xl">
-                    {translate(languageCode, 'updateCard.verification.heading')}
+                    {translate(languageCode, `updateCard.verification.heading_${brand}`)}
 
                 </p>
                 {checkIfCardAlreadyUpdated && (

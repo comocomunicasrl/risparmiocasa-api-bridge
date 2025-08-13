@@ -31,7 +31,8 @@ export const itDictionary = {
     },
     updateCard: {
         verification: {
-            heading: 'Attraverso questa pagina puoi aggiornare i dati della tua carta fedeltà Risparmio Casa',
+            heading_rica: 'Attraverso questa pagina puoi aggiornare i dati della tua carta fedeltà Risparmio Casa',
+            heading_uniprice: 'Attraverso questa pagina puoi aggiornare i dati della tua carta fedeltà Uniprice',
             alreadyUpdated:  'ATTENZIONE: i tuoi dati saranno aggiornati sui nostri sistemi entro 24h.',
             cardNumber: {
                 cardNumberLabel: 'Per iniziare, inserisci il numero della tua carta:',
