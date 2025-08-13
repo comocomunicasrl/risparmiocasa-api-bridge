@@ -771,7 +771,7 @@ const PersonDetails = ({
                                         ? '/regolamento-fidelity-svizzera-risparmio-casa.pdf'
                                         : region === CountryCode.Malta
                                         ? '/regulation-loyalty-card.pdf'
-                                        : '93082244-regolamento-carta-risparmio-insieme-2022.pdf'
+                                        : '/93082244-regolamento-carta-risparmio-insieme-2022.pdf'
                                 }
                                 className="text-blue-600 hover:underline hover:cursor-pointer"
                                 rel="noreferrer"
